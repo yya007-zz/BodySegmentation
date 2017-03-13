@@ -1,5 +1,5 @@
 # BodySegmentation
 
 # Setup
-Anaconda Install /br
+Anaconda Install 
 https://docs.continuum.io/anaconda/install
