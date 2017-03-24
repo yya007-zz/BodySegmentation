@@ -27,11 +27,11 @@ def FCN(bgr,keep_prob=0.5,train=False, number_of_classes=20, random_init_fc8=Fal
         Whether to initialize fc8 layer randomly.
         Finetuning is required in this case.
     debug: bool
-        Whether to print additional Debug Information.
+        Whether to #print additional Debug Information.
     """
     with tf.name_scope('Processing'):
         if debug:
-            bgr = tf.Print(bgr, [tf.shape(bgr)],
+            bgr = tf.print(bgr, [tf.shape(bgr)],
                            message='Shape of input image: ',
                            summarize=4, first_n=1)
     num_classes=number_of_classes
@@ -121,14 +121,14 @@ def FCN(bgr,keep_prob=0.5,train=False, number_of_classes=20, random_init_fc8=Fal
                                          debug=debug, name='upscore1',
                                          ksize=4, stride=2)
                                          
-    pred_up = tf.argmax(upscore32, dimension=3)
+    pred_up = tf.argmax(upscore1, dimension=3)
     return upscore1
 def _max_pool( bottom, name, debug):
     pool = tf.nn.max_pool(bottom, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1],
                           padding='SAME', name=name)
 
     if debug:
-        pool = tf.Print(pool, [tf.shape(pool)],
+        pool = tf.print(pool, [tf.shape(pool)],
                         message='Shape of %s' % name,
                         summarize=4, first_n=1)
     return pool
@@ -171,7 +171,7 @@ def _fc_layer( bottom, name, num_classes=None,
         _activation_summary(bias)
 
         if debug:
-            bias = tf.Print(bias, [tf.shape(bias)],
+            bias = tf.print(bias, [tf.shape(bias)],
                             message='Shape of %s' % name,
                             summarize=4, first_n=1)
         return bias
@@ -236,7 +236,7 @@ def _upscore_layer( bottom, shape,
                                         strides=strides, padding='SAME')
 
         if debug:
-            deconv = tf.Print(deconv, [tf.shape(deconv)],
+            deconv = tf.print(deconv, [tf.shape(deconv)],
                               message='Shape of %s' % name,
                               summarize=4, first_n=1)
 
@@ -267,8 +267,8 @@ def get_conv_filter( name):
     init = tf.constant_initializer(value=data_dict[name][0],
                                    dtype=tf.float32)
     shape = data_dict[name][0].shape
-    print('Layer name: %s' % name)
-    print('Layer shape: %s' % str(shape))
+    #print('Layer name: %s' % name)
+    #print('Layer shape: %s' % str(shape))
     var = tf.get_variable(name="filter", initializer=init, shape=shape)
     if not tf.get_variable_scope().reuse:
 
@@ -395,8 +395,8 @@ def _bias_variable( shape, constant=0.0):
     return var
 
 def get_fc_weight_reshape( name, shape, num_classes=None):
-    print('Layer name: %s' % name)
-    print('Layer shape: %s' % shape)
+    #print('Layer name: %s' % name)
+    #print('Layer shape: %s' % shape)
     weights = data_dict[name][0]
     weights = weights.reshape(shape)
     if num_classes is not None:
