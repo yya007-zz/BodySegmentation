@@ -178,13 +178,13 @@ sess.run(tf.global_variables_initializer())
 pos=0
 size=4
 for i in range(20000):
-  pos,X=next_batch(pos,size,train_x)
-  pos,Y_=next_batch(pos,size,train_y)
+  pos,X=next_batch(pos,size,trainx)
+  pos,Y_=next_batch(pos,size,trainy)
   
   if i%100 == 0:
     ac=accuracy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
-    print("step %d, training accuracy %g"%(i, train_accuracy))
+    print("step %d, training accuracy %g, loss %g"%(i, train_accuracy,ce))
   train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 
 print("test accuracy %g"%accuracy.eval(feed_dict={
