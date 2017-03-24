@@ -1,6 +1,8 @@
 import tensorflow as tf
-
-
+import FCN1
+from PIL import Image
+import numpy as np
+import tensorflow as tf
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
@@ -8,11 +10,13 @@ def weight_variable(shape):
 def bias_variable(shape):
   initial = tf.constant(0.1, shape=shape)
   return tf.Variable(initial)
-
+def conv2dtf(x, W):
+  return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
+  
 def conv2d(inMat,Weights):
   W_conv1 = weight_variable(Weights)
   b_conv1 = bias_variable([Weights[-1]])
-  h_conv1 = tf.nn.relu(conv2d(inMat, W_conv1) + b_conv1)
+  h_conv1 = tf.nn.relu(conv2dtf(inMat, W_conv1) + b_conv1)
   return h_conv1
 
 def upsample_filt(size):
@@ -104,52 +108,84 @@ def save_image( npdata, outfilename ) :
     img = Image.fromarray( np.asarray( np.clip(npdata,0,255), dtype="uint8"), "L" )
     img.save( outfilename )
 
-def prepare(y,number_of_classes):
+def prepareY(y,number_of_classes):
     yf=y.flatten()
-    res=np.zeros([y.shape[0]*y.shape[1]*y.shape[2],number_of_classes])
+    print yf.shape
+    print y.shape
+    res=np.zeros([yf.shape[0],number_of_classes])
     for i in range(number_of_classes):
-        res[i,yf==i]=1
+        res[yf[:]==i,i]=1
     return res.reshape([y.shape[0],y.shape[1],y.shape[2],number_of_classes])
+#input a none,rows,cols,3 rgb image
+#out put a none,rows,cols bgr image
+def prepareX(rgb):
+    VGG_MEAN = [103.939, 116.779, 123.68]
+    res=np.zeros(rgb.shape)
+    res[:,:,:,2]= rgb[:,:,:,0]-VGG_MEAN[2]
+    res[:,:,:,1]= rgb[:,:,:,1]-VGG_MEAN[1]
+    res[:,:,:,0]= rgb[:,:,:,2]-VGG_MEAN[0]    
+    return res 
     
+def next_batch(pos,size,data):
+  if pos+size<data.shape[0]:
+    return pos+size,data[pos:pos+size]
+  else:
+    return pos+size-data.shape[0],np.concatenate((data[pos:],data[0:pos+size-data.shape[0]]),axis=0)
 
+def breakpoint():
+    assert 1==2
+    return 
+#Data preparation--------------------------
 number_of_classes=2  
 home='.'
 image_filename = home+'/data/imgs/cat.jpg'
 annotation_filename = home+'/data/imgs/cat_annotation.png'
-testx=load_image(image_filename).reshape(1,512,512,3)
-testy=load_image(annotation_filename)[:,:,:2].reshape(1,512,512,2)
-testy=prepare(testy,number_of_classes)
+testx=load_image(image_filename)
+testy=load_image(annotation_filename)[:,:,0]
+
+testx=testx.reshape(1,512,512,3)
+testy=testy.reshape(1,512,512,1)
+
 for i in range(2):
   testx=np.concatenate((testx,testx),axis=0)
   testy=np.concatenate((testy,testy),axis=0)
+testy=prepareY(testy,number_of_classes)
+testx=prepareX(testx)
 trainx=testx
 trainy=testy
 testx=testx
 testy=testy                              
-     
+print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 
 
-                                 
+
+
+
+#Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
 keep_prob = tf.placeholder(tf.float32)
-out=FCN(X,number_of_classes=number_of_classes)
+out=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
 cross_entropy = tf.reduce_mean(
     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=out))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-correct_prediction = tf.equal(tf.argmax(y_conv,2), tf.argmax(y_,2))
+correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 sess.run(tf.global_variables_initializer())
 
-
+#training--------------------------
+pos=0
+size=4
 for i in range(20000):
-  batch = mnist.train.next_batch(50)
+  pos,X=next_batch(pos,size,train_x)
+  pos,Y_=next_batch(pos,size,train_y)
+  
   if i%100 == 0:
-    train_accuracy = accuracy.eval(feed_dict={
-        x:trainx, y_: trainy, keep_prob: 1.0})
+    ac=accuracy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
+    ce=cross_entropy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
     print("step %d, training accuracy %g"%(i, train_accuracy))
-  train_step.run(feed_dict={x: trainx, y_: trainy, keep_prob: 0.5})
+  train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 
 print("test accuracy %g"%accuracy.eval(feed_dict={
     x: testx, y_: testy, keep_prob: 1.0}))

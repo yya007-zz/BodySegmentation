@@ -1,0 +1,35 @@
+Step1 ssh to accre
+
+Step2 request GPU node
+salloc --account=p_masi_gpu  --partition=maxwell --ntasks=1 --gres=gpu:1 --time=1:00:00 --mem=20G
+
+Step3 load tensorflow 0.12
+setpkgs -a tensorflow_0.12
+
+Step4 setup your anaconda envrioment
+setpkgs -a anaconda2
+conda create --name FCN python=2.7
+source activate FCN
+
+pip install keras
+
+pip install protobuf
+
+pip install matplotlib
+pip install pillow
+
+cd /scatch/...
+python test_yh.py
+
+===========
+
+Step5 make directory in ~/scratch/yaoy4
+
+Step6 copy file from /fs4 to accre
+scp -r /fs4/masi/yaoy4/xxx yaoy4@login.accre.vanderbilt.edu:/scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/xxx   /scratch/yaoy4/
+
+if need git hub
+setpkgs -a git
+
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
