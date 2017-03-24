@@ -34,7 +34,7 @@ def FCN(bgr,keep_prob=0.5,train=False, number_of_classes=20, random_init_fc8=Fal
             bgr = tf.Print(bgr, [tf.shape(bgr)],
                            message='Shape of input image: ',
                            summarize=4, first_n=1)
-
+    num_classes=number_of_classes
     conv1_1 = _conv_layer(bgr, "conv1_1")
     conv1_2 = _conv_layer(conv1_1, "conv1_2")
     pool1 = _max_pool(conv1_2, 'pool1', debug)
