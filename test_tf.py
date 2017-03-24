@@ -180,7 +180,7 @@ size=4
 for i in range(20000):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
-  
+  print "step: ",i
   if i%100 == 0:
     ac=accuracy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
