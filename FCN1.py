@@ -111,9 +111,12 @@ def FCN(bgr,keep_prob=0.5,train=False, number_of_classes=20, random_init_fc8=Fal
                                          num_classes=num_classes,
                                          debug=debug, name='upscore2',
                                          ksize=4, stride=2)
-    score_pool1 = _score_layer(pool1, "score_pool1",
-                                         num_classes=num_classes)
+    score_pool1 = _score_layer(pool1, "score_pool1",num_classes=num_classes)
+    
+    print score_pool1.getshape().as_list()
+    print upscore2.getshape().as_list()
     fuse_pool1 = tf.add(upscore2, score_pool1)
+    
 
     upscore1 = _upscore_layer(fuse_pool1,
                                          shape=tf.shape(bgr),
