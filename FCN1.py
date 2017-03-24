@@ -181,7 +181,7 @@ def _score_layer( bottom, name, num_classes):
     with tf.variable_scope(name) as scope:
         # get number of input channels
         in_features = bottom.get_shape()[3].value
-        print name,bottom.get_shape().as_list()
+        #print name,bottom.get_shape().as_list()
         shape = [1, 1, in_features, num_classes]
         # He initialization Sheme
         if name == "score_fr":
