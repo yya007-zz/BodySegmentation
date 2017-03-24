@@ -31,7 +31,7 @@ def FCN(bgr,keep_prob=0.5,train=False, number_of_classes=20, random_init_fc8=Fal
     """
     with tf.name_scope('Processing'):
         if debug:
-            bgr = tf.print(bgr, [tf.shape(bgr)],
+            bgr = tf.Print(bgr, [tf.shape(bgr)],
                            message='Shape of input image: ',
                            summarize=4, first_n=1)
     num_classes=number_of_classes
@@ -128,7 +128,7 @@ def _max_pool( bottom, name, debug):
                           padding='SAME', name=name)
 
     if debug:
-        pool = tf.print(pool, [tf.shape(pool)],
+        pool = tf.Print(pool, [tf.shape(pool)],
                         message='Shape of %s' % name,
                         summarize=4, first_n=1)
     return pool
@@ -171,7 +171,7 @@ def _fc_layer( bottom, name, num_classes=None,
         _activation_summary(bias)
 
         if debug:
-            bias = tf.print(bias, [tf.shape(bias)],
+            bias = tf.Print(bias, [tf.shape(bias)],
                             message='Shape of %s' % name,
                             summarize=4, first_n=1)
         return bias
@@ -236,7 +236,7 @@ def _upscore_layer( bottom, shape,
                                         strides=strides, padding='SAME')
 
         if debug:
-            deconv = tf.print(deconv, [tf.shape(deconv)],
+            deconv = tf.Print(deconv, [tf.shape(deconv)],
                               message='Shape of %s' % name,
                               summarize=4, first_n=1)
 
