@@ -165,8 +165,8 @@ print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 '''
 number_of_classes=13  
 home='../bigfile'
-imgdir = home+'/img.npy'
-segdir = home+'/seg.npy'
+imgdir = home+'/img_3.npy'
+segdir = home+'/seg_3.npy'
 images=np.load(imgdir)
 labels=np.load(segdir)
 images = prepareX(images)
@@ -177,6 +177,13 @@ trainx, testx, trainy, testy = train_test_split(images, labels, random_state=see
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 
 
+quicktest=True
+echo=5000
+speed=1e-6
+if quicktest:
+    echo=100
+    speed=1e-5
+
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -186,7 +193,7 @@ y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
 cross_entropy = tf.reduce_mean(
     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 
-train_step = tf.train.AdamOptimizer(1e-6).minimize(cross_entropy)
+train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
@@ -195,7 +202,7 @@ sess.run(tf.global_variables_initializer())
 #training--------------------------
 pos=0
 size=10
-for i in range(5000):
+for i in range(echo):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
   print "step: ",i
@@ -213,8 +220,8 @@ testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
 
 print np.mean(testResult[0]==np.argmax(testy,axis=3)[0])
 correct=(testResult[0]==np.argmax(testy,axis=3)[0])
-imsave('../res/ori0.png',testx[0])
-imsave('../res/prediction0.png',testResult[0])
-imsave('../res/label0.png',np.argmax(testy,axis=3)[0])
-imsave('../res/correct0.png',correct)
+imsave('../res/ori3.png',testx[0])
+imsave('../res/prediction3.png',testResult[0])
+imsave('../res/label3.png',np.argmax(testy,axis=3)[0])
+imsave('../res/correct3.png',correct)
 
