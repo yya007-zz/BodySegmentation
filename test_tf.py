@@ -177,7 +177,7 @@ trainx, testx, trainy, testy = train_test_split(images, labels, random_state=see
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 
 
-quicktest=True
+quicktest=False
 echo=5000
 speed=1e-6
 if quicktest:
