@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=20G
-#SBATCH --time=1-00:00:00
+#SBATCH --time=10:00:00
 #SBATCH --output=/scratch/yaoy4/log/gpu-job.log
 
 setpkgs -a tensorflow_0.12
