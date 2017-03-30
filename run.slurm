@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --mem=10G
+#SBATCH --mem=2G
 #SBATCH --time=1:00:00
 #SBATCH --output=/scratch/yaoy4/log/gpu-job.log
 
