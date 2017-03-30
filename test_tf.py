@@ -139,7 +139,7 @@ def breakpoint():
     return 
 #Data preparation--------------------------
 
-number_of_classes=2  
+number_of_classes=13  
 home='.'
 image_filename = home+'/data/imgs/cat.jpg'
 annotation_filename = home+'/data/imgs/cat_annotation.png'
