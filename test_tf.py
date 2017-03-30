@@ -3,6 +3,8 @@ import FCN1
 from PIL import Image
 import numpy as np
 import tensorflow as tf
+import time
+from sklearn.model_selection import train_test_split
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
@@ -136,6 +138,7 @@ def breakpoint():
     assert 1==2
     return 
 #Data preparation--------------------------
+'''
 number_of_classes=2  
 home='.'
 image_filename = home+'/data/imgs/cat.jpg'
@@ -149,16 +152,28 @@ testy=testy.reshape(1,512,512,1)
 for i in range(2):
   testx=np.concatenate((testx,testx),axis=0)
   testy=np.concatenate((testy,testy),axis=0)
+  
 testy=prepareY(testy,number_of_classes)
 testx=prepareX(testx)
 trainx=testx
 trainy=testy
 testx=testx
-testy=testy                              
+testy=testy 
+                             
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
+'''
+number_of_classes=13  
+home='../bigfile'
+imgdir = home+'/img.npy'
+segdir = home+'/seg.npy'
+images=np.load(imgdir)
+labels=np.load(segdir)
+images = prepareX(images)
+labels= prepareY(labels[:,:,:,0],number_of_classes)
 
-
-
+seed = int(time.time())
+trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
+print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 
 
 #Network structure--------------------------                                 
@@ -176,7 +191,7 @@ sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 pos=0
-size=4
+size=10
 for i in range(500):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
