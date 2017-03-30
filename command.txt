@@ -1,7 +1,7 @@
 Step1 ssh to accre
 
 Step2 request GPU node
-salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --gres=gpu:1 --time=1:00:00 --mem=50G
+salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --gres=gpu:1 --time=1:00:00 --mem=20G
 
 Step3 load tensorflow 0.12
 setpkgs -a tensorflow_0.12
@@ -19,7 +19,7 @@ pip install matplotlib
 pip install pillow
 
 cd /scatch/...
-python test_yh.py
+python test_tf.py
 
 ===========
 

@@ -209,7 +209,8 @@ for i in range(50):
 print("test accuracy %g"%accuracy.eval(feed_dict={
     x: testx, y_: testy, keep_prob: 1.0}))
 testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
-
-imsave('label0.png',testy[0])
+imsave('ori0.png',testx[0])
 imsave('prediction0.png',testResult[0])
+imsave('label0.png',np.argmax(testy,axis=3)[0])
+
 
