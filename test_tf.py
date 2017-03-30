@@ -191,7 +191,7 @@ sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 pos=0
-size=10
+size=4
 for i in range(500):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
