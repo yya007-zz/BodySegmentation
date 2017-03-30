@@ -194,7 +194,7 @@ sess.run(tf.global_variables_initializer())
 #training--------------------------
 pos=0
 size=10
-for i in range(100):
+for i in range(5):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
   print "step: ",i
@@ -209,6 +209,8 @@ for i in range(100):
 print("test accuracy %g"%accuracy.eval(feed_dict={
     x: testx, y_: testy, keep_prob: 1.0}))
 testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
+
+print numpy.mean(testResult==np.argmax(testy,axis=3))
 imsave('../res/ori0.png',testx[0])
 imsave('../res/prediction0.png',testResult[0])
 imsave('../res/label0.png',np.argmax(testy,axis=3)[0])
