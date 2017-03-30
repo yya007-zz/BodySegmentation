@@ -211,6 +211,7 @@ print("test accuracy %g"%accuracy.eval(feed_dict={
 testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
 
 print np.mean(testResult==np.argmax(testy,axis=3))
+print np.mean(testResult[0]==np.argmax(testy,axis=3)[0])
 imsave('../res/ori0.png',testx[0])
 imsave('../res/prediction0.png',testResult[0])
 imsave('../res/label0.png',np.argmax(testy,axis=3)[0])
