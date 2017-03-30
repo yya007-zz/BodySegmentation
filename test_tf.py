@@ -138,8 +138,8 @@ def breakpoint():
     assert 1==2
     return 
 #Data preparation--------------------------
-
-number_of_classes=13  
+'''
+number_of_classes=2  
 home='.'
 image_filename = home+'/data/imgs/cat.jpg'
 annotation_filename = home+'/data/imgs/cat_annotation.png'
@@ -174,7 +174,7 @@ labels= prepareY(labels[:,:,:,0],number_of_classes)
 seed = int(time.time())
 trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
-'''
+
 
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
