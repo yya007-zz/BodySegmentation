@@ -149,7 +149,7 @@ testy=load_image(annotation_filename)[:,:,0]
 testx=testx.reshape(1,512,512,3)
 testy=testy.reshape(1,512,512,1)
 
-for i in range(8):
+for i in range(6):
   testx=np.concatenate((testx,testx),axis=0)
   testy=np.concatenate((testy,testy),axis=0)
   
@@ -197,8 +197,8 @@ for i in range(500):
   pos,Y=next_batch(pos,size,trainy)
   print "step: ",i
   if i%50 == 0:
-    ac=accuracy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
-    ce=cross_entropy.eval(feed_dict={x: trainx, y_: trainy,keep_prob: 1.0})
+    ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
+    ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     print("step %d, training accuracy %g, loss %g"%(i, ac,ce))
   train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 
