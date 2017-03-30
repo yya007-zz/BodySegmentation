@@ -6,7 +6,7 @@
 #SBATCH --ntasks=4
 #SBATCH --mem=20G
 #SBATCH --time=24:00:00
-#SBATCH --output=/scratch/huoy1/projects/DeepLearning/FCN/log/gpu-job.log
+#SBATCH --output=/scratch/yaoy4/log/gpu-job.log
 
 setpkgs -a tensorflow_0.12
 source activate FCN
