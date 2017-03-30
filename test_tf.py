@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import time
+from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
@@ -169,7 +170,7 @@ segdir = home+'/seg.npy'
 images=np.load(imgdir)
 labels=np.load(segdir)
 images = prepareX(images)
-labels= prepareY(labels[:,:,:,0],number_of_classes)
+labels= prepareY(labels,number_of_classes)
 
 seed = int(time.time())
 trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
@@ -187,12 +188,13 @@ cross_entropy = tf.reduce_mean(
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 pos=0
 size=10
-for i in range(100):
+for i in range(50):
   pos,X=next_batch(pos,size,trainx)
   pos,Y=next_batch(pos,size,trainy)
   print "step: ",i
@@ -206,4 +208,8 @@ for i in range(100):
 
 print("test accuracy %g"%accuracy.eval(feed_dict={
     x: testx, y_: testy, keep_prob: 1.0}))
+testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
+
+imsave('label0.png',testy[0])
+imsave('prediction0.png',testResult[0])
 
