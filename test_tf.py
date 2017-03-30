@@ -149,7 +149,7 @@ testy=load_image(annotation_filename)[:,:,0]
 testx=testx.reshape(1,512,512,3)
 testy=testy.reshape(1,512,512,1)
 
-for i in range(2):
+for i in range(8):
   testx=np.concatenate((testx,testx),axis=0)
   testy=np.concatenate((testy,testy),axis=0)
   
