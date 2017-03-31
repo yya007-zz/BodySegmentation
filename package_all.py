@@ -57,9 +57,9 @@ for i in range(dataNum):
     assert i==0
     if i%10 == 0:
         print i
-    image=sio.loadmat('./train/'+str(i+1)+'_img.mat')
+    image=sio.loadmat('../data/train/'+str(i+1)+'_img.mat')
     oriimage=image['intensity']
-    label=sio.loadmat('./train/'+str(i+1)+'_seg.mat')
+    label=sio.loadmat('../data/train/'+str(i+1)+'_seg.mat')
     orilabel=label['label']
     for j in range(3):
         current_shape=(orilabel.shape[j])
@@ -90,10 +90,6 @@ for i in range(dataNum):
             else:
                 images=np.concatenate((images,image), axis=0)
                 labels=np.concatenate((labels,label), axis=0)
-    
-            if k%100==0:
-                print 'i',i,'j',j,'k',k,images.shape
-    
     print images.shape,labels.shape,np.unique(labels)
     print np.sum(images[0]-images[1])
     np.save('../bigfile/train/img'+str(i+1)+'.npy',images)
@@ -103,9 +99,9 @@ dataNum=25
 for i in range(dataNum):
     if i%10 == 0:
         print i
-    image=sio.loadmat('./train/test/'+str(i+1)+'_img.mat')
+    image=sio.loadmat('../data/test/'+str(i+1)+'_img.mat')
     oriimage=image['intensity']
-    label=sio.loadmat('./train/test/'+str(i+1)+'_seg.mat')
+    label=sio.loadmat('../data/test/'+str(i+1)+'_seg.mat')
     orilabel=label['label']
     for j in range(3):
         current_shape=(orilabel.shape[j])
@@ -135,8 +131,7 @@ for i in range(dataNum):
                 labels=label
             else:
                 images=np.concatenate((images,image), axis=0)
-                labels=np.concatenate((labels,label), axis=0)
-        
+                labels=np.concatenate((labels,label), axis=0)     
     print images.shape,labels.shape,np.unique(labels)
     print np.sum(images[0]-images[1])
     np.save('../bigfile/test/img'+str(i+1)+'.npy',images)
