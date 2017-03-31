@@ -1,3 +1,5 @@
+Deconvolution Layers are initialized as bilinear upsampling. Conv and FCN layer weights using VGG weights. Numpy load is used to read VGG weights. No Caffe or Caffe-Tensorflow is required to run this. The .npy file for [VGG16] to be downloaded before using this needwork. You can find the file here: ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy
+
 Step1 ssh to accre
 
 Step2 request GPU node
@@ -26,8 +28,17 @@ python test_tf.py
 Step5 make directory in ~/scratch/yaoy4
 
 Step6 copy file from /fs4 to accre
+
+
+
+
 scp -r /fs4/masi/yaoy4/xxx yaoy4@login.accre.vanderbilt.edu:/scratch/yaoy4/
-scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/xxx   /scratch/yaoy4/
+
+
+
+
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
 
 if need git hub
 setpkgs -a git
@@ -40,3 +51,6 @@ scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
 
 
 scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/   
+rtracejob 13683467
+#3
+rtracejob 13683800
