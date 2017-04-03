@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=10G
-#SBATCH --array=0-2
+#SBATCH --array=0-99
 #SBATCH --output=/scratch/yaoy4/log/python_array_job_slurm_%A_%a.out
 setpkgs -a tensorflow_0.12
 source activate FCN
