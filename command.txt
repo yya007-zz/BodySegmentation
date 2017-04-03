@@ -34,19 +34,20 @@ Step6 copy file from /fs4 to accre
 
 scp -r /fs4/masi/yaoy4/xxx yaoy4@login.accre.vanderbilt.edu:/scratch/yaoy4/
 
-
-
-
-scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
-scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
-
 if need git hub
 setpkgs -a git
 
+=======================
 start
 setpkgs -a git
 setpkgs -a tensorflow_0.12
 source activate FCN
+==============
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
+
+
+
 scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
 
 
