@@ -6,7 +6,6 @@ import tensorflow as tf
 import time
 from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
-from test_bd import *
 def weight_variable(shape):
   initial = tf.truncated_normal(shape, stddev=0.1)
   return tf.Variable(initial)
@@ -120,15 +119,14 @@ def prepareY(y,number_of_classes):
     for i in range(number_of_classes):
         res[yf[:]==i,i]=1
     return res.reshape([y.shape[0],y.shape[1],y.shape[2],number_of_classes])
-    
-    
-#0-255 2d gray image
-def prepareX(gray):
+#input a none,rows,cols,3 rgb image
+#out put a none,rows,cols bgr image
+def prepareX(rgb):
     VGG_MEAN = [103.939, 116.779, 123.68]
-    res=np.zeros([gray.shape[0],512,512,3])
-    res[:,:,:,2]= gray-VGG_MEAN[2]
-    res[:,:,:,1]= gray-VGG_MEAN[1]
-    res[:,:,:,0]= gray-VGG_MEAN[0]    
+    res=np.zeros(rgb.shape)
+    res[:,:,:,2]= rgb[:,:,:,0]-VGG_MEAN[2]
+    res[:,:,:,1]= rgb[:,:,:,1]-VGG_MEAN[1]
+    res[:,:,:,0]= rgb[:,:,:,2]-VGG_MEAN[0]    
     return res 
     
 def next_batch(pos,size,data):
@@ -136,7 +134,7 @@ def next_batch(pos,size,data):
     return pos+size,data[pos:pos+size]
   else:
     return pos+size-data.shape[0],np.concatenate((data[pos:],data[0:pos+size-data.shape[0]]),axis=0)
-    
+
 def breakpoint():
     assert 1==2
     return 
@@ -164,7 +162,7 @@ testx=testx
 testy=testy 
                              
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
-
+'''
 number_of_classes=13  
 home='../bigfile'
 imgdir = home+'/img_3.npy'
@@ -177,18 +175,10 @@ labels= prepareY(labels,number_of_classes)
 seed = int(time.time())
 trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
-'''
-number_of_classes=19
-
-objectNum=75
-viewNum=3
-selectorder=np.arange(objectNum*viewNum*512)
 
 
-
-quicktest=True
-size=10
-echo=10*len(selectorder)/size
+quicktest=False
+echo=5000
 speed=1e-6
 if quicktest:
     echo=100
@@ -211,65 +201,27 @@ sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 pos=0
+size=10
 for i in range(echo):
-  pos,sample=next_batch(pos,size,selectorder)
-  imgs=getdata(sample,'train','img')
-  segs=getdata(sample,'train','seg')
-  Y=prepareY(segs,number_of_classes)
-  X=prepareX(imgs)
+  pos,X=next_batch(pos,size,trainx)
+  pos,Y=next_batch(pos,size,trainy)
   print "step: ",i
-  if i%100 == 0:
+  if i%10 == 0:
     ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     print("step %d, training accuracy %g, loss %g"%(i, ac,ce))
+    print("test accuracy %g"%accuracy.eval(feed_dict={
+    x: testx, y_: testy, keep_prob: 1.0}))
+  train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 
-del X,Y,sample,imgs,segs
+print("test accuracy %g"%accuracy.eval(feed_dict={
+    x: testx, y_: testy, keep_prob: 1.0}))
+testResult=result.eval(feed_dict={x: testx, y_: testy, keep_prob: 1.0})
 
+print np.mean(testResult[0]==np.argmax(testy,axis=3)[0])
+correct=(testResult[0]==np.argmax(testy,axis=3)[0])
+imsave('../res/ori3.png',testx[0])
+imsave('../res/prediction3.png',testResult[0])
+imsave('../res/label3.png',np.argmax(testy,axis=3)[0])
+imsave('../res/correct3.png',correct)
 
-
-
-objectNum=25
-viewNum=3
-for objectInd in range(objectNum):
-assert objectInd==0
-    label3D=np.zeros([512,512,512])
-    for sliceInd in range(512):
-        label3D[512,512,sliceInd]=getImage(objectInd,0,sliceInd,'test','seg')
-    
-    predict3D=np.zeros([512,512,512,3])
-    predict3DReal=np.zeros([512,512,512])
-    for viewInd in range(3):
-        selectorder=np.arange(512)
-        selectorder=selectorder+objectInd*viewNum*512+viewInd*512
-        pos=0
-        for sliceInd in range(512/size):
-            startpos=pos
-            pos,sample=next_batch(pos,size,selectorder)
-            imgs=getdata(sample,'test','img')
-            segs=getdata(sample,'test','seg')
-            imgs=prepareX(imgs)
-            segs=prepareY(segs,number_of_classes)
-            if viewInd==0:
-                predict3D[startpos:startpos+size,:,:,0]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-            if viewInd==1:
-                predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-            if viewInd==2:
-                predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-                
-    for i in range(512):
-        for j in range(512):
-            for k in range(512):
-                vote=predict3DReal[i,k,j,:]
-                if(vote[0]==vote[1]):
-                    predict3D[i,k,j]=vote[0]
-                else:
-                    predict3D[i,k,j]=vote[2]
-    
-    predict3D=predict3D.flatten()
-    label3D=label3D.flatten()
-    accuracy1=np.mean((predict3D==label3D))
-    
-    predict3D=predict3D[label3D!=0]
-    label3D=label3D[label3D!=0]
-    accuracy2=np.mean((predict3D==label3D))
-    print "object-%d accuracy no label: %.4f,with label:%.4f"%(objectInd,accuracy1,accuracy2)

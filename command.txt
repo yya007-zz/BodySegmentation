@@ -44,12 +44,16 @@ setpkgs -a tensorflow_0.12
 source activate FCN
 ==============
 scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/Data2D   /scratch/yaoy4/
+
+
 scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
 
 
 
-scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/Data2D   /scratch/yaoy4/
 
+scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
 
 scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/   
 rtracejob 13683467
