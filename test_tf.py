@@ -234,7 +234,7 @@ for objectInd in range(objectNum):
     assert objectInd==0
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
-        label3D[512,512,sliceInd]=getImage(objectInd,0,sliceInd,'test','seg')
+        label3D[sliceInd,:,:]=getImage(objectInd,0,sliceInd,'test','seg')
     
     predict3D=np.zeros([512,512,512,3])
     predict3DReal=np.zeros([512,512,512])
