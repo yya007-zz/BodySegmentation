@@ -187,11 +187,11 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 
 quicktest=True
-size=16
+size=32
 echo=10*len(selectorder)/size
-speed=1e-6
+speed=1e-5
 if quicktest:
-    echo=100
+    echo=11
     speed=1e-5
 
 #Network structure--------------------------                                 
