@@ -268,7 +268,7 @@ for objectInd in range(objectNum):
     
     predict3DReal=np.zeros([512*512*512])
     predict3D=predict3D.reshape([512*512*512,3])
-    predict3DReal=predict3D[,2]
+    predict3DReal=predict3D[:,2]
     needchange=(predict3D[:,0]==predict3D[:,1])
     predict3DReal[needchange]=predict3D[needchange,0]
     
