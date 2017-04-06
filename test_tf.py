@@ -183,15 +183,20 @@ number_of_classes=19
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
-#selectorder=np.random.shuffle(selectorder)
+randomtrain=False
+randomstate="norandom"
+if randomtrain:
+    randomstate="random"
+    selectorder=np.random.shuffle(selectorder)
 
 
 quicktest=True
 size=16
-echo=1*len(selectorder)/size
+echo=10
+iterations=echo*len(selectorder)/size
 speed=1e-5
 if quicktest:
-    echo=11
+    iterations=11
     speed=1e-5
 
 #Network structure--------------------------                                 
@@ -211,7 +216,7 @@ sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 pos=0
-for i in range(echo):
+for i in range(iterations):
   pos,sample=next_batch(pos,size,selectorder)
   imgs=getdata(sample,'train','img')
   segs=getdata(sample,'train','seg')
@@ -226,6 +231,9 @@ for i in range(echo):
 del X,Y,sample,imgs,segs
 
 
+modeldir=('./model_%d_%s.meta'%(echo,randomstate))
+print 'save model to: %s'%(modeldir)
+tf.train.export_meta_graph(filename=modeldir)
 
 print ("start testing")
 objectNum=25

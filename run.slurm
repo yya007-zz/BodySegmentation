@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
 #SBATCH --mem=20G
-#SBATCH --time=30:00:00
-#SBATCH --output=/scratch/yaoy4/log/test-10-echo.log
+#SBATCH --time=150:00:00
+#SBATCH --output=/scratch/yaoy4/log/test-10echo-norandom.log
 
 setpkgs -a tensorflow_0.12
 source activate FCN
