@@ -232,13 +232,14 @@ objectNum=25
 viewNum=3
 for objectInd in range(objectNum):
     assert objectInd==0
+    print("object-%d preparing label,"%(objectInd)),
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
         label3D[:,:,sliceInd]=getImage(objectInd,2,sliceInd,'test','seg')
-    print("object-%d label prepared"%(objectInd)),
     predict3D=np.zeros([512,512,512,3])
     predict3DReal=np.zeros([512,512,512])
     for viewInd in range(3):
+        print(" view%d,"%(viewInd)),
         selectorder=np.arange(512)
         selectorder=selectorder+objectInd*viewNum*512+viewInd*512
         pos=0
@@ -255,20 +256,21 @@ for objectInd in range(objectNum):
                 predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
                 predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
-    print("object-%d img prepared"%(objectInd)),            
+        
+    print(" evaluation")            
     for i in range(512):
         for j in range(512):
             for k in range(512):
-                vote=predict3DReal[i,k,j,:]
+                vote=predict3D[i,k,j,:]
                 if(vote[0]==vote[1]):
-                    predict3D[i,k,j]=vote[0]
+                    predict3DReal[i,k,j]=vote[0]
                 else:
-                    predict3D[i,k,j]=vote[2]
-    predict3D=predict3D.flatten()
+                    predict3DReal[i,k,j]=vote[2]
+    predict3DReal=predict3DReal.flatten()
     label3D=label3D.flatten()
-    accuracy1=np.mean((predict3D==label3D))
+    accuracy1=np.mean((predict3DReal==label3D))
     
-    predict3D=predict3D[label3D!=0]
+    predict3DReal=predict3DReal[label3D!=0]
     label3D=label3D[label3D!=0]
-    accuracy2=np.mean((predict3D==label3D))
+    accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d accuracy no label: %.4f,with label:%.4f"%(objectInd,accuracy1,accuracy2)
