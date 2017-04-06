@@ -193,8 +193,7 @@ if sys.argv[1]=='random':
     np.random.shuffle(selectorder)
 
 
-quicktest=True
-size=64
+size=32
 echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-6
