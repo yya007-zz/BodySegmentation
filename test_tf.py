@@ -114,8 +114,8 @@ def save_image( npdata, outfilename ) :
 
 def prepareY(y,number_of_classes):
     yf=y.flatten()
-    print yf.shape
-    print y.shape
+    #print yf.shape
+    #print y.shape
     res=np.zeros([yf.shape[0],number_of_classes])
     for i in range(number_of_classes):
         res[yf[:]==i,i]=1
@@ -187,7 +187,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 
 quicktest=True
-size=10
+size=8
 echo=10*len(selectorder)/size
 speed=1e-6
 if quicktest:
@@ -217,8 +217,8 @@ for i in range(echo):
   segs=getdata(sample,'train','seg')
   Y=prepareY(segs,number_of_classes)
   X=prepareX(imgs)
-  print "step: ",i
-  if i%100 == 0:
+  #print "step: ",i
+  if i%10 == 0:
     ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     print("step %d, training accuracy %g, loss %g"%(i, ac,ce))
