@@ -201,7 +201,9 @@ speed=1e-6
 if sys.argv[3]=='quicktest':
     iterations=11
     speed=1e-6
-gap=int(iterations/100+0.5)
+gap=int(iterations/100)
+if gap==0:
+    gap=2
 
 
 #Network structure--------------------------                                 
