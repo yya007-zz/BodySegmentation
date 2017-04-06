@@ -187,7 +187,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 
 quicktest=True
-size=8
+size=16
 echo=10*len(selectorder)/size
 speed=1e-5
 if quicktest:
