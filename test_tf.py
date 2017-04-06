@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 import tensorflow as tf
 import time
+import sys
 from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
 from test_bd import *
@@ -178,24 +179,26 @@ seed = int(time.time())
 trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 '''
+# python test_tf [random?] [echo] [quicktest]
 number_of_classes=19
 
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
-randomtrain=False
+
+
 randomstate="norandom"
-if randomtrain:
+if sys.argv[1]='random':
     randomstate="random"
     selectorder=np.random.shuffle(selectorder)
 
 
 quicktest=True
 size=16
-echo=10
+echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-5
-if quicktest:
+if sys.argv[3]='quicktest':
     iterations=11
     speed=1e-5
 
