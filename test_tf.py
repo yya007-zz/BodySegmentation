@@ -188,7 +188,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 
 randomstate="norandom"
-if sys.argv[1]='random':
+if sys.argv[1]=='random':
     randomstate="random"
     selectorder=np.random.shuffle(selectorder)
 
@@ -198,10 +198,12 @@ size=16
 echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-5
-if sys.argv[3]='quicktest':
+if sys.argv[3]=='quicktest':
     iterations=11
     speed=1e-5
 
+
+print "randomstate: %s, iterations: %d"%(randomstate,iterations)
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
