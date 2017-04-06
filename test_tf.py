@@ -227,7 +227,7 @@ del X,Y,sample,imgs,segs
 
 
 
-
+print ("start testing")
 objectNum=25
 viewNum=3
 for objectInd in range(objectNum):
@@ -235,7 +235,7 @@ for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
         label3D[:,:,sliceInd]=getImage(objectInd,2,sliceInd,'test','seg')
-    
+    print("object-%d label prepared"%(objectInd)),
     predict3D=np.zeros([512,512,512,3])
     predict3DReal=np.zeros([512,512,512])
     for viewInd in range(3):
@@ -255,7 +255,7 @@ for objectInd in range(objectNum):
                 predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
                 predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
-                
+    print("object-%d img prepared"%(objectInd)),            
     for i in range(512):
         for j in range(512):
             for k in range(512):
@@ -264,7 +264,6 @@ for objectInd in range(objectNum):
                     predict3D[i,k,j]=vote[0]
                 else:
                     predict3D[i,k,j]=vote[2]
-    
     predict3D=predict3D.flatten()
     label3D=label3D.flatten()
     accuracy1=np.mean((predict3D==label3D))
