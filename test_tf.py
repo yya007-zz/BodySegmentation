@@ -194,7 +194,7 @@ if sys.argv[1]=='random':
 
 
 quicktest=True
-size=16
+size=64
 echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-6

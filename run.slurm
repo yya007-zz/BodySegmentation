@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:4
 #SBATCH --nodes=1
 #SBATCH --ntasks=8
-#SBATCH --mem=20G
+#SBATCH --mem=48G
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/yaoy4/log/test-1echo-norandom.log
 
