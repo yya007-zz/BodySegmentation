@@ -183,11 +183,11 @@ number_of_classes=19
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
-
+#selectorder=np.random.shuffle(selectorder)
 
 
 quicktest=True
-size=8
+size=16
 echo=10*len(selectorder)/size
 speed=1e-6
 if quicktest:
@@ -254,7 +254,7 @@ for objectInd in range(objectNum):
             if viewInd==1:
                 predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
-                predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(2,0,1)
+                predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
                 
     for i in range(512):
         for j in range(512):
