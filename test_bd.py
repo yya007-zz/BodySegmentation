@@ -22,6 +22,7 @@ def getImage(objectInd,viewInd,sliceInd,dataset,subset):
    
 
 def getdata(selectorder,dataset,subset):
+    viewNum=3
     resultimg=np.zeros([len(selectorder),512,512])
     for i in range(len(selectorder)):
         objectInd=selectorder[i]/(viewNum*512)
