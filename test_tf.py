@@ -198,12 +198,13 @@ size=16
 echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-5
+
 if sys.argv[3]=='quicktest':
     iterations=11
     speed=1e-5
+gap=int(iterations/100+0.5)
 
 
-print "randomstate: %s, iterations: %d"%(randomstate,iterations)
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -228,7 +229,9 @@ for i in range(iterations):
   Y=prepareY(segs,number_of_classes)
   X=prepareX(imgs)
   #print "step: ",i
-  if i%10 == 0:
+  if i==0:
+    print "randomstate: %s, iterations: %d, gap: %d"%(randomstate,iterations,gap)
+  if i%gap == 0 or i==iterations:
     ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     print("step %d, training accuracy %g, loss %g"%(i, ac,ce))
