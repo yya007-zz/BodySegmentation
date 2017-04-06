@@ -45,3 +45,8 @@ accuracy1=0.00001
 accuracy2=0.0002
 print "object-%d accuracy no label: %.4f,with label:%.4f"%(objectInd,accuracy1,accuracy2)
 '''
+objectNum=75
+viewNum=3
+selectorder=np.arange(objectNum*viewNum*512)
+np.random.shuffle(selectorder)
+print selectorder
