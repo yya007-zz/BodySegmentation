@@ -188,7 +188,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 quicktest=True
 size=16
-echo=10*len(selectorder)/size
+echo=1*len(selectorder)/size
 speed=1e-5
 if quicktest:
     echo=11
@@ -254,7 +254,7 @@ for objectInd in range(objectNum):
                 predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
                 predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
-                   
+    '''               
     for i in range(512):
         for j in range(512):
             for k in range(512):
@@ -263,7 +263,7 @@ for objectInd in range(objectNum):
                     predict3DReal[i,k,j]=vote[0]
                 else:
                     predict3DReal[i,k,j]=vote[2]
-    
+    '''
 
     
     predict3DReal=np.zeros([512*512*512])

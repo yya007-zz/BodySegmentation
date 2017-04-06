@@ -1,12 +1,12 @@
 #! /bin/bash
 #SBATCH --account=p_masi_gpu
 #SBATCH --partition=maxwell
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:4
 #SBATCH --nodes=1
-#SBATCH --ntasks=4
+#SBATCH --ntasks=8
 #SBATCH --mem=20G
-#SBATCH --time=10:00:00
-#SBATCH --output=/scratch/yaoy4/log/gpu-job.log
+#SBATCH --time=30:00:00
+#SBATCH --output=/scratch/yaoy4/log/test-10-echo.log
 
 setpkgs -a tensorflow_0.12
 source activate FCN
