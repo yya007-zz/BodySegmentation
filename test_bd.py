@@ -104,11 +104,48 @@ viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 np.random.shuffle(selectorder)
 print selectorder
+
+
+selectorder=np.arange(75*3*512)
+mydataFetch=dataFetch()
+def prepareY(y,number_of_classes):
+    yf=y.flatten()
+    #print yf.shape
+    #print y.shape
+    res=np.zeros([yf.shape[0],number_of_classes])
+    for i in range(number_of_classes):
+        res[yf[:]==i,i]=1
+    return res.reshape([y.shape[0],y.shape[1],y.shape[2],number_of_classes])
+    
+    
+#0-255 2d gray image
+def prepareX(gray):
+    #gray=gray.astype(int)
+    #gray=gray.astype(float)
+    VGG_MEAN = [103.939, 116.779, 123.68]
+    res=np.zeros([gray.shape[0],512,512,3])
+    res[:,:,:,2]= gray-VGG_MEAN[2]
+    res[:,:,:,1]= gray-VGG_MEAN[1]
+    res[:,:,:,0]= gray-VGG_MEAN[0]    
+    return res 
+    
+def next_batch(pos,size,data):
+  if pos+size<data.shape[0]:
+    return pos+size,data[pos:pos+size]
+  else:
+    return pos+size-data.shape[0],np.concatenate((data[pos:],data[0:pos+size-data.shape[0]]),axis=0)
+
+
+pos=0
+t=time()
+number_of_classes=19
+print 'start'
+pos,sample=next_batch(pos,16,selectorder)
+imgs=mydataFetch.getdata(sample,'train','img')
+segs=mydataFetch.getdata(sample,'train','seg')
+Y=prepareY(segs,number_of_classes)
+X=prepareX(imgs)
+print time()-t
 '''
-
-
-
-
-
 
 

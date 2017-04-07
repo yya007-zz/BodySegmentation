@@ -206,7 +206,7 @@ if sys.argv[3]=='quicktest':
 size=16
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
-#iterations=iterations/10
+iterations=iterations/10
 speed=1e-5
 
 
