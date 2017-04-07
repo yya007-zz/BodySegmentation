@@ -255,7 +255,7 @@ del X,Y,sample,imgs,segs
 #testing---------------------------
 
 
-print ("start testing")
+print ("start saving model")
 objectNum=25
 viewNum=3
 
@@ -278,7 +278,7 @@ print 'save model to: %s'%(modeldir)
 tf.train.export_meta_graph(filename=modeldir)   
     
     
-    
+print ("start testing")    
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
@@ -300,9 +300,9 @@ for objectInd in range(objectNum):
             if viewInd==0:
                 predict3D[startpos:startpos+size,:,:,0]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
             if viewInd==1:
-                predict3D[:,startpos+k,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
+                predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
-                predict3D[:,:,startpos+k,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
+                predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
     
     
     label3D=label3D.flatten()
