@@ -125,6 +125,7 @@ def prepareY(y,number_of_classes):
     
 #0-255 2d gray image
 def prepareX(gray):
+    gray=gray.astype(int)
     VGG_MEAN = [103.939, 116.779, 123.68]
     res=np.zeros([gray.shape[0],512,512,3])
     res[:,:,:,2]= gray-VGG_MEAN[2]
@@ -193,13 +194,12 @@ if sys.argv[1]=='random':
     np.random.shuffle(selectorder)
 
 
-size=32
+size=16
 echo=int(sys.argv[2])
 iterations=echo*len(selectorder)/size
 speed=1e-6
 
 if sys.argv[3]=='quicktest':
-    iterations=11
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
     speed=1e-6
@@ -233,7 +233,7 @@ for i in range(iterations):
   X=prepareX(imgs)
   #print "step: ",i
   if i==0:
-    print "randomstate: %s, iterations: %d, gap: %d"%(randomstate,iterations,gap)
+    print "traindata: %d randomstate: %s, iterations: %d, gap: %d"%(len(selectorder),randomstate,iterations,gap)
   if i%gap == 0 or i==iterations:
     ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
