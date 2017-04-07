@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import misc
 import scipy.io as sio
-
+from time import time
 
 class dataFetch(object):
     
@@ -71,7 +71,7 @@ class dataFetch(object):
     
     
     
-    
+''' 
 mydataFetch=dataFetch()
 dataset='train'
 subset='seg'    
@@ -92,7 +92,7 @@ print np.sum(image[100]-seg[:,100,:])
 print np.sum(image-seg.transpose(1,0,2))
 
 
-'''
+
 
 objectInd=1
 accuracy1=0.00001
