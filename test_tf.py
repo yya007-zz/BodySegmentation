@@ -246,7 +246,7 @@ for i in range(iterations):
     if i%gap == 0 or i==iterations-1:
         ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
         ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
-        print("step %d, training accuracy %g, loss %g, time "%(i, ac,ce,time()-t0))
+        print("step %d, training accuracy %g, loss %g, time %d"%(i, ac,ce,time()-t0))
         t0 = time()
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 del X,Y,sample,imgs,segs
