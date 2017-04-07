@@ -232,6 +232,9 @@ sess.run(tf.global_variables_initializer())
 pos=0
 t0 = time()
 for i in range(iterations):
+    if i==0:
+        print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
+        
     t=time()
     pos,sample=next_batch(pos,size,selectorder)
     imgs=mydataFetch.getdata(sample,'train','img')
@@ -240,10 +243,6 @@ for i in range(iterations):
     X=prepareX(imgs)
     print time()-t
     #print "step: ",i
-    if i==0:
-        imsave('../res/testimg_0.png',imgs[0])
-        imsave('../res/testseg_0.png',segs[0])
-        print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if i%gap == 0 or i==iterations-1:
         ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
         ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
