@@ -202,7 +202,7 @@ speed=1e-5
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
-    iterations=12
+    iterations=epoch
     
     
 
