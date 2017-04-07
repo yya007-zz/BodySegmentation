@@ -210,8 +210,8 @@ speed=1e-6
 
 
 gap=int(iterations/100)
-if gap<10:
-    gap=10
+if gap<3:
+    gap=3
 
 mydataFetch=dataFetch()
 #Network structure--------------------------                                 
