@@ -194,20 +194,18 @@ if sys.argv[1]=='random':
     randomstate="random"
     np.random.shuffle(selectorder)
 
-
-
+size=16
+epoch=int(sys.argv[2])
+iterations=epoch*len(selectorder)/size
+speed=1e-5
 
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
+    iterations=12
+    
+    
 
-    
-    
-size=16
-epoch=int(sys.argv[2])
-iterations=epoch*len(selectorder)/size
-iterations=iterations/10
-speed=1e-5
 
 
 gap=int(iterations/100)
@@ -277,7 +275,7 @@ if sys.argv[3]=='quicktest':
         print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
     assert 1==2
     
-modeldir=('./model_%d_%s.meta'%(epoch,randomstate))
+modeldir=('../network/model_%d_%s.meta'%(epoch,randomstate))
 print 'save model to: %s'%(modeldir)
 tf.train.export_meta_graph(filename=modeldir)   
     
@@ -302,11 +300,9 @@ for objectInd in range(objectNum):
             if viewInd==0:
                 predict3D[startpos:startpos+size,:,:,0]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
             if viewInd==1:
-                for k in range(size):
-                    predict3D[:,startpos+k,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+                predict3D[:,startpos+k,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
             if viewInd==2:
-                for k in range(size):
-                    predict3D[:,:,startpos+k,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+                predict3D[:,:,startpos+k,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
     
     
     label3D=label3D.flatten()
@@ -323,3 +319,4 @@ for objectInd in range(objectNum):
     label3D=label3D[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d view 2 accuracy: total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy,accuracy1,accuracy2)
+    np.save('../res/%s_%s_%s.npy'%(sys.argv[1],sys.argv[2],sys.argv[3]))

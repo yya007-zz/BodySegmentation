@@ -63,15 +63,7 @@ norand 1
 norand 10
 rand 1
 rand 10
-
-
-(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run.slurmSubmitted batch job 13829684
-(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run1.slurm
-Submitted batch job 13829685
-(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run2.slurm
-Submitted batch job 13829686
-(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run3.slurm
-Submitted batch job 13829687
-13829717
+ 13829709
+ 13829777
 
 
