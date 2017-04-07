@@ -60,16 +60,18 @@ scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
 
 squeue 
 norand 1
-13829653
-
 norand 10
-13829657
-
-
-rand 10
-13829621
-
 rand 1
-13829640
+rand 10
+
+
+(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run.slurmSubmitted batch job 13829684
+(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run1.slurm
+Submitted batch job 13829685
+(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run2.slurm
+Submitted batch job 13829686
+(FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run3.slurm
+Submitted batch job 13829687
+
 
 
