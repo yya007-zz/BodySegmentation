@@ -240,17 +240,12 @@ for i in range(iterations):
     #print "step: ",i
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
-    if i%gap == 0 or i==iterations:
+    if i%gap == 0 or i==iterations-1:
         ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
         ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
         print("step %d, training accuracy %g, loss %g"%(i, ac,ce))
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 del X,Y,sample,imgs,segs
-
-
-modeldir=('./model_%d_%s.meta'%(echo,randomstate))
-print 'save model to: %s'%(modeldir)
-tf.train.export_meta_graph(filename=modeldir)
 
 
 #testing---------------------------
@@ -272,7 +267,9 @@ if sys.argv[3]=='quicktest':
     print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
     assert 1==2
     
-    
+modeldir=('./model_%d_%s.meta'%(epoch,randomstate))
+print 'save model to: %s'%(modeldir)
+tf.train.export_meta_graph(filename=modeldir)   
     
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
