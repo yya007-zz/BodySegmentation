@@ -210,8 +210,8 @@ speed=1e-6
 
 
 gap=int(iterations/100)
-if gap==0:
-    gap=2
+if gap<10:
+    gap=10
 
 mydataFetch=dataFetch()
 #Network structure--------------------------                                 
@@ -254,12 +254,26 @@ tf.train.export_meta_graph(filename=modeldir)
 
 
 #testing---------------------------
-if quicksort:
-    assert 1==2
+
 
 print ("start testing")
 objectNum=25
 viewNum=3
+
+
+
+if sys.argv[3]=='quicktest':
+    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
+    selectorder=selectorder+2*512+256
+    imgs=mydataFetch.getdata(sample,'test','img')
+    segs=mydataFetch.getdata(sample,'test','seg')
+    imgs=prepareX(imgs)
+    segs=prepareY(segs,number_of_classes)
+    print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+    assert 1==2
+    
+    
+    
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
