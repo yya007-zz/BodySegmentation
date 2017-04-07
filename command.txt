@@ -59,6 +59,6 @@ scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
 
 
 squeue 
-rtracejob 13683467
-#3
-rtracejob 13683800
+norand 1
+
+rtracejob 13829589
