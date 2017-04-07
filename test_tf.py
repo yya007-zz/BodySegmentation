@@ -309,9 +309,9 @@ for objectInd in range(objectNum):
     predict3DReal=np.zeros([512*512*512])
     predict3D=predict3D.reshape([512*512*512,3])
     
-    accuracy=np.mean((predict3DReal[:,0]==label3D))
-    accuracy1=np.mean((predict3DReal[:,1]==label3D))
-    accuracy2=np.mean((predict3DReal[:,2]==label3D))
+    accuracy=np.mean((predict3D[:,0]==label3D))
+    accuracy1=np.mean((predict3D[:,1]==label3D))
+    accuracy2=np.mean((predict3D[:,2]==label3D))
     print "object-%d view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2)
     
     

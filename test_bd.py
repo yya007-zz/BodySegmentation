@@ -6,10 +6,15 @@ from time import time
 class dataFetch(object):
     
     def __init__(self):
-        self.tempStore=[np.zeros([512,512,512]),np.zeros([512,512,512])]
-        self.tempStoreName=["",""]
+        self.tempStore=[]
+        self.tempStoreName=[]
+        
         self.nextsave=0
         self.savelen=2
+        
+        for i in range(self.savelen):
+            self.tempStore.append(np.zeros([512,512,512]))
+            self.tempStoreName.append("")
         pass
 
     def int2string(self,number,length=4):
@@ -139,6 +144,29 @@ segs=mydataFetch.getdata(sample,'train','seg')
 Y=prepareY(segs,number_of_classes)
 X=prepareX(imgs)
 print time()-t
-'''
 
+objectInd=0
+label3D=np.zeros([512,512,512])
+predict3D=np.zeros([512,512,512,3])
+label3D=label3D.flatten()
+predict3DReal=np.zeros([512*512*512])
+predict3D=predict3D.reshape([512*512*512,3])
+
+accuracy=np.mean((predict3D[:,0]==label3D))
+accuracy1=np.mean((predict3D[:,1]==label3D))
+accuracy2=np.mean((predict3D[:,2]==label3D))
+print "object-%d view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2)
+
+
+predict3DReal=predict3D[:,2]
+needchange=(predict3D[:,0]==predict3D[:,1])
+predict3DReal[needchange]=predict3D[needchange,0]
+   
+accuracy1=np.mean((predict3DReal==label3D))
+
+predict3DReal=predict3DReal[label3D!=0]
+label3D=label3D[label3D!=0]
+accuracy2=np.mean((predict3DReal==label3D))
+print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
+'''
 
