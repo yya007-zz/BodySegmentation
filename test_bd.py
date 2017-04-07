@@ -10,7 +10,7 @@ class dataFetch(object):
         self.tempStoreName=[]
         
         self.nextsave=0
-        self.savelen=2
+        self.savelen=25
         
         for i in range(self.savelen):
             self.tempStore.append(np.zeros([512,512,512]))
@@ -69,13 +69,14 @@ class dataFetch(object):
     
     
     
-''' 
+
 mydataFetch=dataFetch()
 dataset='train'
 subset='seg'    
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
+np.random.shuffle(selectorder)
 #selectorder=np.random.shuffle(selectorder)
 seg=mydataFetch.getdata(selectorder[512:512+200],dataset,subset)
 objectInd=0
@@ -91,7 +92,7 @@ print np.sum(image-seg.transpose(1,0,2))
 
 
 
-
+''' 
 objectInd=1
 accuracy1=0.00001
 accuracy2=0.0002
