@@ -1,14 +1,14 @@
 #! /bin/bash
 #SBATCH --account=p_masi_gpu
 #SBATCH --partition=maxwell
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:2
 #SBATCH --nodes=1
-#SBATCH --ntasks=8
-#SBATCH --mem=48G
+#SBATCH --ntasks=4
+#SBATCH --mem=20G
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/yaoy4/log/quicktest.log
 
 setpkgs -a tensorflow_0.12
 source activate FCN
 cd /scratch/yaoy4/BodySegmentation 
-python test_tf.py norandom 2 quicktest
+python test_tf.py random 2 quicktest

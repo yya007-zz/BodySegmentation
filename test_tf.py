@@ -308,8 +308,14 @@ for objectInd in range(objectNum):
     label3D=label3D.flatten()
     predict3DReal=np.zeros([512*512*512])
     predict3D=predict3D.reshape([512*512*512,3])
+    
+    accuracy=np.mean((predict3DReal[:,0]==label3D))
+    accuracy1=np.mean((predict3DReal[:,1]==label3D))
+    accuracy2=np.mean((predict3DReal[:,2]==label3D))
+    print "object-%d view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2)
+    
+    
     predict3DReal=predict3D[:,2]
-    accuracy=np.mean((predict3DReal==label3D))
     needchange=(predict3D[:,0]==predict3D[:,1])
     predict3DReal[needchange]=predict3D[needchange,0]
        
@@ -318,5 +324,5 @@ for objectInd in range(objectNum):
     predict3DReal=predict3DReal[label3D!=0]
     label3D=label3D[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
-    print "object-%d view 2 accuracy: total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy,accuracy1,accuracy2)
+    print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
     np.save('../res/%s_%s_%s.npy'%(sys.argv[1],sys.argv[2],sys.argv[3]))
