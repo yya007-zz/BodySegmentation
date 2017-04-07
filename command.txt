@@ -60,10 +60,11 @@ scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
 
 squeue 
 norand 1
-rtracejob 13829589
+13829653
 
 norand 10
-13829592
+13829657
+
 
 rand 10
 13829621
