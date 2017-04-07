@@ -264,11 +264,14 @@ viewNum=3
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
-    imgs=mydataFetch.getdata(sample,'test','img')
-    segs=mydataFetch.getdata(sample,'test','seg')
-    imgs=prepareX(imgs)
-    segs=prepareY(segs,number_of_classes)
-    print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+    pos=0
+    for k in range(len(selectorder)/size)
+        pos,sample=next_batch(pos,size,selectorder)       
+        imgs=mydataFetch.getdata(sample,'test','img')
+        segs=mydataFetch.getdata(sample,'test','seg')
+        imgs=prepareX(imgs)
+        segs=prepareY(segs,number_of_classes)
+        print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
     assert 1==2
     
 modeldir=('./model_%d_%s.meta'%(epoch,randomstate))
