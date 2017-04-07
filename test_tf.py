@@ -325,4 +325,4 @@ for objectInd in range(objectNum):
     label3D=label3D[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
-    np.save('../res/%s_%s_%s.npy'%(sys.argv[1],sys.argv[2],sys.argv[3]))
+    np.save('../res/%s_%s_%s.npy'%(sys.argv[1],sys.argv[2],sys.argv[3]),predict3DReal.reshape(512,512,512))
