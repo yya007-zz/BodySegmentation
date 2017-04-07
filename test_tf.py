@@ -126,6 +126,7 @@ def prepareY(y,number_of_classes):
 #0-255 2d gray image
 def prepareX(gray):
     gray=gray.astype(int)
+    gray=gray.astype(float)
     VGG_MEAN = [103.939, 116.779, 123.68]
     res=np.zeros([gray.shape[0],512,512,3])
     res[:,:,:,2]= gray-VGG_MEAN[2]
