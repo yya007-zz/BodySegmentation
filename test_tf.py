@@ -195,20 +195,25 @@ if sys.argv[1]=='random':
     np.random.shuffle(selectorder)
 
 
-size=16
-echo=int(sys.argv[2])
-iterations=echo*len(selectorder)/size
-speed=1e-6
+
 
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
-    speed=1e-6
+
+    
+    
+size=16
+epoch=int(sys.argv[2])
+iterations=epoch*len(selectorder)/size
+speed=1e-6
+
+
 gap=int(iterations/100)
 if gap==0:
     gap=2
 
-
+mydataFetch=dataFetch()
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -228,13 +233,13 @@ sess.run(tf.global_variables_initializer())
 pos=0
 for i in range(iterations):
   pos,sample=next_batch(pos,size,selectorder)
-  imgs=getdata(sample,'train','img')
-  segs=getdata(sample,'train','seg')
+  imgs=mydataFetch.getdata(sample,'train','img')
+  segs=mydataFetch.getdata(sample,'train','seg')
   Y=prepareY(segs,number_of_classes)
   X=prepareX(imgs)
   #print "step: ",i
   if i==0:
-    print "traindata: %d randomstate: %s, iterations: %d, gap: %d"%(len(selectorder),randomstate,iterations,gap)
+    print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
   if i%gap == 0 or i==iterations:
     ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
     ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
@@ -253,7 +258,7 @@ viewNum=3
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
-        label3D[:,:,sliceInd]=getImage(objectInd,2,sliceInd,'test','seg')
+        label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
     predict3D=np.zeros([512,512,512,3])
 
     for viewInd in range(3):
@@ -264,8 +269,8 @@ for objectInd in range(objectNum):
         for sliceInd in range(512/size):
             startpos=pos
             pos,sample=next_batch(pos,size,selectorder)
-            imgs=getdata(sample,'test','img')
-            segs=getdata(sample,'test','seg')
+            imgs=mydataFetch.getdata(sample,'test','img')
+            segs=mydataFetch.getdata(sample,'test','seg')
             imgs=prepareX(imgs)
             segs=prepareY(segs,number_of_classes)
             if viewInd==0:
