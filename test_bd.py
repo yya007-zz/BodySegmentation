@@ -6,11 +6,10 @@ from time import time
 class dataFetch(object):
     
     def __init__(self):
-        self.tempStore=[]
+        self.tempStore=[np.zeros([512,512,512]),np.zeros([512,512,512])]
         self.tempStoreName=["",""]
         self.nextsave=0
         self.savelen=2
-        self.cursave=0
         pass
 
     def int2string(self,number,length=4):
@@ -31,21 +30,15 @@ class dataFetch(object):
     def getImage(self,objectInd,viewInd,sliceInd,dataset,subset):
         imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,self.int2string(objectInd+1))
         flag=True
-        for i in range(len(self.tempStoreName)):
+        for i in range(self.savelen):
             if imgdir==self.tempStoreName[i]:
                 img=self.tempStore[i]
                 flag=False
         if flag:
             img=sio.loadmat(imgdir)
-            img=img[subset+'_3D']
-            
-            if self.cursave<self.savelen:
-                self.tempStore.append(img)
-                self.cursave=self.cursave+1
-            else:
-                self.tempStore[self.nextsave]=img  
-            self.tempStoreName[self.nextsave]==imgdir
-              
+            img=img[subset+'_3D'] 
+            self.tempStore[self.nextsave]=img  
+            self.tempStoreName[self.nextsave]=imgdir
             self.nextsave=(self.nextsave+1)%self.savelen
             
         if viewInd==0:
