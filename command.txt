@@ -72,6 +72,6 @@ Submitted batch job 13829685
 Submitted batch job 13829686
 (FCN) [yaoy4@gpu0006 BodySegmentation]$ sbatch run3.slurm
 Submitted batch job 13829687
-
+13829717
 
 

@@ -234,11 +234,13 @@ sess.run(tf.global_variables_initializer())
 pos=0
 t0 = time()
 for i in range(iterations):
+    t=time()
     pos,sample=next_batch(pos,size,selectorder)
     imgs=mydataFetch.getdata(sample,'train','img')
     segs=mydataFetch.getdata(sample,'train','seg')
     Y=prepareY(segs,number_of_classes)
     X=prepareX(imgs)
+    print time()-t
     #print "step: ",i
     if i==0:
         imsave('../res/testimg_0.png',imgs[0])
