@@ -3,17 +3,17 @@ from scipy import misc
 import scipy.io as sio
 
 
-def dataFetch(class):
+class dataFetch(object):
     
-    def __init___()
+    def __init__(self):
+        self.tempStore=None
+        self.tempStoreName=""
         pass
 
-    def int2string(number,length=4):
+    def int2string(self,number,length=4):
         if length==0:
             return ""   
-        return int2string(number/10,length-1)+str(number%10)
-        
-
+        return self.int2string(number/10,length-1)+str(number%10)
 
     '''
     def getImage(objectInd,viewInd,sliceInd,dataset,subset):
@@ -24,10 +24,14 @@ def dataFetch(class):
             img=img.astype(float)*(1.0/65535.0*255.0)
         return img
     '''    
-    def getImage(objectInd,viewInd,sliceInd,dataset,subset):
-        imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,int2string(objectInd+1))
-        img=sio.loadmat(imgdir)
-        img=img[subset+'_3D']
+    def getImage(self,objectInd,viewInd,sliceInd,dataset,subset):
+        imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,self.int2string(objectInd+1))
+        if imgdir==self.tempStoreName:
+            img=self.tempStore
+        else:
+            img=sio.loadmat(imgdir)
+            img=img[subset+'_3D']
+            self.tempStore=img
         if viewInd==0:
             image=img[sliceInd,:,:]
         if viewInd==1:
@@ -39,29 +43,29 @@ def dataFetch(class):
         return image    
        
 
-    def getdata(selectorder,dataset,subset):
+    def getdata(self,selectorder,dataset,subset):
         viewNum=3
         resultimg=np.zeros([len(selectorder),512,512])
         for i in range(len(selectorder)):
             objectInd=selectorder[i]/(viewNum*512)
             viewInd=(selectorder[i]-objectInd*viewNum*512)/512
             sliceInd=selectorder[i]%512
-            resultimg[i,:,:]=getImage(objectInd,viewInd,sliceInd,dataset,subset)
+            resultimg[i,:,:]=self.getImage(objectInd,viewInd,sliceInd,dataset,subset)
         return resultimg
     
     
     
     
-'''
+mydataFetch=dataFetch()
 dataset='train'
 subset='seg'    
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 #selectorder=np.random.shuffle(selectorder)
-seg=getdata(selectorder[512:512+200],dataset,subset)
+seg=mydataFetch.getdata(selectorder[512:512+200],dataset,subset)
 objectInd=0
-imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,int2string(objectInd+1))
+imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,mydataFetch.int2string(objectInd+1))
 img=sio.loadmat(imgdir)
 img=img[subset+'_3D']
 image=img[:,0:200,:]
@@ -72,7 +76,7 @@ print np.sum(image[100]-seg[:,100,:])
 print np.sum(image-seg.transpose(1,0,2))
 
 
-
+'''
 
 objectInd=1
 accuracy1=0.00001
