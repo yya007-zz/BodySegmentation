@@ -148,7 +148,7 @@ def breakpoint():
 #Data preparation--------------------------
 '''
 # python test_tf [random?] [echo] [quicktest]
-number_of_classes=19
+
 
 objectNum=75
 viewNum=3
@@ -180,6 +180,9 @@ if gap<3:
 
 mydataFetch=dataFetch()
 '''
+
+
+number_of_classes=19
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
