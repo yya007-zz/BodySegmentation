@@ -179,7 +179,7 @@ if gap<3:
     gap=3
 
 mydataFetch=dataFetch()
-'''
+
 
 speed=1e-5
 number_of_classes=19
@@ -197,7 +197,7 @@ correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
-'''
+
 
 
 metadir=
@@ -234,7 +234,7 @@ modeldir=('../network/model_%d_%s'%(epoch,randomstate))
 with tf.Session() as sess:
   print "start load network"
   new_saver = tf.train.import_meta_graph(modeldir+'.meta',clear_devices=True)
-  new_saver.restore(sess, modeldir)
+  new_saver.restore(sess, tf.train.latest_checkpoint('./'))
 
 
 #testing---------------------------
