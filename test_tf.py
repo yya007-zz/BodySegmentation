@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 import time
 import sys
+import os
 from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
 from test_bd import *
@@ -134,12 +135,7 @@ def prepareX(gray):
     res[:,:,:,0]= gray-VGG_MEAN[0]    
     return res 
     
-def next_batch(pos,size,data):
-  if pos+size<data.shape[0]:
-    return pos+size,data[pos:pos+size]
-  else:
-    return pos+size-data.shape[0],np.concatenate((data[pos:],data[0:pos+size-data.shape[0]]),axis=0)
-    
+
 def breakpoint():
     assert 1==2
     return 
@@ -212,7 +208,7 @@ gap=int(iterations/100)
 if gap<3:
     gap=3
 
-mydataFetch=dataFetch()
+mydataFetch=dataFetch(25)
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -229,6 +225,7 @@ result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
+'''
 pos=0
 t0 = time()
 for i in range(iterations):
@@ -250,7 +247,7 @@ for i in range(iterations):
         t0 = time()
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 del X,Y,sample,imgs,segs
-
+'''
 
 #testing---------------------------
 
@@ -258,7 +255,7 @@ del X,Y,sample,imgs,segs
 print ("start saving model")
 objectNum=25
 viewNum=3
-
+mydataFetch.clear()
 
 '''
 if sys.argv[3]=='quicktest':
@@ -272,17 +269,24 @@ if sys.argv[3]=='quicktest':
         imgs=prepareX(imgs)
         segs=prepareY(segs,number_of_classes)
         print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-'''    
-modeldir=('../network/model_%d_%s'%(epoch,randomstate))
-print 'save model to: %s'%(modeldir)
+'''  
 
+
+
+modelname=('model_%d_%s'%(epoch,randomstate))
+modeldir=('../network/'+modelname)  
+if not os.path.exists(modeldir):
+    os.makedirs(modeldir)
+modeldir=(modeldir+'/'+modelname)  
+print 'save model to: %s'%(modeldir)
 saver0 = tf.train.Saver()
 saver0.save(sess, modeldir)
 saver0.export_meta_graph(modeldir+'.meta')
-   
+
     
     
-print ("start testing")    
+print ("start testing")
+mydataFetch.clear()    
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
@@ -330,3 +334,4 @@ for objectInd in range(objectNum):
     accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
     np.save('../res/%s_%s_%s_%a.npy'%(sys.argv[1],sys.argv[2],sys.argv[3],objectInd),predict3DReal.reshape([512,512,512]))
+

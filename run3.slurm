@@ -3,8 +3,8 @@
 #SBATCH --partition=maxwell
 #SBATCH --gres=gpu:2
 #SBATCH --nodes=1
-#SBATCH --ntasks=8
-#SBATCH --mem=20G
+#SBATCH --ntasks=4
+#SBATCH --mem=40G
 #SBATCH --time=120:00:00
 #SBATCH --output=/scratch/yaoy4/log/test-10echo-random.log
 

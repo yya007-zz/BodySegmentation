@@ -5,18 +5,21 @@ from time import time
 
 class dataFetch(object):
     
-    def __init__(self):
+    def __init__(self,savelen):
+        self.nextsave=0
+        self.savelen=savelen
+        self.clear()
+        
+        
+    def clear(self):
         self.tempStore=[]
         self.tempStoreName=[]
-        
-        self.nextsave=0
-        self.savelen=25
-        
         for i in range(self.savelen):
             self.tempStore.append(np.zeros([512,512,512]))
             self.tempStoreName.append("")
-        pass
-
+    
+    
+        
     def int2string(self,number,length=4):
         if length==0:
             return ""   

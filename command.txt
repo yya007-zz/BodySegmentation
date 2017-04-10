@@ -4,7 +4,7 @@ Step1 ssh to accre
 
 Step2 request GPU node
 salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=1:00:00 --mem=20G
-
+salloc --account=p_masi_gpu  --partition=fermi --ntasks=4 --nodes=1 --gres=gpu:2 --time=1:00:00 --mem=20G
 Step3 load tensorflow 0.12
 setpkgs -a tensorflow_0.12
 
