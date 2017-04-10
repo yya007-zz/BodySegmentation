@@ -228,7 +228,7 @@ del X,Y,sample,imgs,segs
 '''
 
 
-epoch=1
+epoch=2
 randomstate='random'
 modeldir=('../network/model_%d_%s'%(epoch,randomstate))
 with tf.Session() as sess:
