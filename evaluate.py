@@ -163,7 +163,7 @@ if sys.argv[1]=='random':
 size=16
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
-speed=1e-5
+
 
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
@@ -181,7 +181,7 @@ if gap<3:
 mydataFetch=dataFetch()
 '''
 
-
+speed=1e-5
 number_of_classes=19
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
