@@ -3,7 +3,7 @@
 #SBATCH --partition=maxwell
 #SBATCH --gres=gpu:2
 #SBATCH --nodes=1
-#SBATCH --ntasks=4
+#SBATCH --ntasks=8
 #SBATCH --mem=20G
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/yaoy4/log/quicktest.log
