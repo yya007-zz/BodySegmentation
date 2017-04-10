@@ -222,20 +222,24 @@ for i in range(iterations):
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 del X,Y,sample,imgs,segs
 '''
+
+
 epoch=1
 randomstate='random'
-modeldir=('../network/model_%d_%s.meta'%(epoch,randomstate))
+modeldir=('../network/model_%d_%s'%(epoch,randomstate))
 with tf.Session() as sess:
-  new_saver = tf.train.import_meta_graph('my-save-dir/my-model-10000.meta',
+  print "start load network"
+  new_saver = tf.train.import_meta_graph(modeldir+'.meta',
       clear_devices=True)
-  new_saver.restore(sess, 'my-save-dir/my-model-10000')
+  new_saver.restore(sess, modeldir)
+
 
 #testing---------------------------
 objectNum=25
 viewNum=3
 
 
-
+print ("start testing")  
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
@@ -250,7 +254,7 @@ if sys.argv[3]=='quicktest':
     
 
 '''    
-print ("start testing")    
+  
 for objectInd in range(objectNum):
     label3D=np.zeros([512,512,512])
     for sliceInd in range(512):
