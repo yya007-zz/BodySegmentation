@@ -69,7 +69,7 @@ class dataFetch(object):
     
     
     
-
+''' 
 mydataFetch=dataFetch()
 dataset='train'
 subset='seg'    
@@ -92,7 +92,7 @@ print np.sum(image-seg.transpose(1,0,2))
 
 
 
-''' 
+
 objectInd=1
 accuracy1=0.00001
 accuracy2=0.0002
