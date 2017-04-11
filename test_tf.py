@@ -234,6 +234,7 @@ train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
+saver0 = tf.train.Saver()
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
@@ -291,7 +292,6 @@ if not os.path.exists(modeldir):
     os.makedirs(modeldir)
 modeldir=(modeldir+'/'+modelname)  
 print 'save model to: %s'%(modeldir)
-saver0 = tf.train.Saver()
 saver0.save(sess, modeldir)
 saver0.export_meta_graph(modeldir+'.meta')
 
