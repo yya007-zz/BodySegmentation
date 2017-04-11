@@ -120,10 +120,9 @@ saver0.save(sess, modeldir)
 saver0.export_meta_graph(modeldir+'.meta')
 
     
-    
 
 resdir='../res/%s_%s_%s'%(sys.argv[1],sys.argv[2],sys.argv[3])
-testall(sess,result,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
+testall(sess,result,x,y_,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
 
 
 
