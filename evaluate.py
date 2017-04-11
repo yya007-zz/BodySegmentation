@@ -116,6 +116,7 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
     
 epoch=1
 randomstate='norandom'
+quicktest='noquicktest'
 #load network_________________________
 number_of_classes=19
 size=16
@@ -134,9 +135,10 @@ train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
-
-
 sess.run(tf.global_variables_initializer())
+
+
+print ('start loading model_%d_%s'%(epoch,randomstate)) 
 modelname=('model_%d_%s'%(epoch,randomstate))
 modeldir=('../network/%s/%s'%(modelname,modelname))
 new_saver = tf.train.import_meta_graph(modeldir+'.meta')
@@ -174,5 +176,5 @@ if True:
 
      
 resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
-testall(sess,resdir)
+testall(sess,resdir=resdir,number_of_classes=number_of_classes)
 
