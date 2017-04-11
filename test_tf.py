@@ -84,7 +84,7 @@ for i in range(iterations):
         print("step %d, training accuracy %d, only label: %d, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
         t0 = time()
     train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
-del imgs,segs
+del imgs,segs,mydataFetch
 
 
 #testing---------------------------
@@ -92,8 +92,7 @@ del imgs,segs
 
 print ("----------------start saving model")
 objectNum=25
-viewNum=3
-mydataFetch.clear()
+viewNum=3 
 
 '''
 if sys.argv[3]=='quicktest':

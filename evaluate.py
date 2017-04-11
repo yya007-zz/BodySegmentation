@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,saveres=False):
+def testall(sess,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
     acs=[]
     print ("start testing")
     
@@ -92,13 +92,11 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,saveres
                     predict3D[:,:,startpos:startpos+size,2]=slicepre
                     sliceseg=label3D[:,:,startpos:startpos+size]       
                 ac=np.mean(sliceseg==slicepre)
-                acs.append(ac)
                 print ac
-                
+                acs.append(ac)
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
-        
         test3D(objectInd,label3D,predict3D)
        
 def test3D(objectInd,label3D,predict3D):
