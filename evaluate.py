@@ -83,7 +83,6 @@ with tf.Session() as sess:
 objectNum=25
 viewNum=3
 mydataFetch=dataFetch(4)
-number_of_classes=19
 
 
 

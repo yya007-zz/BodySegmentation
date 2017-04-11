@@ -51,6 +51,8 @@ objectNum=75
 viewNum=3
 size=16
 mydataFetch=dataFetch(4)
+number_of_classes=19
+
 if True:
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
