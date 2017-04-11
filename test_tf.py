@@ -72,8 +72,8 @@ for i in range(iterations):
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if sys.argv[3]=='quicktest':
-        Y=np.load('../bigfile/testimgs.npy')
-        X=np.load('../bigfile/testsegs.npy')
+        X=np.load('../bigfile/testimgs.npy')
+        Y=np.load('../bigfile/testsegs.npy')
     else:    
         pos,sample=next_batch(pos,size,selectorder)
         imgs=mydataFetch.getdata(sample,'train','img')
