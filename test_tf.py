@@ -72,24 +72,24 @@ for i in range(iterations):
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if sys.argv[3]=='quicktest':
-        X=np.load('../bigfile/testimgs.npy')
-        Y=np.load('../bigfile/testsegs.npy')
-    else:    
-        pos,sample=next_batch(pos,size,selectorder)
+        imgs=np.load('../bigfile/testimgs.npy')
+        segs=np.load('../bigfile/testsegs.npy')
+    else:
+        pos,sample=next_batch(pos,size,selectorder)    
         imgs=mydataFetch.getdata(sample,'train','img')
         segs=mydataFetch.getdata(sample,'train','seg')
-        Y=prepareY(segs,number_of_classes)
-        X=prepareX(imgs)
+        imgs=prepareX(imgs)
+        segs=prepareY(segs,number_of_classes)
     #print "step: ",i
     if i%gap == 0 or i==iterations-1:
-        cp=correct_prediction.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
-        ce=cross_entropy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
+        cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+        ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ac=np.mean(cp)
         ac2=np.mean(cp[1:])
         print("step %d, training accuracy %d, only label: %d, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
         t0 = time()
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
-del X,Y,sample,imgs,segs
+del imgs,segs
 
 
 #testing---------------------------
@@ -116,7 +116,7 @@ if sys.argv[3]=='quicktest':
 
 
 
-modelname=('model_%d_%s'%(epoch,randomstate))
+modelname=('model_%d_%s_%s'%(epoch,randomstate,sys.argv[3]))
 modeldir=('../network/'+modelname)  
 if not os.path.exists(modeldir):
     os.makedirs(modeldir)
