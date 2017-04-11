@@ -50,15 +50,13 @@ def prepareX(gray):
 
 
 
-def testall(resdir='./',number_of_classes=19,objectNum=25,saveres=False):
+def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
     print ("start testing")
     
     if saveres:
        
         if not os.path.exists(resdir):
             os.makedirs(resdir)
-        
-        
     mydataFetch=dataFetch() 
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512])
@@ -79,18 +77,17 @@ def testall(resdir='./',number_of_classes=19,objectNum=25,saveres=False):
                 imgs=prepareX(imgs)
                 segs=prepareY(segs,number_of_classes)
                 if viewInd==0:
-                    slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
                     sliceseg=label3D[startpos:startpos+size,:,:]
                 if viewInd==1:
-                    slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
+                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
                     predict3D[:,startpos:startpos+size,:,1]=slicepre
                     sliceseg=label3D[:,startpos:startpos+size,:]
                 if viewInd==2:
-                    slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
+                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
                     predict3D[:,:,startpos:startpos+size,2]=slicepre
                     sliceseg=label3D[:,:,startpos:startpos+size]
-        
                 print np.mean(sliceseg==slicepre)
         label3D=label3D.flatten()
         predict3DReal=np.zeros([512*512*512])
@@ -177,5 +174,5 @@ if True:
 
      
 resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
-testall(resdir)
+testall(sess,resdir)
 
