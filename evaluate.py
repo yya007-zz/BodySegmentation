@@ -88,6 +88,8 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
                     slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
                     predict3D[:,:,startpos:startpos+size,2]=slicepre
                     sliceseg=label3D[:,:,startpos:startpos+size]
+                print sliceseg
+                print slicepre
                 print np.mean(sliceseg==slicepre)
         label3D=label3D.flatten()
         predict3DReal=np.zeros([512*512*512])
