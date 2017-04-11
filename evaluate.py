@@ -7,7 +7,7 @@ import time
 import sys
 from scipy.misc import imsave
 from test_bd import *
-
+import os
 
 def load_image( infilename ) :
     img = Image.open( infilename )
