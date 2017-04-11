@@ -54,10 +54,10 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
     print ("start testing")
     
     if saveres:
-       
         if not os.path.exists(resdir):
             os.makedirs(resdir)
-    mydataFetch=dataFetch() 
+    
+    mydataFetch=dataFetch(4) 
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512])
         for sliceInd in range(512):
