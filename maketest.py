@@ -1,5 +1,3 @@
-import tensorflow as tf
-import FCN1
 from PIL import Image
 import numpy as np
 import tensorflow as tf
@@ -7,6 +5,8 @@ import time
 import sys
 from scipy.misc import imsave
 from test_bd import *
+
+
 def load_image( infilename ) :
     img = Image.open( infilename )
     img = img.resize((512, 512), Image.NEAREST)      # use nearest neighbour
@@ -50,6 +50,7 @@ def prepareX(gray):
 objectNum=75
 viewNum=3
 size=16
+mydataFetch=dataFetch(4)
 if True:
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
