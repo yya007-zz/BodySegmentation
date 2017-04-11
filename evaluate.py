@@ -48,8 +48,8 @@ def prepareX(gray):
     res[:,:,:,0]= gray-VGG_MEAN[0]    
     return res 
     
-epoch=2
-randomstate='random'
+epoch=1
+randomstate='norandom'
 #load network_________________________
 number_of_classes=19
 size=16
