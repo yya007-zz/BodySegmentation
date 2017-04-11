@@ -198,7 +198,7 @@ if sys.argv[1]=='random':
     randomstate="random"
     np.random.shuffle(selectorder)
 
-size=2
+size=16
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
 speed=1e-5
@@ -216,7 +216,7 @@ gap=int(iterations/100)
 if gap<3:
     gap=3
 
-mydataFetch=dataFetch(3)
+mydataFetch=dataFetch(25)
 print "----------------start building network"
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
