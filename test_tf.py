@@ -183,7 +183,7 @@ trainx, testx, trainy, testy = train_test_split(images, labels, random_state=see
 print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
 '''
 # python test_tf [random?] [echo] [quicktest]
-number_of_classes=19
+
 
 objectNum=75
 viewNum=3
@@ -201,7 +201,7 @@ if sys.argv[1]=='random':
 size=16
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
-speed=1e-5
+
 
 if sys.argv[3]=='quicktest':
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
@@ -218,6 +218,8 @@ if gap<3:
 
 mydataFetch=dataFetch(25)
 print "----------------start building network"
+number_of_classes=19
+speed=1e-5
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
