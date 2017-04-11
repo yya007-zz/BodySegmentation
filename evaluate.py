@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
+def testall(sess,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,saveres=False):
     acs=[]
     print ("start testing")
     
@@ -67,7 +67,7 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
             label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
         predict3D=np.zeros([512,512,512,3])
 
-        for viewInd in range(3):
+        for viewInd in range(viewNum):
         
             selectorder=np.arange(512)
             selectorder=selectorder+objectInd*viewNum*512+viewInd*512
@@ -90,11 +90,13 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
                 if viewInd==2:
                     slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
                     predict3D[:,:,startpos:startpos+size,2]=slicepre
-                    sliceseg=label3D[:,:,startpos:startpos+size]
-                
+                    sliceseg=label3D[:,:,startpos:startpos+size]       
                 ac=np.mean(sliceseg==slicepre)
                 acs.append(ac)
                 print ac
+        if saveres:
+            np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
+            np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
         label3D=label3D.flatten()
         predict3DReal=np.zeros([512*512*512])
         predict3D=predict3D.reshape([512*512*512,3])
@@ -116,8 +118,7 @@ def testall(sess,resdir='./',number_of_classes=19,objectNum=25,saveres=False):
         label3D=label3D[label3D!=0]
         accuracy2=np.mean((predict3DReal==label3D))
         print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
-        if saveres:
-            np.save(resdir+'%d.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
+       
 
  
      
