@@ -58,11 +58,13 @@ modelname=('model_%d_%s'%(epoch,randomstate))
 modeldir=('../network/%s/%s'%(modelname,modelname))
 print "start load network"
 sess = tf.InteractiveSession()
+new_saver = tf.train.import_meta_graph(modeldir+'.meta')
+new_saver.restore(sess,modeldir)
+
+''''
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
 keep_prob = tf.placeholder(tf.float32)
-new_saver = tf.train.import_meta_graph(modeldir+'.meta',clear_devices=True)
-new_saver.restore(sess,modeldir)
 y_conv =tf.get_collection("y_conv")[0]
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 
@@ -71,6 +73,9 @@ correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
+'''
+
+
 #testing---------------------------
 objectNum=25
 viewNum=3
@@ -86,7 +91,8 @@ if True:
         segs=mydataFetch.getdata(sample,'test','seg')
         imgs=prepareX(imgs)
         segs=prepareY(segs,number_of_classes)
-        print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+        print "test"+str(k)
+        print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
     
 
 '''    

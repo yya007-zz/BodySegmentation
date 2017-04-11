@@ -187,6 +187,9 @@ number_of_classes=19
 
 objectNum=75
 viewNum=3
+
+
+print "start setting environment"
 selectorder=np.arange(objectNum*viewNum*512)
 
 
@@ -213,7 +216,8 @@ gap=int(iterations/100)
 if gap<3:
     gap=3
 
-mydataFetch=dataFetch(25)
+mydataFetch=dataFetch(3)
+print "start building network"
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -231,20 +235,18 @@ result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
-
+print "start training"
 pos=0
 t0 = time()
 for i in range(iterations):
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
         
-    t=time()
     pos,sample=next_batch(pos,size,selectorder)
     imgs=mydataFetch.getdata(sample,'train','img')
     segs=mydataFetch.getdata(sample,'train','seg')
     Y=prepareY(segs,number_of_classes)
     X=prepareX(imgs)
-    print time()-t
     #print "step: ",i
     if i%gap == 0 or i==iterations-1:
         ac=accuracy.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
@@ -339,5 +341,5 @@ for objectInd in range(objectNum):
     label3D=label3D[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
-    np.save('../res/%s_%s_%s_%a.npy'%(sys.argv[1],sys.argv[2],sys.argv[3],objectInd),predict3DReal.reshape([512,512,512]))
+    np.save('../res/%s_%s_%s_%d.npy'%(sys.argv[1],sys.argv[2],sys.argv[3],objectInd),predict3DReal.reshape([512,512,512]))
 
