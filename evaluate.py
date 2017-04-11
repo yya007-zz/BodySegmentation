@@ -85,17 +85,17 @@ mydataFetch=dataFetch(4)
 
 
 
-
+'''
 print ("start testing")  
 imgs=np.load('../bigfile/testimgs.npy')
 segs=np.load('../bigfile/testsegs.npy')
 print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-    
-
-
-
-
 '''  
+
+
+
+
+  
 if True:
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
