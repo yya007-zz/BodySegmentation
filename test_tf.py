@@ -189,7 +189,7 @@ objectNum=75
 viewNum=3
 
 
-print "start setting environment"
+print "----------------start setting environment"
 selectorder=np.arange(objectNum*viewNum*512)
 
 
@@ -217,7 +217,7 @@ if gap<3:
     gap=3
 
 mydataFetch=dataFetch(3)
-print "start building network"
+print "----------------start building network"
 #Network structure--------------------------                                 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
@@ -235,7 +235,7 @@ result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
-print "start training"
+print "----------------start training"
 pos=0
 t0 = time()
 for i in range(iterations):
@@ -260,7 +260,7 @@ del X,Y,sample,imgs,segs
 #testing---------------------------
 
 
-print ("start saving model")
+print ("----------------start saving model")
 objectNum=25
 viewNum=3
 mydataFetch.clear()
