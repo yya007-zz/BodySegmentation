@@ -10,6 +10,110 @@ from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
 from test_bd import *
 from evaluate import *
+def weight_variable(shape):
+  initial = tf.truncated_normal(shape, stddev=0.1)
+  return tf.Variable(initial)
+
+def bias_variable(shape):
+  initial = tf.constant(0.1, shape=shape)
+  return tf.Variable(initial)
+def conv2dtf(x, W):
+  return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
+  
+def conv2d(inMat,Weights):
+  W_conv1 = weight_variable(Weights)
+  b_conv1 = bias_variable([Weights[-1]])
+  h_conv1 = tf.nn.relu(conv2dtf(inMat, W_conv1) + b_conv1)
+  return h_conv1
+
+def upsample_filt(size):
+    """
+    Make a 2D bilinear kernel suitable for upsampling of the given (h, w) size.
+    """
+    factor = (size + 1) // 2
+    if size % 2 == 1:
+        center = factor - 1
+    else:
+        center = factor - 0.5
+    og = np.ogrid[:size, :size]
+    return (1 - abs(og[0] - center) / factor) * \
+           (1 - abs(og[1] - center) / factor)
+           
+def bilinear_upsample_weights(factor, number_of_classes):
+    """
+    Create weights matrix for transposed convolution with bilinear filter
+    initialization.
+    """
+    
+    filter_size = get_kernel_size(factor)
+    
+    weights = np.zeros((filter_size,
+                        filter_size,
+                        number_of_classes,
+                        number_of_classes), dtype=np.float32)
+    
+    upsample_kernel = upsample_filt(filter_size)
+    
+    for i in xrange(number_of_classes):
+        
+        weights[:, :, i, i] = upsample_kernel
+    
+    return weights
+    
+def deconv2d(inMat,upsample_factor=2,number_of_classes=2):
+  upsample_filter_np = bilinear_upsample_weight(upsample_factor,number_of_classes)
+  upsample_filter_tensor = tf.constant(upsample_filter_np)
+  downsampled_logits_shape = tf.shape(inMat)
+  upsampled_logits = tf.nn.conv2d_transpose(inMat, upsample_filter_tensor,
+                                 output_shape=upsampled_logits_shape,
+                                 strides=[1, upsample_factor, upsample_factor, 1])
+  return upsampled_logits
+  
+def densityLayer(net,insize,outsize):
+  W_fc2 = weight_variable([insize, outsize])
+  b_fc2 = bias_variable([outsize])
+  y_conv = tf.matmul(net, W_fc2) + b_fc2
+
+
+
+#Data preparation--------------------------
+'''
+number_of_classes=2  
+home='.'
+image_filename = home+'/data/imgs/cat.jpg'
+annotation_filename = home+'/data/imgs/cat_annotation.png'
+testx=load_image(image_filename)
+testy=load_image(annotation_filename)[:,:,0]
+
+testx=testx.reshape(1,512,512,3)
+testy=testy.reshape(1,512,512,1)
+
+for i in range(6):
+  testx=np.concatenate((testx,testx),axis=0)
+  testy=np.concatenate((testy,testy),axis=0)
+  
+testy=prepareY(testy,number_of_classes)
+testx=prepareX(testx)
+trainx=testx
+trainy=testy
+testx=testx
+testy=testy 
+                             
+print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
+
+number_of_classes=13  
+home='../bigfile'
+imgdir = home+'/img_3.npy'
+segdir = home+'/seg_3.npy'
+images=np.load(imgdir)
+labels=np.load(segdir)
+images = prepareX(images)
+labels= prepareY(labels,number_of_classes)
+
+seed = int(time.time())
+trainx, testx, trainy, testy = train_test_split(images, labels, random_state=seed, train_size=0.9)
+print  'data shape',trainx.shape,trainy.shape,testx.shape,testy.shape
+'''
 # python test_tf [random?] [echo] [quicktest]
 
 
