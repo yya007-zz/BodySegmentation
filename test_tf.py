@@ -123,60 +123,8 @@ saver0.export_meta_graph(modeldir+'.meta')
     
 
 resdir='../res/%s_%s_%s'%(sys.argv[1],sys.argv[2],sys.argv[3])
-testall(sess,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
+testall(sess,result,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
 
 
 
-'''
-if not os.path.exists(resdir):
-    os.makedirs(resdir)
-mydataFetch.clear() 
-   
-for objectInd in range(objectNum):
-    label3D=np.zeros([512,512,512])
-    for sliceInd in range(512):
-        label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
-    predict3D=np.zeros([512,512,512,3])
 
-    for viewInd in range(3):
-    
-        selectorder=np.arange(512)
-        selectorder=selectorder+objectInd*viewNum*512+viewInd*512
-        pos=0
-        for sliceInd in range(512/size):
-            startpos=pos
-            pos,sample=next_batch(pos,size,selectorder)
-            imgs=mydataFetch.getdata(sample,'test','img')
-            segs=mydataFetch.getdata(sample,'test','seg')
-            imgs=prepareX(imgs)
-            segs=prepareY(segs,number_of_classes)
-            if viewInd==0:
-                predict3D[startpos:startpos+size,:,:,0]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-            if viewInd==1:
-                predict3D[:,startpos:startpos+size,:,1]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
-            if viewInd==2:
-                predict3D[:,:,startpos:startpos+size,2]=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
-    
-    
-    label3D=label3D.flatten()
-    predict3DReal=np.zeros([512*512*512])
-    predict3D=predict3D.reshape([512*512*512,3])
-    
-    accuracy=np.mean((predict3D[:,0]==label3D))
-    accuracy1=np.mean((predict3D[:,1]==label3D))
-    accuracy2=np.mean((predict3D[:,2]==label3D))
-    print "object-%d view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2)
-    
-    
-    predict3DReal=predict3D[:,2]
-    needchange=(predict3D[:,0]==predict3D[:,1])
-    predict3DReal[needchange]=predict3D[needchange,0]
-       
-    accuracy1=np.mean((predict3DReal==label3D))
-    
-    predict3DReal=predict3DReal[label3D!=0]
-    label3D=label3D[label3D!=0]
-    accuracy2=np.mean((predict3DReal==label3D))
-    print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
-    np.save(resdir+'%d.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
-'''
