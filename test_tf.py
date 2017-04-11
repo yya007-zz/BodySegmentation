@@ -113,7 +113,12 @@ def load_image( infilename ) :
 def save_image( npdata, outfilename ) :
     img = Image.fromarray( np.asarray( np.clip(npdata,0,255), dtype="uint8"), "L" )
     img.save( outfilename )
-
+def next_batch(pos,size,data):
+  if pos+size<data.shape[0]:
+    return pos+size,data[pos:pos+size]
+  else:
+    return pos+size-data.shape[0],np.concatenate((data[pos:],data[0:pos+size-data.shape[0]]),axis=0)
+   
 def prepareY(y,number_of_classes):
     yf=y.flatten()
     #print yf.shape
@@ -215,6 +220,7 @@ x = tf.placeholder(tf.float32, shape=[None,512,512,3])
 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
 keep_prob = tf.placeholder(tf.float32)
 y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
+tf.add_to_collection("y_conv", y_conv)
 cross_entropy = tf.reduce_mean(
     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 
@@ -225,7 +231,7 @@ result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
-'''
+
 pos=0
 t0 = time()
 for i in range(iterations):
@@ -247,7 +253,7 @@ for i in range(iterations):
         t0 = time()
     train_step.run(feed_dict={x: X, y_: Y, keep_prob: 0.5})
 del X,Y,sample,imgs,segs
-'''
+
 
 #testing---------------------------
 
