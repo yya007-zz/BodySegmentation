@@ -173,12 +173,4 @@ label3D=label3D[label3D!=0]
 accuracy2=np.mean((predict3DReal==label3D))
 print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
 '''
-number_of_classes=19
-
-objectNum=75
-viewNum=3
-selectorder=np.arange(objectNum*viewNum*512)
-print len(selectorder)   
-np.random.shuffle(selectorder)
-print len(selectorder)    
 
