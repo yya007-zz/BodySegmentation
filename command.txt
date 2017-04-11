@@ -3,9 +3,11 @@ Deconvolution Layers are initialized as bilinear upsampling. Conv and FCN layer 
 Step1 ssh to accre
 
 Step2 request GPU node
-salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=20G
-salloc --account=p_masi_gpu  --partition=fermi --ntasks=4 --nodes=1 --gres=gpu:2 --time=10:00:00 --mem=20G
-Step3 load tensorflow 0.12
+salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
+
+
+
+ Step3 load tensorflow 0.12
 setpkgs -a tensorflow_0.12
 
 Step4 setup your anaconda envrioment

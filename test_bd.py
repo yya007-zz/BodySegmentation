@@ -173,4 +173,3 @@ label3D=label3D[label3D!=0]
 accuracy2=np.mean((predict3DReal==label3D))
 print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
 '''
-
