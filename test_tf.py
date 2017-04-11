@@ -198,7 +198,7 @@ if sys.argv[1]=='random':
     randomstate="random"
     np.random.shuffle(selectorder)
 
-size=16
+size=2
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
 speed=1e-5
