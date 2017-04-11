@@ -70,12 +70,11 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
 
 
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
-    modelname=('model_%d_%s'%(epoch,randomstate))
-    modeldir=('../network/%s/%s'%(modelname,modelname))
-    new_saver = tf.train.import_meta_graph(modeldir+'.meta')
-    new_saver.restore(sess,modeldir)
+sess.run(tf.global_variables_initializer())
+modelname=('model_%d_%s'%(epoch,randomstate))
+modeldir=('../network/%s/%s'%(modelname,modelname))
+new_saver = tf.train.import_meta_graph(modeldir+'.meta')
+new_saver.restore(sess,modeldir)
 
 
 
