@@ -226,7 +226,6 @@ x = tf.placeholder(tf.float32, shape=[None,512,512,3])
 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
 keep_prob = tf.placeholder(tf.float32)
 y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
-tf.add_to_collection("y_conv", y_conv)
 cross_entropy = tf.reduce_mean(
     tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 

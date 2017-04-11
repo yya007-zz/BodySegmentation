@@ -90,7 +90,7 @@ print ("start testing")
 imgs=np.load('../bigfile/testimgs.npy')
 segs=np.load('../bigfile/testsegs.npy')
 print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-'''  
+ 
 
 
 
@@ -108,7 +108,7 @@ if True:
         segs=prepareY(segs,number_of_classes)
         print "test"+str(k)
         print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-    
+'''     
 
   
 for objectInd in range(objectNum):
@@ -157,5 +157,5 @@ for objectInd in range(objectNum):
     label3D=label3D[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
     print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)
-    np.save('../evaluate/%s_%s_%s_%a.npy'%(sys.argv[1],sys.argv[2],sys.argv[3],objectInd),predict3DReal.reshape([512,512,512]))
-'''
+    #np.save(resdir+'%d.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
+
