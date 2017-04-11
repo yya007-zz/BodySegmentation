@@ -244,12 +244,15 @@ t0 = time()
 for i in range(iterations):
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
-        
-    pos,sample=next_batch(pos,size,selectorder)
-    imgs=mydataFetch.getdata(sample,'train','img')
-    segs=mydataFetch.getdata(sample,'train','seg')
-    Y=prepareY(segs,number_of_classes)
-    X=prepareX(imgs)
+    if sys.argv[3]=='quicktest':
+        Y=np.load('../bigfile/testimgs.npy')
+        X=np.load('../bigfile/testsegs.npy')
+    else:    
+        pos,sample=next_batch(pos,size,selectorder)
+        imgs=mydataFetch.getdata(sample,'train','img')
+        segs=mydataFetch.getdata(sample,'train','seg')
+        Y=prepareY(segs,number_of_classes)
+        X=prepareX(imgs)
     #print "step: ",i
     if i%gap == 0 or i==iterations-1:
         cp=correct_prediction.eval(feed_dict={x: X, y_: Y,keep_prob: 1.0})
