@@ -61,9 +61,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
     
     mydataFetch=dataFetch(2) 
     for objectInd in range(objectNum):
-        label3D=np.zeros([512,512,512]).astype(int)
+        label3D=np.zeros([512,512,512])
         for sliceInd in range(512):
             label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
+        label3D=label3D.astype(int)
             
             
             
@@ -107,9 +108,7 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)
                     print np.bincount(slicepreflat)
                     print np.bincount(labelflat)
-                    del slicepreflat,labelflat,acc
-  
-            
+                    del slicepreflat,labelflat,acc          
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
@@ -149,6 +148,6 @@ def evaluate_res(resdir='./',objectNum=25):
         label3D=np.load(resdir+'%d_seg.npy'%(objectInd),load)
         predict3D=np.load(resdir+'%d_pre.npy'%(objectInd),load)
         test3D(objectInd,label3D,predict3D)
-        save_image(predict3D[:,:,256],resdir+'%d_pre.'%(objectInd))
-        save_image(label3D[:,:,256],resdir+'%d_seg.'%(objectInd))
+        save_image(predict3D[:,:,256],resdir+'%d_pre.png'%(objectInd))
+        save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
 
