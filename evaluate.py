@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=false,saveres=False):
+def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -75,11 +75,11 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                 if quicktest and (sliceInd>0 or viewInd>0):
                     break
                 startpos=pos
+                pos,sample=next_batch(pos,size,selectorder)
                 if quicktest:
                     imgs=np.load('../bigfile/testimgs.npy')
                     segs=np.load('../bigfile/testsegs.npy')
-                else:
-                    pos,sample=next_batch(pos,size,selectorder)
+                else: 
                     imgs=mydataFetch.getdata(sample,'test','img')
                     segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
