@@ -80,7 +80,8 @@ for i in range(iterations):
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if i%gap == 0 or i==iterations-1:
-        cp,ce=sess.run([correct_prediction,cross_entropy],feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+        cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+        ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ac=np.mean(cp)
         ac2=np.mean(cp[1:])
         print("step %d, training accuracy %d, only label: %d, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
