@@ -43,7 +43,6 @@ class dataFetch(object):
                 img=self.tempStore[i]
                 flag=False
         if flag:
-            print "insert new"
             img=sio.loadmat(imgdir)
             img=img[subset+'_3D'] 
             self.tempStore[self.nextsave]=img  
