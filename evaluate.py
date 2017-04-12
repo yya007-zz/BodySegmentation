@@ -41,7 +41,6 @@ def prepareY(y,number_of_classes):
     
 #0-255 2d gray image
 def prepareX(gray):
-    #gray=gray.astype(int)
     #gray=gray.astype(float)
     VGG_MEAN = [103.939, 116.779, 123.68]
     res=np.zeros([gray.shape[0],512,512,3])
@@ -51,7 +50,7 @@ def prepareX(gray):
     return res 
 
 
-
+### test all test case
 def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
@@ -96,17 +95,14 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
                 if printstep:
                     if viewInd==0:
-                        acc=np.mean(label3D[startpos:startpos+size,:,:,0]==slicepre)
+                        acc=np.mean(label3D[startpos:startpos+size,:,:,0].flatten()==slicepre.flatten())
                     if viewInd==1:
-                        acc=np.mean(label3D[:,startpos:startpos+size,:,1]==slicepre.transpose(1,0,2))
+                        acc=np.mean(label3D[:,startpos:startpos+size,:,1].flatten()==slicepre.transpose(1,0,2).flatten())
                     if viewInd==2:
-                        acc=np.mean(label3D[:,:,startpos:startpos+size,2]==slicepre.transpose(1,2,0))
+                        acc=np.mean(label3D[:,:,startpos:startpos+size,2].flatten()==slicepre.transpose(1,2,0).flatten())
                     print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)  
   
-   
             
-            
-             
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
@@ -136,5 +132,20 @@ def test3D(objectInd,label3D,predict3D):
     accuracy3=np.mean((predict3DReal==label3Dno0))
     
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
+
+
+### unfinished
+def print2D():
+    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
+    selectorder=selectorder+2*512+256
+    pos=0
+    for k in range(len(selectorder)/size):
+        pos,sample=next_batch(pos,size,selectorder)       
+        imgs=mydataFetch.getdata(sample,'test','img')
+        segs=mydataFetch.getdata(sample,'test','seg')
+        imgs=prepareX(imgs)
+        segs=prepareY(segs,number_of_classes)
+        print "test"+str(k)
+        print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
 
 

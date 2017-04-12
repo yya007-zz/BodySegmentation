@@ -47,26 +47,5 @@ viewNum=3
 mydataFetch=dataFetch(4)
 
 
-
-'''
-print ("start testing")  
-imgs=np.load('../bigfile/testimgs.npy')
-segs=np.load('../bigfile/testsegs.npy')
-print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
- 
-  
-if True:
-    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
-    selectorder=selectorder+2*512+256
-    pos=0
-    for k in range(len(selectorder)/size):
-        pos,sample=next_batch(pos,size,selectorder)       
-        imgs=mydataFetch.getdata(sample,'test','img')
-        segs=mydataFetch.getdata(sample,'test','seg')
-        imgs=prepareX(imgs)
-        segs=prepareY(segs,number_of_classes)
-        print "test"+str(k)
-        print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-'''
 resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
 testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=True)
