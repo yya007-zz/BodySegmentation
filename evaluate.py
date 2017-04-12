@@ -143,6 +143,7 @@ def test3D(objectInd,label3D,predict3D):
 #evaluate and visualize performance based on saved prediction result
 def evaluate_res(resdir='./',objectNum=25):
     for objectInd in range(objectNum):
+        print 'evaluate %d'%(objectInd)
         label3D=np.load(resdir+'%d_seg.npy'%(objectInd),load)
         predict3D=np.load(resdir+'%d_pre.npy'%(objectInd),load)
         test3D(objectInd,label3D,predict3D)
