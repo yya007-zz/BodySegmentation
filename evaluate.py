@@ -94,11 +94,9 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                 if viewInd==2:
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
                 if printstep:
-                    
-                    
                     if viewInd==0:
                         slicepreflat=slicepre.flatten()
-                        labelflat=label3D[startpos:startpos+size,:,:]
+                        labelflat=label3D[startpos:startpos+size,:,:].flatten()
                     if viewInd==1:
                         slicepreflat=slicepre.transpose(1,0,2).flatten()
                         labelflat=label3D[:,startpos:startpos+size,:].flatten()
