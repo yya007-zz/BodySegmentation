@@ -53,7 +53,7 @@ def prepareX(gray):
 
 
 def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
-    acs=[]
+    
     print ("start testing")
     
     if saveres:
@@ -92,35 +92,36 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNu
                     sliceseg=label3D[:,:,startpos:startpos+size]       
                 ac=np.mean(sliceseg==slicepre)
                 print ac
-                acs.append(ac)
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
+        
         test3D(objectInd,label3D,predict3D)
-       
+        
 def test3D(objectInd,label3D,predict3D):
     label3D=label3D.flatten()
     predict3DReal=np.zeros([512*512*512])
     predict3D=predict3D.reshape([512*512*512,3])
-    
-    accuracy=np.mean((predict3D[:,0]==label3D))
-    accuracy1=np.mean((predict3D[:,1]==label3D))
-    accuracy2=np.mean((predict3D[:,2]==label3D))
-    accuracy3=np.mean(np.array(acs))
-    print "object-%d view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2)
-    
-    
     predict3DReal=predict3D[:,2]
     needchange=(predict3D[:,0]==predict3D[:,1])
     predict3DReal[needchange]=predict3D[needchange,0]
-       
-    accuracy1=np.mean((predict3DReal==label3D))
-    
+    accuracy=np.mean((predict3DReal==label3D))
+    accuracy1=np.mean((predict3D[:,0]==label3D))
+    accuracy2=np.mean((predict3D[:,1]==label3D))
+    accuracy3=np.mean((predict3D[:,2]==label3D))
+    print "object-%d vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
     predict3DReal=predict3DReal[label3D!=0]
     label3D=label3D[label3D!=0]
+    accuracy=np.mean((predict3DReal==label3D))
+    predict3DReal=predict3D[:,0]
+    predict3DReal=predict3DReal[label3D!=0]
+    accuracy1=np.mean((predict3DReal==label3D))
+    predict3DReal=predict3D[:,1]
+    predict3DReal=predict3DReal[label3D!=0]
     accuracy2=np.mean((predict3DReal==label3D))
-    print "object-%d total accuracy: %.4f,only with label:%.4f"%(objectInd,accuracy1,accuracy2)   
- 
-     
+    predict3DReal=predict3D[:,2]
+    predict3DReal=predict3DReal[label3D!=0]
+    accuracy3=np.mean((predict3DReal==label3D))
+    print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
 
