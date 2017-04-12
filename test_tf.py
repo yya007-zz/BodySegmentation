@@ -63,9 +63,8 @@ sess.run(tf.global_variables_initializer())
 print "----------------start training"
 pos=0
 t0 = time()
+print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
 for i in range(iterations):
-    if i==0:
-        print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if sys.argv[3]=='quicktest':
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
