@@ -46,7 +46,7 @@ class dataFetch(object):
         if flag:
             self.addnewcount=self.addnewcount+1
             img=sio.loadmat(imgdir)
-            img=img[subset+'_3D'] 
+            img=img[subset+'_3D']
             self.tempStore[self.nextsave]=img  
             self.tempStoreName[self.nextsave]=imgdir
             self.nextsave=(self.nextsave+1)%self.savelen

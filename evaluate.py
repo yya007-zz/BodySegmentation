@@ -60,13 +60,15 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
         if not os.path.exists(resdir):
             os.makedirs(resdir)
     
-    mydataFetch=dataFetch(4) 
+    mydataFetch=dataFetch(2) 
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512])
         for sliceInd in range(512):
             label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
+            
+            
+            
         predict3D=np.zeros([512,512,512,3])
-
         for viewInd in range(viewNum):
             selectorder=np.arange(512)
             selectorder=selectorder+objectInd*viewNum*512+viewInd*512
@@ -84,7 +86,7 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
-                
+                    #segs=np.zeros([512,512,19])
                 slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
@@ -92,9 +94,19 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     predict3D[:,startpos:startpos+size,:,1]=slicepre.transpose(1,0,2)
                 if viewInd==2:
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
-                if printstep and sliceInd%10==1:
-                    print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)  
-                    print mydataFetch.addnewcount   
+                if printstep:
+                    if viewInd==0:
+                        acc=np.mean(label3D[startpos:startpos+size,:,:,0]==slicepre)
+                    if viewInd==1:
+                        acc=np.mean(label3D[:,startpos:startpos+size,:,1]==slicepre.transpose(1,0,2))
+                    if viewInd==2:
+                        acc=np.mean(label3D[:,:,startpos:startpos+size,2]==slicepre.transpose(1,2,0))
+                    print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)  
+  
+   
+            
+            
+             
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
