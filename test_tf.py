@@ -84,7 +84,7 @@ for i in range(iterations):
         ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ac=np.mean(cp)
         ac2=np.mean(cp[1:])
-        print("step %d, training accuracy %d, only label: %d, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
+        print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
         t0 = time()
     train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
 del imgs,segs,mydataFetch
