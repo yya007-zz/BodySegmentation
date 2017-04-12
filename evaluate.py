@@ -84,12 +84,14 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
+                
+                slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==0:
-                    predict3D[startpos:startpos+size,:,:,0]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+                    predict3D[startpos:startpos+size,:,:,0]=slicepre
                 if viewInd==1:
-                    predict3D[:,startpos:startpos+size,:,1]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
+                    predict3D[:,startpos:startpos+size,:,1]=slicepre.transpose(1,0,2)
                 if viewInd==2:
-                    predict3D[:,:,startpos:startpos+size,2]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
+                    predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
                 if printstep and sliceInd%100==0:
                     print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)     
         if saveres:
