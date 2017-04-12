@@ -72,10 +72,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
             selectorder=selectorder+objectInd*viewNum*512+viewInd*512
             pos=0
             for sliceInd in range(512/size):
+                if quicktest and (sliceInd>0 or viewInd>0):
+                    break
                 startpos=pos
                 if quicktest:
-                    if sliceInd>0 or viewInd>0:
-                        break
                     imgs=np.load('../bigfile/testimgs.npy')
                     segs=np.load('../bigfile/testsegs.npy')
                 else:
