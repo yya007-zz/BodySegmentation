@@ -61,12 +61,3 @@ scp -r /scratch/yaoy4/network yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/netw
 scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/  
 
 
-squeue 
-norand 1
-norand 10
-rand 1
-rand 10
- 13829709
- 13829777
-
-

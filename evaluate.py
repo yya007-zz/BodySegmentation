@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
+def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
     
     print ("start testing")
     
@@ -67,17 +67,23 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNu
             label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
         predict3D=np.zeros([512,512,512,3])
 
-        for viewInd in range(0):
+        for viewInd in range(viewNum):
             selectorder=np.arange(512)
             selectorder=selectorder+objectInd*viewNum*512+viewInd*512
             pos=0
-            for sliceInd in range(1):
+            for sliceInd in range(512/size):
                 startpos=pos
-                pos,sample=next_batch(pos,size,selectorder)
-                imgs=mydataFetch.getdata(sample,'test','img')
-                segs=mydataFetch.getdata(sample,'test','seg')
-                imgs=prepareX(imgs)
-                segs=prepareY(segs,number_of_classes)
+                if quicktest:
+                    if sliceInd>0 or viewInd>0:
+                        break
+                    imgs=np.load('../bigfile/testimgs.npy')
+                    segs=np.load('../bigfile/testsegs.npy')
+                else:
+                    pos,sample=next_batch(pos,size,selectorder)
+                    imgs=mydataFetch.getdata(sample,'test','img')
+                    segs=mydataFetch.getdata(sample,'test','seg')
+                    imgs=prepareX(imgs)
+                    segs=prepareY(segs,number_of_classes)
                 if viewInd==0:
                     slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
@@ -90,8 +96,6 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNu
                     slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
                     predict3D[:,:,startpos:startpos+size,2]=slicepre
                     sliceseg=label3D[:,:,startpos:startpos+size]       
-                ac=np.mean(sliceseg==slicepre)
-                print ac
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
@@ -110,15 +114,16 @@ def test3D(objectInd,label3D,predict3D):
     accuracy2=np.mean((predict3D[:,1]==label3D))
     accuracy3=np.mean((predict3D[:,2]==label3D))
     print "object-%d vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
+    label3Dno0=label3D[label3D!=0]
     predict3DReal=predict3DReal[label3D!=0]
-    label3D=label3D[label3D!=0]
-    accuracy=np.mean((predict3DReal==label3D))
+    accuracy=np.mean((predict3DReal==label3Dno0))
     predict3DReal=predict3D[label3D!=0,0]
-    accuracy1=np.mean((predict3DReal==label3D))
+    accuracy1=np.mean((predict3DReal==label3Dno0))
     predict3DReal=predict3D[label3D!=0,1]
-    accuracy2=np.mean((predict3DReal==label3D))
+    accuracy2=np.mean((predict3DReal==label3Dno0))
     predict3DReal=predict3D[label3D!=0,2]
-    accuracy3=np.mean((predict3DReal==label3D))
+    accuracy3=np.mean((predict3DReal==label3Dno0))
+    
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
 
