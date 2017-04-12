@@ -150,7 +150,7 @@ def evaluate_res(resdir='./',objectNum=25):
         test3D(objectInd,label3D,predict3D)
         save_image(predict3D[:,:,256,2],resdir+'%d_pre.png'%(objectInd))
         save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
-        print np.mean(predict3D[:,:,256]==label3D[:,:,256,2])
+        print np.mean(predict3D[:,:,256,2]==label3D[:,:,256])
 
 
 evaluate_res(resdir='../res/norandom_1_noquicktest/')
