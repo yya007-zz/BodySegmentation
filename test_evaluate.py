@@ -49,3 +49,4 @@ mydataFetch=dataFetch(4)
 
 resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
 testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=True)
+evaluate_res(resdir=resdir)
