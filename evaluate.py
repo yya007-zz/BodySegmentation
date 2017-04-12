@@ -63,8 +63,7 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512])
         for sliceInd in range(512):
-            label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
-    
+            label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')       
         predict3D=np.zeros([512,512,512,3])
         for viewInd in range(viewNum):
             selectorder=np.arange(512)
