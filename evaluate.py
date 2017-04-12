@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,result,x,y_,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
+def testall(sess,result,x,y_,keep_prob,resdir='./',number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
     acs=[]
     print ("start testing")
     
