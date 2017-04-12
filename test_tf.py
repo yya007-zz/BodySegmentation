@@ -41,6 +41,7 @@ if gap<3:
     gap=3
 
 mydataFetch=dataFetch(25)
+
 print "----------------start building network"
 number_of_classes=19
 speed=1e-5
@@ -64,7 +65,6 @@ sess.run(tf.global_variables_initializer())
 print "----------------start training"
 pos=0
 t0 = time()
-print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
 for i in range(iterations):
     if sys.argv[3]=='quicktest':
         imgs=np.load('../bigfile/testimgs.npy')
@@ -76,6 +76,9 @@ for i in range(iterations):
         imgs=prepareX(imgs)
         segs=prepareY(segs,number_of_classes)
     #print "step: ",i
+    
+    if i==0:
+        print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if i%gap == 0 or i==iterations-1:
         cp,ce=sess.run([correct_prediction,cross_entropy],feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ac=np.mean(cp)
