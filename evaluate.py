@@ -82,10 +82,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     segs=np.load('../bigfile/testsegs.npy')
                 else: 
                     imgs=mydataFetch.getdata(sample,'test','img')
-                    #segs=mydataFetch.getdata(sample,'test','seg')
+                    segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
-                    #segs=prepareY(segs,number_of_classes)
-                    segs=np.zeros([size,512,512,19])
+                    segs=prepareY(segs,number_of_classes)
+                    #segs=np.zeros([size,512,512,19])
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
