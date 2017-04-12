@@ -61,7 +61,7 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
     
     mydataFetch=dataFetch(2) 
     for objectInd in range(objectNum):
-        label3D=np.zeros([512,512,512])
+        label3D=np.zeros([512,512,512]).astype(int)
         for sliceInd in range(512):
             label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')
             
