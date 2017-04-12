@@ -82,10 +82,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     segs=np.load('../bigfile/testsegs.npy')
                 else: 
                     imgs=mydataFetch.getdata(sample,'test','img')
-                    segs=mydataFetch.getdata(sample,'test','seg')
+                    #segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
-                    segs=prepareY(segs,number_of_classes)
-                    #segs=np.zeros([size,512,512,19])
+                    #segs=prepareY(segs,number_of_classes)
+                    segs=np.zeros([size,512,512,19])
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
@@ -94,13 +94,22 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                 if viewInd==2:
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
                 if printstep:
+                    
+                    
                     if viewInd==0:
-                        acc=np.mean(label3D[startpos:startpos+size,:,:].flatten()==slicepre.flatten())
+                        slicepreflat=slicepre.flatten()
+                        labelflat=label3D[startpos:startpos+size,:,:]
                     if viewInd==1:
-                        acc=np.mean(label3D[:,startpos:startpos+size,:].flatten()==slicepre.transpose(1,0,2).flatten())
+                        slicepreflat=slicepre.transpose(1,0,2).flatten()
+                        labelflat=label3D[:,startpos:startpos+size,:].flatten()
                     if viewInd==2:
-                        acc=np.mean(label3D[:,:,startpos:startpos+size].flatten()==slicepre.transpose(1,2,0).flatten())
-                    print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)  
+                        slicepreflat=slicepre.transpose(1,2,0).flatten()
+                        labelflat=label3D[:,:,startpos:startpos+size].flatten()
+                    acc=np.mean(labelflat==slicepreflat)
+                    print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)
+                    print np.bincount(slicepreflat)
+                    print np.bincount(labelflat)
+                    del slicepreflat,labelflat,acc
   
             
         if saveres:
