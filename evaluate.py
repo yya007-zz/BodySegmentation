@@ -52,7 +52,7 @@ def prepareX(gray):
 
 
 
-def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,saveres=False):
+def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=false,saveres=False):
     
     print ("start testing")
     
@@ -74,8 +74,6 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
             for sliceInd in range(512/size):
                 if quicktest and (sliceInd>0 or viewInd>0):
                     break
-                if sliceInd%100==0:
-                    print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)
                 startpos=pos
                 if quicktest:
                     imgs=np.load('../bigfile/testimgs.npy')
@@ -87,17 +85,13 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
                 if viewInd==0:
-                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-                    predict3D[startpos:startpos+size,:,:,0]=slicepre
-                    sliceseg=label3D[startpos:startpos+size,:,:]
+                    predict3D[startpos:startpos+size,:,:,0]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==1:
-                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
-                    predict3D[:,startpos:startpos+size,:,1]=slicepre
-                    sliceseg=label3D[:,startpos:startpos+size,:]
+                    predict3D[:,startpos:startpos+size,:,1]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,0,2)
                 if viewInd==2:
-                    slicepre=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
-                    predict3D[:,:,startpos:startpos+size,2]=slicepre
-                    sliceseg=label3D[:,:,startpos:startpos+size]       
+                    predict3D[:,:,startpos:startpos+size,2]=sess.run(result,feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).transpose(1,2,0)
+                if printstep and sliceInd%100==0:
+                    print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)     
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
