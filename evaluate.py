@@ -113,14 +113,11 @@ def test3D(objectInd,label3D,predict3D):
     predict3DReal=predict3DReal[label3D!=0]
     label3D=label3D[label3D!=0]
     accuracy=np.mean((predict3DReal==label3D))
-    predict3DReal=predict3D[:,0]
-    predict3DReal=predict3DReal[label3D!=0]
+    predict3DReal=predict3D[label3D!=0,0]
     accuracy1=np.mean((predict3DReal==label3D))
-    predict3DReal=predict3D[:,1]
-    predict3DReal=predict3DReal[label3D!=0]
+    predict3DReal=predict3D[label3D!=0,1]
     accuracy2=np.mean((predict3DReal==label3D))
-    predict3DReal=predict3D[:,2]
-    predict3DReal=predict3DReal[label3D!=0]
+    predict3DReal=predict3D[label3D!=0,2]
     accuracy3=np.mean((predict3DReal==label3D))
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
