@@ -79,10 +79,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     segs=np.load('../bigfile/testsegs.npy')
                 else: 
                     imgs=mydataFetch.getdata(sample,'test','img')
-                    segs=mydataFetch.getdata(sample,'test','seg')
+                    #segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
-                    segs=prepareY(segs,number_of_classes)
-                    #segs=np.zeros([size,512,512,19]).astype(int)
+                    #segs=prepareY(segs,number_of_classes)
+                    segs=np.zeros([size,512,512,19]).astype(int)
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
@@ -101,11 +101,11 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                         slicepreflat=slicepre.transpose(1,2,0).flatten()
                         labelflat=label3D[:,:,startpos:startpos+size].flatten()
                     acc=np.mean(labelflat==slicepreflat)
-                    segflat=segs.flatten()
+                    #segflat=segs.flatten()
                     print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)
                     print np.bincount(slicepreflat)
                     print np.bincount(labelflat)
-                    print np.bincount(segflat.astype(int))
+                    #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc          
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
