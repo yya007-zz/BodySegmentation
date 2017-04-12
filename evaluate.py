@@ -95,11 +95,11 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
                 if printstep:
                     if viewInd==0:
-                        acc=np.mean(label3D[startpos:startpos+size,:,:,0].flatten()==slicepre.flatten())
+                        acc=np.mean(label3D[startpos:startpos+size,:,:].flatten()==slicepre.flatten())
                     if viewInd==1:
-                        acc=np.mean(label3D[:,startpos:startpos+size,:,1].flatten()==slicepre.transpose(1,0,2).flatten())
+                        acc=np.mean(label3D[:,startpos:startpos+size,:].flatten()==slicepre.transpose(1,0,2).flatten())
                     if viewInd==2:
-                        acc=np.mean(label3D[:,:,startpos:startpos+size,2].flatten()==slicepre.transpose(1,2,0).flatten())
+                        acc=np.mean(label3D[:,:,startpos:startpos+size].flatten()==slicepre.transpose(1,2,0).flatten())
                     print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)  
   
             
@@ -134,18 +134,14 @@ def test3D(objectInd,label3D,predict3D):
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
 
-### unfinished
-def print2D():
-    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
-    selectorder=selectorder+2*512+256
-    pos=0
-    for k in range(len(selectorder)/size):
-        pos,sample=next_batch(pos,size,selectorder)       
-        imgs=mydataFetch.getdata(sample,'test','img')
-        segs=mydataFetch.getdata(sample,'test','seg')
-        imgs=prepareX(imgs)
-        segs=prepareY(segs,number_of_classes)
-        print "test"+str(k)
-        print sess.run(accuracy,feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
 
+
+#evaluate and visualize performance based on saved prediction result
+def evaluate_res(resdir='./',objectNum=25):
+    for objectInd in range(objectNum):
+        label3D=np.load(resdir+'%d_seg.npy'%(objectInd),load)
+        predict3D=np.load(resdir+'%d_pre.npy'%(objectInd),load)
+        test3D(objectInd,label3D,predict3D)
+        save_image(predict3D[:,:,256],resdir+'%d_pre.'%(objectInd))
+        save_image(label3D[:,:,256],resdir+'%d_seg.'%(objectInd))
 
