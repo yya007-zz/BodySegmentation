@@ -92,8 +92,9 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     predict3D[:,startpos:startpos+size,:,1]=slicepre.transpose(1,0,2)
                 if viewInd==2:
                     predict3D[:,:,startpos:startpos+size,2]=slicepre.transpose(1,2,0)
-                if printstep and sliceInd%10==0:
-                    print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)     
+                if printstep and sliceInd%10==1:
+                    print 'viewInd: %d, sliceInd: %d'%(viewInd,sliceInd)  
+                    print mydataFetch.addnewcount   
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)

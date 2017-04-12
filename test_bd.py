@@ -12,6 +12,7 @@ class dataFetch(object):
         
         
     def clear(self):
+        self.addnewcount=0
         self.tempStore=[]
         self.tempStoreName=[]
         for i in range(self.savelen):
@@ -43,7 +44,7 @@ class dataFetch(object):
                 img=self.tempStore[i]
                 flag=False
         if flag:
-            print "insert new"
+            self.addnewcount=self.addnewcount+1
             img=sio.loadmat(imgdir)
             img=img[subset+'_3D'] 
             self.tempStore[self.nextsave]=img  
