@@ -144,8 +144,8 @@ def test3D(objectInd,label3D,predict3D):
 def evaluate_res(resdir='./',objectNum=25):
     for objectInd in range(objectNum):
         print 'evaluate %d'%(objectInd)
-        label3D=np.load(resdir+'%d_seg.npy'%(objectInd),load)
-        predict3D=np.load(resdir+'%d_pre.npy'%(objectInd),load)
+        label3D=np.load(resdir+'%d_seg.npy'%(objectInd))
+        predict3D=np.load(resdir+'%d_pre.npy'%(objectInd))
         test3D(objectInd,label3D,predict3D)
         save_image(predict3D[:,:,256],resdir+'%d_pre.png'%(objectInd))
         save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
