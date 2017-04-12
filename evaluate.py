@@ -108,8 +108,8 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc          
         if saveres:
-            np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
-            np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
+            np.save(resdir+'%d_seg.npy'%(objectInd),label3D.astype(int))
+            np.save(resdir+'%d_pre.npy'%(objectInd),predict3D.astype(int))
         
         test3D(objectInd,label3D,predict3D)
         
@@ -146,12 +146,15 @@ def evaluate_res(resdir='./',objectNum=25):
         print 'evaluate %d'%(objectInd)
         label3D=np.load(resdir+'%d_seg.npy'%(objectInd))
         predict3D=np.load(resdir+'%d_pre.npy'%(objectInd))
+        np.save(resdir+'%d_seg.npy'%(objectInd),label3D.astype(np.int16))
+        np.save(resdir+'%d_pre.npy'%(objectInd),predict3D.astype(np.int16))
+        '''
         print 'successful loading'
         test3D(objectInd,label3D,predict3D)
         save_image(predict3D[:,:,256,2],resdir+'%d_pre.png'%(objectInd))
         save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
         print np.mean(predict3D[:,:,256,2]==label3D[:,:,256])
-
+        '''
 
 evaluate_res(resdir='../res/norandom_1_noquicktest/')
 
