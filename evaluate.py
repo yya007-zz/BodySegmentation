@@ -149,3 +149,8 @@ def evaluate_res(resdir='./',objectNum=25):
         save_image(predict3D[:,:,256],resdir+'%d_pre.png'%(objectInd))
         save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
 
+
+
+evaluate(resdir='../res/norandom_1_noquicktest/')
+
+
