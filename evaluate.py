@@ -152,6 +152,6 @@ def evaluate_res(resdir='./',objectNum=25):
 
 
 
-evaluate(resdir='../res/norandom_1_noquicktest/')
+evaluate_res(resdir='../res/norandom_1_noquicktest/')
 
 
