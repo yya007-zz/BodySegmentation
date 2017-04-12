@@ -146,9 +146,10 @@ def evaluate_res(resdir='./',objectNum=25):
         print 'evaluate %d'%(objectInd)
         label3D=np.load(resdir+'%d_seg.npy'%(objectInd))
         predict3D=np.load(resdir+'%d_pre.npy'%(objectInd))
+        print 'successful loading'
         test3D(objectInd,label3D,predict3D)
         save_image(predict3D[:,:,256],resdir+'%d_pre.png'%(objectInd))
-        save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
+        save_image(label3D[:,:,256,2],resdir+'%d_seg.png'%(objectInd))
 
 
 

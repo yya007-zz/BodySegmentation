@@ -60,6 +60,10 @@ scp -r /scratch/yaoy4/network yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/netw
 
 scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/  
 
+
+scp -r /scratch/yaoy4/res/norandom_1_noquicktest yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/res  
+
+
 (FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run.slurm
 Submitted batch job 13982046
 (FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run1.slurm
