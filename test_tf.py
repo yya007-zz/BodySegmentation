@@ -27,9 +27,6 @@ if sys.argv[1]=='random':
     b = np.random.random(selectorder.shape)
     idx = np.argsort(b, axis=-1)
     selectorder=selectorder[idx]
-    print selectorder[1:10]
-
-
 
 size=16
 epoch=int(sys.argv[2])
@@ -101,25 +98,6 @@ del imgs,segs,mydataFetch
 
 
 print ("----------------start saving model")
-objectNum=25
-viewNum=3 
-
-'''
-if sys.argv[3]=='quicktest':
-    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
-    selectorder=selectorder+2*512+256
-    pos=0
-    for k in range(len(selectorder)/size):
-        pos,sample=next_batch(pos,size,selectorder)       
-        imgs=mydataFetch.getdata(sample,'test','img')
-        segs=mydataFetch.getdata(sample,'test','seg')
-        imgs=prepareX(imgs)
-        segs=prepareY(segs,number_of_classes)
-        print accuracy.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
-'''  
-
-
-
 modelname=('model_%d_%s_%s'%(epoch,randomstate,sys.argv[3]))
 modeldir=('../network/'+modelname)  
 if not os.path.exists(modeldir):
