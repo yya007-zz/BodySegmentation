@@ -33,11 +33,11 @@ result =tf.argmax(y_conv,3)
 sess.run(tf.global_variables_initializer())
 
 
-print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest)) 
-modelname=('model_%d_%s'%(epoch,randomstate))
-modeldir=('../network/%s/%s'%(modelname,modelname))
-new_saver = tf.train.import_meta_graph(modeldir+'.meta')
-new_saver.restore(sess,modeldir)
+#print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest)) 
+#modelname=('model_%d_%s'%(epoch,randomstate))
+#modeldir=('../network/%s/%s'%(modelname,modelname))
+#new_saver = tf.train.import_meta_graph(modeldir+'.meta')
+#new_saver.restore(sess,modeldir)
 
 
 
