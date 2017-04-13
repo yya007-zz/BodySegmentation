@@ -49,7 +49,10 @@ def prepareX(gray):
     res[:,:,:,0]= gray-VGG_MEAN[0]    
     return res 
 
-
+def randomshuffle(matrix):
+    b = np.random.random(matrix.shape)
+    idx = np.argsort(b, axis=-1)
+    return matrix[idx]
 ### test all test case
 def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     

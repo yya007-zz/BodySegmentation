@@ -24,9 +24,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 randomstate="norandom"
 if sys.argv[1]=='random':
     randomstate="random"
-    b = np.random.random(selectorder.shape)
-    idx = np.argsort(b, axis=-1)
-    selectorder=selectorder[idx]
+    selectorder=randomshuffle(selectorder)
 
 size=16
 epoch=int(sys.argv[2])
@@ -37,8 +35,10 @@ if sys.argv[3]=='quicktest':
     quicktest=True
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
-    iterations=epoch    
-gap=int(iterations/100)
+    iterations=epoch 
+    
+       
+gap=min(int(iterations/100),64)
 if gap<3:
     gap=3
 
@@ -90,6 +90,8 @@ for i in range(iterations):
         ac2=np.mean(cp[1:])
         print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
         t0 = time()
+    if i % len(selectorder)/size==0 and i!=0:
+        selectorder=randomshuffle(selectorder)
     train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
 del imgs,segs,mydataFetch
 
