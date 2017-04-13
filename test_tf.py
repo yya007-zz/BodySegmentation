@@ -24,7 +24,12 @@ selectorder=np.arange(objectNum*viewNum*512)
 randomstate="norandom"
 if sys.argv[1]=='random':
     randomstate="random"
-    np.random.shuffle(selectorder)
+    b = np.random.random(selectorder.shape)
+    idx = np.argsort(b, axis=-1)
+    selectorder=selectorder[idx]
+    print selectorder[1:10]
+
+
 
 size=16
 epoch=int(sys.argv[2])
@@ -49,6 +54,8 @@ speed=1e-5
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
+
+
 keep_prob = tf.placeholder(tf.float32)
 y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
 cross_entropy = tf.reduce_mean(

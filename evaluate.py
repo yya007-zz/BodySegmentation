@@ -61,10 +61,10 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
     
     mydataFetch=dataFetch(2) 
     for objectInd in range(objectNum):
-        label3D=np.zeros([512,512,512]).astype(int)
+        label3D=np.zeros([512,512,512]).astype(np.int16)
         for sliceInd in range(512):
-            label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg')       
-        predict3D=np.zeros([512,512,512,3])
+            label3D[:,:,sliceInd]=mydataFetch.getImage(objectInd,2,sliceInd,'test','seg').astype(np.int16)       
+        predict3D=np.zeros([512,512,512,3]).astype(np.int16)
         for viewInd in range(viewNum):
             selectorder=np.arange(512)
             selectorder=selectorder+objectInd*viewNum*512+viewInd*512
@@ -83,7 +83,7 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     imgs=prepareX(imgs)
                     #segs=prepareY(segs,number_of_classes)
                     segs=np.zeros([size,512,512,19]).astype(int)
-                slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0})
+                slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).astype(np.int16)
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
                 if viewInd==1:
@@ -107,10 +107,17 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     print np.bincount(labelflat)
                     #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc          
-        if saveres:
-            np.save(resdir+'%d_seg.npy'%(objectInd),label3D.astype(int))
-            np.save(resdir+'%d_pre.npy'%(objectInd),predict3D.astype(int))
         
+        predict3DReal=np.zeros([512*512*512]).astype(np.int16)
+        predict3DReal=predict3D[:,2]
+        needchange=(predict3D[:,0]==predict3D[:,1])
+        predict3DReal[needchange]=predict3D[needchange,0]
+    
+    
+        if saveres:
+            np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
+            np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
+            np.save(resdir+'%d_pre.npy'%(objectInd),predict3DReal)
         test3D(objectInd,label3D,predict3D)
         
 def test3D(objectInd,label3D,predict3D):
@@ -134,7 +141,6 @@ def test3D(objectInd,label3D,predict3D):
     accuracy2=np.mean((predict3DReal==label3Dno0))
     predict3DReal=predict3D[label3D!=0,2]
     accuracy3=np.mean((predict3DReal==label3Dno0))
-    
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
 
@@ -146,16 +152,11 @@ def evaluate_res(resdir='./',objectNum=25):
         print 'evaluate %d'%(objectInd)
         label3D=np.load(resdir+'%d_seg.npy'%(objectInd))
         predict3D=np.load(resdir+'%d_pre.npy'%(objectInd))
-        np.save(resdir+'%d_seg.npy'%(objectInd),label3D.astype(np.int16))
-        np.save(resdir+'%d_pre.npy'%(objectInd),predict3D.astype(np.int16))
-        '''
         print 'successful loading'
         test3D(objectInd,label3D,predict3D)
         save_image(predict3D[:,:,256,2],resdir+'%d_pre.png'%(objectInd))
         save_image(label3D[:,:,256],resdir+'%d_seg.png'%(objectInd))
         print np.mean(predict3D[:,:,256,2]==label3D[:,:,256])
-        '''
 
-evaluate_res(resdir='../res/norandom_1_noquicktest/')
 
 
