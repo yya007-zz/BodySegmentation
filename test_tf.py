@@ -88,8 +88,6 @@ for i in range(iterations):
         segs=mydataFetch.getdata(sample,'train','seg')
         imgs=prepareX(imgs)
         segs=prepareY(segs,number_of_classes)
-    #print "step: ",i
-    
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
     if i%gap == 0 or i==iterations-1:
