@@ -11,7 +11,15 @@ from sklearn.model_selection import train_test_split
 from test_bd import *
 from evaluate import *
 # python test_tf [random?] [echo] [quicktest]
-
+def savemodel(modelname,saver):
+    print ("----------------start saving model")
+    modeldir=('../network/'+modelname)  
+    if not os.path.exists(modeldir):
+        os.makedirs(modeldir)
+    modeldir=(modeldir+'/'+modelname)  
+    print 'save model to: %s'%(modeldir)
+    saver.save(sess, modeldir)
+    #saver.export_meta_graph(modeldir+'.meta')
 
 objectNum=75
 viewNum=3
@@ -62,13 +70,14 @@ train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
-saver0 = tf.train.Saver()
+saver = tf.train.Saver()
 sess.run(tf.global_variables_initializer())
 
 #training--------------------------
 print "----------------start training"
 pos=0
 t0 = time()
+epochind=0
 for i in range(iterations):
     if sys.argv[3]=='quicktest':
         imgs=np.load('../bigfile/testimgs.npy')
@@ -90,30 +99,22 @@ for i in range(iterations):
         ac2=np.mean(cp[1:])
         print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
         t0 = time()
-    if i % len(selectorder)/size==0 and i!=0:
-        selectorder=randomshuffle(selectorder)
+    if i % (len(selectorder)/size)==0:
+        if randomstate=="random":
+            selectorder=randomshuffle(selectorder)
+        modelname=('model_%d_%s_%s_%d'%(epoch,randomstate,sys.argv[3],epochind))
+        savemodel(modelname,saver)
+        epochind=epochind+1
     train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
 del imgs,segs,mydataFetch
 
 
 #testing---------------------------
-
-
-print ("----------------start saving model")
-modelname=('model_%d_%s_%s'%(epoch,randomstate,sys.argv[3]))
-modeldir=('../network/'+modelname)  
-if not os.path.exists(modeldir):
-    os.makedirs(modeldir)
-modeldir=(modeldir+'/'+modelname)  
-print 'save model to: %s'%(modeldir)
-saver0.save(sess, modeldir)
-saver0.export_meta_graph(modeldir+'.meta')
-
     
-
+'''
 resdir='../res/%s_%s_%s/'%(sys.argv[1],sys.argv[2],sys.argv[3])
 testall(sess,result,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
-
+'''
 
 
 
