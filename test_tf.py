@@ -71,7 +71,7 @@ correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
 saver = tf.train.Saver()
-sess.run(tf.global_variables_initializer())
+
 
 #training--------------------------
 print "----------------start training"
@@ -79,6 +79,7 @@ pos=0
 t0 = time()
 epochind=0
 for i in range(iterations):
+    sess.run(tf.global_variables_initializer())
     if sys.argv[3]=='quicktest':
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
