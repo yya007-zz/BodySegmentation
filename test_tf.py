@@ -43,6 +43,7 @@ quicktest=False
 storelength=30
 save=True
 evaluate=True
+restore=False
 if sys.argv[2]=='quicktest':
     quicktest=True
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
@@ -91,44 +92,41 @@ with tf.Session() as sess:
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
     for epochind in range(epoch):
-        for iterind in range(iterationsOne):
-            pos=0
-            if not quicktest:
-                pos,sample=next_batch(pos,size,selectorder)    
-                imgs=mydataFetch.getdata(sample,'train','img')
-                segs=mydataFetch.getdata(sample,'train','seg')
-                imgs=prepareX(imgs)
-                segs=prepareY(segs,number_of_classes)
-            train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
+        modelname=('model_%s_%s_%d_%d'%(randomstate,sys.argv[2],epoch,epochind))
+         modelfolddir=('../network/'+modelname)  
+        if restore and os.path.exists(modelfolddir):
+            print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
+            modeldir=('../network/%s/%s'%(modelname,modelname))
+            saver.restore(sess,modeldir)
+        else:
+            for iterind in range(iterationsOne):
+                pos=0
+                if not quicktest:
+                    pos,sample=next_batch(pos,size,selectorder)    
+                    imgs=mydataFetch.getdata(sample,'train','img')
+                    segs=mydataFetch.getdata(sample,'train','seg')
+                    imgs=prepareX(imgs)
+                    segs=prepareY(segs,number_of_classes)
+                train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
+                
+                if iterind%gap == 0 or iterind==iterationsOne-1:
+                    cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+                    ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+                    ac=np.mean(cp)
+                    ac2=np.mean(cp[1:])
+                    print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
+                    t0 = time()
+                    del cp,ce,ac,ac2
             
-                 
-            if i%gap == 0 or i==iterations-1:
-                cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
-                ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
-                ac=np.mean(cp)
-                ac2=np.mean(cp[1:])
-                print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
-                t0 = time()
-                del cp,ce,ac,ac2
-        if randomstate=="random":
-            selectorder=randomshuffle(selectorder)
-        if save:
-            modelname=('model_%s_%s_%d_%d'%(randomstate,sys.argv[2],epoch,epochind))
-            savemodel(modelname,saver,sess)
-            epochind=epochind+1
-            print "successfully save model"
+            if save:
+                savemodel(modelname,saver,sess)
+                epochind=epochind+1
+                print "successfully save model"
+            if randomstate=="random":
+                selectorder=randomshuffle(selectorder)
         if evaluate:
             resdir='../res/%s_%s_%d_%d/'%(randomstate,sys.argv[2],epoch,epochind)
             testall(sess,result,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
-    
-    for epochind in range(epoch):
-        print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
-        modelname=('model_%s_%s_%d_%d'%(randomstate,sys.argv[2],epoch,epochind))
-        modeldir=('../network/%s/%s'%(modelname,modelname))
-        saver.restore(sess,modeldir)
-#testing---------------------------
-        resdir='../res/%s_%s_%d_%d/'%(randomstate,sys.argv[2],epoch,epochind)
-        testall(sess,result,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
 
 
 
