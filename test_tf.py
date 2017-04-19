@@ -10,7 +10,7 @@ from scipy.misc import imsave
 from sklearn.model_selection import train_test_split
 from test_bd import *
 from evaluate import *
-# python test_tf [random?] [echo] [quicktest]
+
 def savemodel(modelname,saver,sess):
     print ("----------------start saving model")
     modeldir=('../network/'+modelname)  
@@ -20,15 +20,19 @@ def savemodel(modelname,saver,sess):
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
 
+
+
+
+
+# python run [quicktest/noquicktest] [evaluate/noevaluate] [random/norandom] [startecho] [endecho] 
+print "----------------start setting environment"
 objectNum=75
 viewNum=3
-
-
-print "----------------start setting environment"
 selectorder=np.arange(objectNum*viewNum*512)
 
 
-randomstate="norandom"
+
+
 if sys.argv[1]=='random':
     randomstate="random"
     selectorder=randomshuffle(selectorder)
