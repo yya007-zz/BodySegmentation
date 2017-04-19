@@ -104,7 +104,6 @@ with tf.Session() as sess:
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
-                
                 if iterind%gap == 0 or iterind==iterationsOne-1:
                     cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
                     ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})

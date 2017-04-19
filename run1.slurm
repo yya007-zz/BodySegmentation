@@ -9,6 +9,5 @@
 #SBATCH --output=/scratch/yaoy4/log/test-norandom.log
 
 setpkgs -a tensorflow_0.12
-source activate FCN
 cd /scratch/yaoy4/BodySegmentation 
 python run.py norandom run
