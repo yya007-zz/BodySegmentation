@@ -33,7 +33,7 @@ if sys.argv[1]=='random':
     randomstate="random"
     selectorder=randomshuffle(selectorder)
 
-size=16
+size=8
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
 
