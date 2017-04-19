@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from test_bd import *
 from evaluate import *
 # python test_tf [random?] [echo] [quicktest]
-def savemodel(modelname,saver):
+def savemodel(modelname,saver,sess):
     print ("----------------start saving model")
     modeldir=('../network/'+modelname)  
     if not os.path.exists(modeldir):
@@ -19,7 +19,6 @@ def savemodel(modelname,saver):
     modeldir=(modeldir+'/'+modelname)  
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
-    #saver.export_meta_graph(modeldir+'.meta')
 
 objectNum=75
 viewNum=3
@@ -91,7 +90,7 @@ for i in range(iterations):
         segs=prepareY(segs,number_of_classes)
     if i==0:
         print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
-    if i%gap == 0 or i==iterations-1:
+    if i%gap == 0 or i==iterations-1:w
         cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
         ac=np.mean(cp)
@@ -102,7 +101,7 @@ for i in range(iterations):
         if randomstate=="random":
             selectorder=randomshuffle(selectorder)
         modelname=('model_%d_%s_%s_%d'%(epoch,randomstate,sys.argv[3],epochind))
-        savemodel(modelname,saver)
+        savemodel(modelname,saver,sess)
         epochind=epochind+1
     train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
 del imgs,segs,mydataFetch

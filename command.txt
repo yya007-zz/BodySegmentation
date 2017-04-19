@@ -53,7 +53,7 @@ scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
 
 
 
-scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/Data2D   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/Data3D/18labels   /scratch/yaoy4/Data3D
 
 scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
 scp -r /scratch/yaoy4/network yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/network
