@@ -26,9 +26,11 @@ viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 
 
-randomstate="norandom"
+state="norandom"
+rand=False
 if sys.argv[1]=='random':
-    randomstate="random"
+    state="random"
+    rand=True
     selectorder=randomshuffle(selectorder)
 
 
@@ -80,18 +82,18 @@ saver = tf.train.Saver()
 with tf.Session() as sess:
     #training--------------------------
     print "----------------start training"
-    print "traindata: %d randomstate: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterationsOne,gap)
+    print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
     t0 = time()
     sess.run(init)
     if quicktest:
-        randomstate='quick',randomstate
+        state='quick'+state
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
     for epochind in range(epoch):
-        modelname=('model_%s_%d_%d'%(randomstate,epoch,epochind))
+        modelname=('model_%s_%d_%d'%(state,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
         if restore and os.path.exists(modelfolddir):
-            print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
+            print ('start loading model_%d_%s_%s'%(epoch,state,quicktest))            
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
         else:
@@ -116,10 +118,10 @@ with tf.Session() as sess:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
                 print "successfully save model"
-            if randomstate=="random":
+            if rand":
                 selectorder=randomshuffle(selectorder)
         if evaluate:
-            resdir='../res/%s_%d_%d/'%(randomstate,epoch,epochind)
+            resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
 
 
