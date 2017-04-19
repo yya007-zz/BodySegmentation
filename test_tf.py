@@ -97,6 +97,8 @@ with tf.Session() as sess:
             ac2=np.mean(cp[1:])
             print("step %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(i, ac,ac2,ce,time()-t0))
             t0 = time()
+            del cp,ce,ac,ac2
+        train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
         if i % (len(selectorder)/size)==0:
             if randomstate=="random":
                 selectorder=randomshuffle(selectorder)
@@ -104,7 +106,7 @@ with tf.Session() as sess:
             savemodel(modelname,saver,sess)
             epochind=epochind+1
             print "successfully save model"
-        train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
+        
 
 #testing---------------------------
     
