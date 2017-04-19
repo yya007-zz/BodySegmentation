@@ -45,4 +45,4 @@ with tf.Session() as sess:
 
 
     resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
-    testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=False,number_of_classes=number_of_classes,saveres=False)
+    testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=False)
