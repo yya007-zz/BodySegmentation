@@ -110,18 +110,19 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     print 'ground truth:',np.bincount(labelflat)
                     #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc          
-        
-        predict3DReal=np.zeros([512*512*512]).astype(np.int16)
-        predict3DReal=predict3D[:,2]
-        needchange=(predict3D[:,0]==predict3D[:,1])
-        predict3DReal[needchange]=predict3D[needchange,0]
-    
-    
+        test3D(objectInd,label3D,predict3D)
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
-            np.save(resdir+'%d_pre.npy'%(objectInd),predict3DReal)
-        test3D(objectInd,label3D,predict3D)
+            
+            predict3DReal=np.zeros([512*512*512])
+            predict3D=predict3D.reshape([512*512*512,3])
+            predict3DReal=predict3D[:,2]
+            needchange=(predict3D[:,0]==predict3D[:,1])
+            predict3DReal[needchange]=predict3D[needchange,0]
+            
+            np.save(resdir+'%d_pre.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
+        
         
 def test3D(objectInd,label3D,predict3D):
     label3D=label3D.flatten()
