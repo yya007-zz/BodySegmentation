@@ -54,7 +54,7 @@ def randomshuffle(matrix):
     idx = np.argsort(b, axis=-1)
     return matrix[idx]
 ### test all test case
-def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=18,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
+def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=False,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
