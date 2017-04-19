@@ -41,7 +41,6 @@ with tf.Session() as sess:
     #testing---------------------------
     objectNum=25
     viewNum=3
-    mydataFetch=dataFetch(4)
 
 
     resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
