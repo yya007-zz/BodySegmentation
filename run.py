@@ -24,7 +24,7 @@ def savemodel(modelname,saver,sess):
 
 
 
-# python run [quicktest/noquicktest] [evaluate/noevaluate] [random/norandom] [startecho] [endecho] 
+# python run [quicktest/noquicktest] [evaluate/noevaluate] [random/norandom] [cover]
 print "----------------start setting environment"
 objectNum=75
 viewNum=3

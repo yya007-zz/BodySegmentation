@@ -30,30 +30,35 @@ objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 
-
+mydataFetch=dataFetch(25)
+if gap<1:
+    gap=1
 
 randomstate="norandom"
 if sys.argv[1]=='random':
     randomstate="random"
     selectorder=randomshuffle(selectorder)
 
-size=16
-epoch=int(sys.argv[2])
-iterations=epoch*len(selectorder)/size
 
+size=16
+epoch=15
 quicktest=False
-if sys.argv[3]=='quicktest':
+storelength=30
+if sys.argv[2]=='quicktest':
     quicktest=True
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
     iterations=epoch 
+    storelength=4
+elif sys.argv[2]=='test1'
+    epoch=1
     
-       
-gap=min(int(iterations/100),64)
-if gap<3:
-    gap=3
 
-mydataFetch=dataFetch(25)
+
+iterationsOne=len(selectorder)/size
+iterations=epoch*iterationsOne
+gap=iterationsOne//10
+mydataFetch=dataFetch(storelength)
 
 print "----------------start building network"
 number_of_classes=19

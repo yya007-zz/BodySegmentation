@@ -11,4 +11,4 @@
 setpkgs -a tensorflow_0.12
 source activate FCN
 cd /scratch/yaoy4/BodySegmentation 
-python test_tf.py random 1 noquicktest
+python test_tf.py random test1

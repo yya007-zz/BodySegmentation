@@ -6,9 +6,9 @@
 #SBATCH --ntasks=4
 #SBATCH --mem=40G
 #SBATCH --time=120:00:00
-#SBATCH --output=/scratch/yaoy4/log/test-15echo-random.log
+#SBATCH --output=/scratch/yaoy4/log/test-random.log
 
 setpkgs -a tensorflow_0.12
 source activate FCN
 cd /scratch/yaoy4/BodySegmentation 
-python test_tf.py random 15 noquicktest
+python test_tf.py random run
