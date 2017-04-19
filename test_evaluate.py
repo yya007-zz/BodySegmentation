@@ -34,14 +34,10 @@ saver = tf.train.Saver()
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
-    
     modelname=('model_%d_%s'%(epoch,randomstate))
     modeldir=('../network/%s/%s'%(modelname,modelname))
     #saver = tf.train.import_meta_graph(modeldir+'.meta')
     saver.restore(sess,modeldir)
-
-
-
     #testing---------------------------
     objectNum=25
     viewNum=3

@@ -103,6 +103,7 @@ with tf.Session() as sess:
             modelname=('model_%d_%s_%s_%d'%(epoch,randomstate,sys.argv[3],epochind))
             savemodel(modelname,saver,sess)
             epochind=epochind+1
+            print "successfully save model"
         train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5})
 
 #testing---------------------------
