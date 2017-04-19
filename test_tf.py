@@ -108,10 +108,10 @@ with tf.Session() as sess:
 
 #testing---------------------------
     
-'''
-resdir='../res/%s_%s_%s/'%(sys.argv[1],sys.argv[2],sys.argv[3])
-testall(sess,result,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
-'''
+
+    resdir='../res/%s_%s_%s_final/'%(sys.argv[1],sys.argv[2],sys.argv[3])
+    testall(sess,result,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,number_of_classes=number_of_classes,saveres=True)
+
 
 
 
