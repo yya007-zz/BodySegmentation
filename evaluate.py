@@ -54,7 +54,7 @@ def randomshuffle(matrix):
     idx = np.argsort(b, axis=-1)
     return matrix[idx]
 ### test all test case
-def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=19,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
+def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_classes=18,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -106,8 +106,8 @@ def testall(sess,result,x,y_,keep_prob,resdir='./',quicktest=False,number_of_cla
                     acc=np.mean(labelflat==slicepreflat)
                     #segflat=segs.flatten()
                     print 'viewInd: %d, sliceInd: %d, acc: %.4f, addnew:%d'%(viewInd,sliceInd,acc,mydataFetch.addnewcount)
-                    print np.bincount(slicepreflat)
-                    print np.bincount(labelflat)
+                    print 'prediction:',np.bincount(slicepreflat)
+                    print 'ground truth:',np.bincount(labelflat)
                     #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc          
         
