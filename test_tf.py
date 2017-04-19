@@ -89,10 +89,11 @@ with tf.Session() as sess:
     t0 = time()
     sess.run(init)
     if quicktest:
+        randomstate='quick',randomstate
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
     for epochind in range(epoch):
-        modelname=('model_%s_%s_%d_%d'%(randomstate,sys.argv[2],epoch,epochind))
+        modelname=('model_%s_%d_%d'%(randomstate,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
         if restore and os.path.exists(modelfolddir):
             print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
@@ -124,7 +125,7 @@ with tf.Session() as sess:
             if randomstate=="random":
                 selectorder=randomshuffle(selectorder)
         if evaluate:
-            resdir='../res/%s_%s_%d_%d/'%(randomstate,sys.argv[2],epoch,epochind)
+            resdir='../res/%s_%d_%d/'%(randomstate,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
 
 
