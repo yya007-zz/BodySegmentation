@@ -37,7 +37,7 @@ class dataFetch(object):
     '''    
     
     def getImage(self,objectInd,viewInd,sliceInd,dataset,subset):
-        imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,self.int2string(objectInd+1))
+        imgdir='../Data3D/18labels/%s/%s/sub_%s.mat'%(dataset,subset,self.int2string(objectInd+1))
         flag=True
         for i in range(self.savelen):
             if imgdir==self.tempStoreName[i]:
@@ -75,17 +75,15 @@ class dataFetch(object):
     
     
 ''' 
-mydataFetch=dataFetch()
+mydataFetch=dataFetch(2)
 dataset='train'
 subset='seg'    
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
-np.random.shuffle(selectorder)
-#selectorder=np.random.shuffle(selectorder)
 seg=mydataFetch.getdata(selectorder[512:512+200],dataset,subset)
 objectInd=0
-imgdir='../Data3D/%s/%s/sub_%s.mat'%(dataset,subset,mydataFetch.int2string(objectInd+1))
+imgdir='../Data3D/18labels/%s/%s/sub_%s.mat'%(dataset,subset,mydataFetch.int2string(objectInd+1))
 img=sio.loadmat(imgdir)
 img=img[subset+'_3D']
 image=img[:,0:200,:]

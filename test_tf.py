@@ -90,7 +90,7 @@ with tf.Session() as sess:
             segs=prepareY(segs,number_of_classes)
         if i==0:
             print "traindata: %d randomstate: %s, echo,iterations: %d,%d, gap: %d "%(len(selectorder),randomstate,epoch,iterations,gap)
-        if i%gap == 0 or i==iterations-1:w
+        if i%gap == 0 or i==iterations-1:
             cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
             ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
             ac=np.mean(cp)
