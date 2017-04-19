@@ -20,11 +20,6 @@ def savemodel(modelname,saver,sess):
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
 
-
-
-
-
-# python run [quicktest/noquicktest] [evaluate/noevaluate] [random/norandom] [startecho] [endecho] 
 print "----------------start setting environment"
 objectNum=75
 viewNum=3
