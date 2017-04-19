@@ -33,7 +33,7 @@ if sys.argv[1]=='random':
     randomstate="random"
     selectorder=randomshuffle(selectorder)
 
-size=8
+size=16
 epoch=int(sys.argv[2])
 iterations=epoch*len(selectorder)/size
 
@@ -69,6 +69,7 @@ train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
+init=tf.global_variables_initializer()
 saver = tf.train.Saver()
 
 with tf.Session() as sess:
@@ -78,7 +79,7 @@ with tf.Session() as sess:
     t0 = time()
     epochind=0
     for i in range(iterations):
-        sess.run(tf.global_variables_initializer())
+        sess.run(init)
         if sys.argv[3]=='quicktest':
             imgs=np.load('../bigfile/testimgs.npy')
             segs=np.load('../bigfile/testsegs.npy')
