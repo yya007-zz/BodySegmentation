@@ -30,9 +30,6 @@ objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 
-mydataFetch=dataFetch(25)
-if gap<1:
-    gap=1
 
 randomstate="norandom"
 if sys.argv[1]=='random':
@@ -59,7 +56,9 @@ iterationsOne=len(selectorder)/size
 iterations=epoch*iterationsOne
 gap=iterationsOne//10
 mydataFetch=dataFetch(storelength)
-
+if gap<1:
+    gap=1
+    
 print "----------------start building network"
 number_of_classes=19
 speed=1e-5
