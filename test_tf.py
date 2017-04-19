@@ -88,7 +88,7 @@ with tf.Session() as sess:
     epochind=0
     sess.run(init)
     for i in range(iterations):
-        if sys.argv[3]=='quicktest':
+        if quicktest:
             imgs=np.load('../bigfile/testimgs.npy')
             segs=np.load('../bigfile/testsegs.npy')
         else:
