@@ -32,7 +32,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 
 
-randomstate="norandom"
+
 if sys.argv[1]=='random':
     randomstate="random"
     selectorder=randomshuffle(selectorder)
