@@ -50,7 +50,7 @@ if sys.argv[2]=='quicktest':
     selectorder=selectorder+2*512+256
     iterations=epoch 
     storelength=4
-elif sys.argv[2]=='test1'
+elif sys.argv[2]=='test1':
     epoch=1
     
 
