@@ -10,7 +10,6 @@ import time
 import sys
 import os
 print "sys"
-sys.addpath('./')
 from test_bd import dataFetch
 from evaluate import testall
 print "help"
