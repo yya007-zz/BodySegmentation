@@ -14,7 +14,7 @@ from evaluate import testall,next_batch,prepareX,prepareY
 print "help"
 
 
-'''
+
 def savemodel(modelname,saver,sess):
     print ("----------------start saving model")
     modeldir=('../network/'+modelname)  
@@ -23,7 +23,7 @@ def savemodel(modelname,saver,sess):
     modeldir=(modeldir+'/'+modelname)  
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
-
+'''
 
 objectNum=75
 viewNum=3
