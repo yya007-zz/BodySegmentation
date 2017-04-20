@@ -61,7 +61,9 @@ if state=='test1':
 if rand:
     selectorder=randomshuffle(selectorder)
     state="random"+state
- state="norandom"+state
+else:
+    state="norandom"+state
+
 iterationsOne=len(selectorder)/size
 gap=iterationsOne//10
 mydataFetch=dataFetch(storelength)
