@@ -84,7 +84,6 @@ if quicktest:
 print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
 print "----------------start training"
 
-
 for epochind in range(epoch):
     print "epoch: ",epochind
     with tf.Session() as sess:
@@ -118,8 +117,7 @@ for epochind in range(epoch):
                     ac=np.mean(cp)
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
-                    t0 = time()
-                    assert 1==2     
+                    t0 = time()    
             if save:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
