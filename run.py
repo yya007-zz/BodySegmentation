@@ -18,74 +18,71 @@ def savemodel(modelname,saver,sess):
     saver.save(sess, modeldir)
 
 
-objectNum=75
-viewNum=3
-selectorder=np.arange(objectNum*viewNum*512)
 
-#usr define
-state="run"
-state="quicktest"
-rand=False
+def trainEpoch(epochind,evaluate=False,restore=True,save=True):
+    objectNum=75
+    viewNum=3
+    selectorder=np.arange(objectNum*viewNum*512)
 
-
-size=16
-epoch=15
-quicktest=False
-storelength=30
-save=True
-evaluate=True
-restore=False
-
-if state=='quicktest':
-    quicktest=True
-    selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
-    selectorder=selectorder+2*512+256
-    iterations=epoch 
-    storelength=4
-
-if state=='test1':
-    epoch=1
-    
-if rand:
-    selectorder=randomshuffle(selectorder)
-    state="random"+state
-else:
-    state="norandom"+state
-
-iterationsOne=len(selectorder)/size
-gap=iterationsOne//10
-mydataFetch=dataFetch(storelength)
-if gap<1:
-    gap=1
-number_of_classes=19
-speed=1e-5    
-
-#Network structure-------------------------- 
-print "----------------start building network"                                
-x = tf.placeholder(tf.float32, shape=[None,512,512,3])
-y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
+    #usr define
+    state="run"
+    state="quicktest"
+    rand=False
 
 
-keep_prob = tf.placeholder(tf.float32)
-y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
-cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
+    size=16
+    epoch=15
+    quicktest=False
+    storelength=30
 
-train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
-correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-result =tf.argmax(y_conv,3)
-saver = tf.train.Saver()
+    if state=='quicktest':
+        quicktest=True
+        selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
+        selectorder=selectorder+2*512+256
+        iterations=epoch 
+        storelength=4
+
+    if state=='test1':
+        epoch=1
+        
+    if rand:
+        selectorder=randomshuffle(selectorder)
+        state="random"+state
+    else:
+        state="norandom"+state
+
+    iterationsOne=len(selectorder)/size
+    gap=iterationsOne//10
+    mydataFetch=dataFetch(storelength)
+    if gap<1:
+        gap=1
+    number_of_classes=19
+    speed=1e-5    
+
+    #Network structure-------------------------- 
+    print "----------------start building network"                                
+    x = tf.placeholder(tf.float32, shape=[None,512,512,3])
+    y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
 
 
-if quicktest:
-    imgs=np.load('../bigfile/testimgs.npy')
-    segs=np.load('../bigfile/testsegs.npy')
-print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
-print "----------------start training"
+    keep_prob = tf.placeholder(tf.float32)
+    y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
+    cross_entropy = tf.reduce_mean(
+        tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 
-for epochind in range(epoch):
-    print "epoch: ",epochind
+    train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
+    correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    result =tf.argmax(y_conv,3)
+    saver = tf.train.Saver()
+
+
+    if quicktest:
+        imgs=np.load('../bigfile/testimgs.npy')
+        segs=np.load('../bigfile/testsegs.npy')
+    print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
+    print "----------------start training"
+
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
@@ -95,6 +92,10 @@ for epochind in range(epoch):
             print ('start loading model_%d_%s_%s'%(epoch,state,quicktest))            
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
+            if evaluate:
+                print "start evaluation"
+                resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
+                testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
         else:
             if epochind!=0:
                 modelname=('model_%s_%d_%d'%(state,epoch-1,epochind))        
@@ -109,7 +110,6 @@ for epochind in range(epoch):
                     segs=mydataFetch.getdata(sample,'train','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
-
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
                     cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
@@ -125,11 +125,13 @@ for epochind in range(epoch):
             if rand:
                 print "randomize the order"
                 selectorder=randomshuffle(selectorder)
-        if evaluate:
-            print "start evaluation"
-            resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
-            testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
+        
 
+for epochind in range(epochind)
+    trainEpoch(epochind)
+    trainEpoch(epochind,evaluate=True)
+    
+    
 print "finished"
 
 
