@@ -85,11 +85,10 @@ print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(le
 print "----------------start training"
 
 
-
-with tf.Session() as sess:
-    t0 = time()   
-    sess.run(tf.global_variables_initializer())
-    for epochind in range(epoch):
+for epochind in range(epoch):
+    with tf.Session() as sess:
+        t0 = time()   
+        sess.run(tf.global_variables_initializer())
         modelname=('model_%s_%d_%d'%(state,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
         if restore and os.path.exists(modelfolddir):
@@ -97,6 +96,10 @@ with tf.Session() as sess:
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
         else:
+            if epochind!=0:
+                modelname=('model_%s_%d_%d'%(state,epoch-1,epochind))        
+                modeldir=('../network/%s/%s'%(modelname,modelname))
+                saver.restore(sess,modeldir) 
             print "need new model",modelname
             for iterind in range(iterationsOne):
                 pos=0
