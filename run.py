@@ -102,6 +102,7 @@ with tf.Session() as sess:
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
         else:
+            print "need new model",modelname
             for iterind in range(iterationsOne):
                 pos=0
                 if not quicktest:
@@ -124,8 +125,10 @@ with tf.Session() as sess:
                 epochind=epochind+1
                 print "successfully save model"
             if rand:
+                print "randomize the order"
                 selectorder=randomshuffle(selectorder)
         if evaluate:
+            print start evaluation
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
 
