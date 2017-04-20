@@ -14,7 +14,7 @@ from evaluate import testall,next_batch,prepareX,prepareY
 print "help"
 
 
-
+'''
 def savemodel(modelname,saver,sess):
     print ("----------------start saving model")
     modeldir=('../network/'+modelname)  
@@ -33,12 +33,6 @@ selectorder=np.arange(objectNum*viewNum*512)
 state="run"
 rand=False
 
-
-
-
-
-
-    
 
 size=16
 epoch=15
@@ -137,7 +131,7 @@ with tf.Session() as sess:
             print "start evaluation"
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
-
+'''
 
 
 
