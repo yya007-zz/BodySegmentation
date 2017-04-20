@@ -105,7 +105,8 @@ with tf.Session() as sess:
                     segs=mydataFetch.getdata(sample,'train','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
-                '''
+                
+                
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
                     cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
@@ -114,7 +115,8 @@ with tf.Session() as sess:
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
-                    del cp,ce,ac,ac2
+                '''
+                    
             if save:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
