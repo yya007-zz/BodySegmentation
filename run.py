@@ -23,7 +23,7 @@ def savemodel(modelname,saver,sess):
     modeldir=(modeldir+'/'+modelname)  
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
-'''
+
 
 objectNum=75
 viewNum=3
@@ -67,6 +67,9 @@ if gap<1:
 print "----------------start building network"
 number_of_classes=19
 speed=1e-5
+
+print "finish"
+'''
 #Network structure--------------------------                                 
 #sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, shape=[None,512,512,3])
