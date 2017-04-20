@@ -86,6 +86,7 @@ print "----------------start training"
 
 
 for epochind in range(epoch):
+    print "epoch: ",epochind
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
