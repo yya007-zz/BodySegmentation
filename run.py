@@ -126,6 +126,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
         
 
 trainEpoch()
+assert 1=2
 trainEpoch(evaluate=True)
 print "finished"
 
