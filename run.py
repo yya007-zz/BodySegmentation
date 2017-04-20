@@ -84,10 +84,10 @@ with tf.Session() as sess:
     print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
     t0 = time()   
     sess.run(tf.global_variables_initializer())
-    '''
     if quicktest:
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
+    '''
     for epochind in range(epoch):
         modelname=('model_%s_%d_%d'%(state,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
