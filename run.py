@@ -26,7 +26,6 @@ def trainEpoch(evaluate=False,restore=True,save=True):
 
     #usr define
     state="run"
-    state="quicktest"
     rand=False
 
 
@@ -82,8 +81,6 @@ def trainEpoch(evaluate=False,restore=True,save=True):
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
-        
-        
         epochind=0
         modelname=('model_%s_%d'%(state,epochind))
         modelfolddir=('../network/'+modelname)  
@@ -129,7 +126,6 @@ def trainEpoch(evaluate=False,restore=True,save=True):
         
 
 trainEpoch()
-assert 1==2
 trainEpoch(evaluate=True)
 print "finished"
 
