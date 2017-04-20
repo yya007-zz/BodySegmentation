@@ -64,32 +64,30 @@ mydataFetch=dataFetch(storelength)
 if gap<1:
     gap=1
     
-print "----------------start building network"
-number_of_classes=19
-speed=1e-5
-
-print "finish"
-'''
-#Network structure--------------------------                                 
-#sess = tf.InteractiveSession()
-x = tf.placeholder(tf.float32, shape=[None,512,512,3])
-y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
-
-
-keep_prob = tf.placeholder(tf.float32)
-y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
-cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
-
-train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
-correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
-accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-result =tf.argmax(y_conv,3)
-init=tf.global_variables_initializer()
-saver = tf.train.Saver()
 
 with tf.Session() as sess:
+    #Network structure-------------------------- 
+    number_of_classes=19
+    speed=1e-5
+    print "----------------start building network"                                
+    x = tf.placeholder(tf.float32, shape=[None,512,512,3])
+    y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
+
+
+    keep_prob = tf.placeholder(tf.float32)
+    y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
+    cross_entropy = tf.reduce_mean(
+        tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
+
+    train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
+    correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    result =tf.argmax(y_conv,3)
+    init=tf.global_variables_initializer()
+    saver = tf.train.Saver()
+
     #training--------------------------
+    '''
     print "----------------start training"
     print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
     t0 = time()
