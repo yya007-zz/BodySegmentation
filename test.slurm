@@ -7,11 +7,11 @@
 #SBATCH --mem=40G
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/yaoy4/log/quicktest.log
-
-setpkgs -a tensorflow_0.12
-source activate FCN
-cd /scratch/yaoy4/BodySegmentation 
-python run.py random quicktest
+ 
+python test.py 
+python test.py 
+python test.py 
+python test.py 
 
 
 
