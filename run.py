@@ -118,7 +118,7 @@ with tf.Session() as sess:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
                 print "successfully save model"
-            if rand":
+            if rand:
                 selectorder=randomshuffle(selectorder)
         if evaluate:
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
