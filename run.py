@@ -11,7 +11,7 @@ import sys
 import os
 print "sys"
 from test_bd import dataFetch
-from evaluate import testall
+from evaluate import testall,next_batch,prepareX,prepareY
 print "help"
 
 
