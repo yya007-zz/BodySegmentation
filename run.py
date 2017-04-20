@@ -26,7 +26,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
 
     #usr define
     state="run"
-    state="quicktest"
+    #state="quicktest"
     rand=False
 
 
@@ -125,7 +125,6 @@ def trainEpoch(evaluate=False,restore=True,save=True):
             print "successfully save model"
             
 trainEpoch()
-assert 1==2
 trainEpoch(evaluate=True)
 print "finished"
 
