@@ -24,6 +24,7 @@ selectorder=np.arange(objectNum*viewNum*512)
 
 #usr define
 state="run"
+state="quicktest"
 rand=False
 
 
