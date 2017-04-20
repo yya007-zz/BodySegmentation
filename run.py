@@ -88,22 +88,22 @@ def trainEpoch(evaluate=False,restore=True,save=True):
         modelname=('model_%s_%d'%(state,epochind))
         modelfolddir=('../network/'+modelname)  
         while os.path.exists(modelfolddir):
-            epochind++
+            epochind+=1
             modelname=('model_%s_%d'%(state,epochind))
-            modelfolddir=('../network/'+modelname) 
-            print ('start loading model_%s_%d'%(state,epochind)) 
-                       
+            modelfolddir=('../network/'+modelname)
+        if  epochind>0:
+            print ('start loading model_%s_%d'%(state,epochind-1)) 
+            modelname=('model_%s_%d'%(state,epochind-1))           
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
             if evaluate:
                 print "start evaluation"
-                resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
+                resdir='../res/%s_%d/'%(state,epochind-1)
                 testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
+            else:
+                print "no model %s"%(modelname)
         else:
-            if epochind!=0:
-                modelname=('model_%s_%d'%(state,epochind))        
-                modeldir=('../network/%s/%s'%(modelname,modelname))
-                saver.restore(sess,modeldir) 
+            modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
             for iterind in range(iterationsOne):
                 pos=0
@@ -125,15 +125,12 @@ def trainEpoch(evaluate=False,restore=True,save=True):
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
                 print "successfully save model"
-            if rand:
-                print "randomize the order"
-                selectorder=randomshuffle(selectorder)
+            
         
 
 trainEpoch()
+assert 1==2
 trainEpoch(evaluate=True)
-    
-    
 print "finished"
 
 
