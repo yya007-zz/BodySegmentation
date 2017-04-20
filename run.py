@@ -78,12 +78,14 @@ init=tf.global_variables_initializer()
 saver = tf.train.Saver()
 
 
-print "finished"   
-'''
+
+
 with tf.Session() as sess:
     print "----------------start training"
     print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
     t0 = time()
+    
+    '''   
     sess.run(init)
     if quicktest:
         imgs=np.load('../bigfile/testimgs.npy')
@@ -126,6 +128,6 @@ with tf.Session() as sess:
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
 '''
-
+print "finished"
 
 
