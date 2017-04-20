@@ -6,7 +6,7 @@ import numpy as np
 print "np"
 import FCN1
 print "FCN1"
-import time
+from time import time
 import sys
 import os
 print "sys"
