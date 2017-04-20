@@ -96,7 +96,6 @@ with tf.Session() as sess:
             saver.restore(sess,modeldir)
         else:
             print "need new model",modelname
-            '''
             for iterind in range(iterationsOne):
                 pos=0
                 if not quicktest:
@@ -113,6 +112,7 @@ with tf.Session() as sess:
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
+            '''
                     del cp,ce,ac,ac2
             if save:
                 savemodel(modelname,saver,sess)
