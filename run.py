@@ -125,7 +125,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
             epochind=epochind+1
             print "successfully save model"
             
-trainEpoch()
+#trainEpoch()
 trainEpoch(evaluate=True)
 print "finished"
 
