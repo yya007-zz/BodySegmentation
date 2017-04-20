@@ -26,6 +26,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
 
     #usr define
     state="run"
+    state="quicktest"
     rand=False
 
 
@@ -104,7 +105,8 @@ def trainEpoch(evaluate=False,restore=True,save=True):
             print "need new model",modelname
             for iterind in range(iterationsOne):
                 pos=0
-                if not quicktest:
+                #if not quicktest:
+                if True:
                     pos,sample=next_batch(pos,size,selectorder)    
                     imgs=mydataFetch.getdata(sample,'train','img')
                     segs=mydataFetch.getdata(sample,'train','seg')
@@ -118,16 +120,14 @@ def trainEpoch(evaluate=False,restore=True,save=True):
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
-                    assert iterind==0   
+ 
             if save:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
                 print "successfully save model"
             
-        
-
 trainEpoch()
-
+assert 1==2
 trainEpoch(evaluate=True)
 print "finished"
 
