@@ -57,29 +57,30 @@ def trainEpoch(evaluate=False,restore=True,save=True):
     speed=1e-5    
 
     #Network structure-------------------------- 
-    print "----------------start building network"                                
-    x = tf.placeholder(tf.float32, shape=[None,512,512,3])
-    y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
-
-
-    keep_prob = tf.placeholder(tf.float32)
-    y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
-    cross_entropy = tf.reduce_mean(
-        tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
-
-    train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
-    correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    result =tf.argmax(y_conv,3)
-    saver = tf.train.Saver()
-
-
-    if quicktest:
-        imgs=np.load('../bigfile/testimgs.npy')
-        segs=np.load('../bigfile/testsegs.npy')
-    print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
-    print "----------------start training"
     with tf.Session() as sess:
+        print "----------------start building network"                                
+        x = tf.placeholder(tf.float32, shape=[None,512,512,3])
+        y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
+
+
+        keep_prob = tf.placeholder(tf.float32)
+        y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
+        cross_entropy = tf.reduce_mean(
+            tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
+
+        train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
+        correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        result =tf.argmax(y_conv,3)
+        saver = tf.train.Saver()
+
+
+        if quicktest:
+            imgs=np.load('../bigfile/testimgs.npy')
+            segs=np.load('../bigfile/testsegs.npy')
+        print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
+        print "----------------start training"
+
         t0 = time()   
         sess.run(tf.global_variables_initializer())
         epochind=0
