@@ -74,7 +74,6 @@ train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv,3), tf.argmax(y_,3))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 result =tf.argmax(y_conv,3)
-init=tf.global_variables_initializer()
 saver = tf.train.Saver()
 
 
@@ -83,8 +82,9 @@ saver = tf.train.Saver()
 with tf.Session() as sess:
     print "----------------start training"
     print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
-    t0 = time()
-    sess.run(init)
+    t0 = time()   
+    sess.run(tf.global_variables_initializer())
+    '''
     if quicktest:
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
@@ -125,6 +125,7 @@ with tf.Session() as sess:
             print "start evaluation"
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
+'''
 print "finished"
 
 
