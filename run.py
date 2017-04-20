@@ -78,16 +78,17 @@ result =tf.argmax(y_conv,3)
 saver = tf.train.Saver()
 
 
+if quicktest:
+    imgs=np.load('../bigfile/testimgs.npy')
+    segs=np.load('../bigfile/testsegs.npy')
+print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
+print "----------------start training"
+
 
 
 with tf.Session() as sess:
-    print "----------------start training"
-    print "traindata: %d state: %s, epoch,iterations per epoch: %d,%d, gap: %d "%(len(selectorder),state,epoch,iterationsOne,gap)
     t0 = time()   
     sess.run(tf.global_variables_initializer())
-    if quicktest:
-        imgs=np.load('../bigfile/testimgs.npy')
-        segs=np.load('../bigfile/testsegs.npy')
     for epochind in range(epoch):
         modelname=('model_%s_%d_%d'%(state,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
@@ -105,8 +106,7 @@ with tf.Session() as sess:
                     segs=mydataFetch.getdata(sample,'train','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
-                
-                
+
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
                     cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
@@ -115,8 +115,7 @@ with tf.Session() as sess:
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
-                '''
-                    
+                    assert 1==2     
             if save:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
@@ -128,7 +127,7 @@ with tf.Session() as sess:
             print "start evaluation"
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
-'''
+
 print "finished"
 
 
