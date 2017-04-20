@@ -7,9 +7,8 @@ print "np"
 import FCN1
 print "FCN1"
 from time import time
-import sys
 import os
-print "sys"
+print "os"
 from test_bd import dataFetch
 from evaluate import testall,next_batch,prepareX,prepareY
 print "help"
@@ -30,14 +29,16 @@ objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)
 
-
-state="norandom"
+#usr define
+state="run"
 rand=False
-if sys.argv[1]=='random':
-    state="random"
-    rand=True
-    selectorder=randomshuffle(selectorder)
 
+
+
+
+
+
+    
 
 size=16
 epoch=15
@@ -46,17 +47,21 @@ storelength=30
 save=True
 evaluate=True
 restore=False
-if sys.argv[2]=='quicktest':
+
+if state=='quicktest':
     quicktest=True
     selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
     selectorder=selectorder+2*512+256
     iterations=epoch 
     storelength=4
-elif sys.argv[2]=='test1':
+
+if state=='test1':
     epoch=1
     
-
-
+if rand:
+    selectorder=randomshuffle(selectorder)
+    state="random"+state
+ state="norandom"+state
 iterationsOne=len(selectorder)/size
 gap=iterationsOne//10
 mydataFetch=dataFetch(storelength)
@@ -91,7 +96,6 @@ with tf.Session() as sess:
     t0 = time()
     sess.run(init)
     if quicktest:
-        state='quick'+state
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
     for epochind in range(epoch):
