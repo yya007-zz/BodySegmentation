@@ -121,7 +121,7 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
             needchange=(predict3D[:,0]==predict3D[:,1])
             predict3DReal[needchange]=predict3D[needchange,0]
             
-            np.save(resdir+'%d_pre.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
+            np.save(resdir+'%d_vote.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
         
         
 def test3D(objectInd,label3D,predict3D):
