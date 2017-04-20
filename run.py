@@ -118,7 +118,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
-                    assert iterind<100   
+                    assert iterind==0   
             if save:
                 savemodel(modelname,saver,sess)
                 epochind=epochind+1
