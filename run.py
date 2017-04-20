@@ -1,15 +1,21 @@
+
+print "----------------start setting environment"
 import tensorflow as tf
-import FCN1
-from PIL import Image
+print "tf"
 import numpy as np
-import tensorflow as tf
+print "np"
+import FCN1
+print "FCN1"
 import time
 import sys
 import os
-from scipy.misc import imsave
-from sklearn.model_selection import train_test_split
-from test_bd import *
-from evaluate import *
+print "sys"
+sys.addpath('./')
+from test_bd import dataFetch
+from evaluate import testall
+print "help"
+
+
 
 def savemodel(modelname,saver,sess):
     print ("----------------start saving model")
@@ -20,7 +26,7 @@ def savemodel(modelname,saver,sess):
     print 'save model to: %s'%(modeldir)
     saver.save(sess, modeldir)
 
-print "----------------start setting environment"
+
 objectNum=75
 viewNum=3
 selectorder=np.arange(objectNum*viewNum*512)

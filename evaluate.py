@@ -6,7 +6,7 @@ import tensorflow as tf
 import time
 import sys
 from scipy.misc import imsave
-from test_bd import *
+from test_bd import dataFetch
 import os
 
 def load_image( infilename ) :

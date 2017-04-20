@@ -4,7 +4,6 @@ import scipy.io as sio
 from time import time
 
 class dataFetch(object):
-    
     def __init__(self,savelen):
         self.nextsave=0
         self.savelen=savelen
