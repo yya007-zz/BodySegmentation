@@ -127,7 +127,7 @@ def trainEpoch(epochind,evaluate=False,restore=True,save=True):
                 selectorder=randomshuffle(selectorder)
         
 
-for epochind in range(epochind)
+for epochind in range(epochind):
     trainEpoch(epochind)
     trainEpoch(epochind,evaluate=True)
     
