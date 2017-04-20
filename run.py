@@ -87,7 +87,6 @@ with tf.Session() as sess:
     if quicktest:
         imgs=np.load('../bigfile/testimgs.npy')
         segs=np.load('../bigfile/testsegs.npy')
-    '''
     for epochind in range(epoch):
         modelname=('model_%s_%d_%d'%(state,epoch,epochind))
         modelfolddir=('../network/'+modelname)  
@@ -97,6 +96,7 @@ with tf.Session() as sess:
             saver.restore(sess,modeldir)
         else:
             print "need new model",modelname
+            '''
             for iterind in range(iterationsOne):
                 pos=0
                 if not quicktest:
