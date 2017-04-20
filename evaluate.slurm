@@ -5,14 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=40G
-#SBATCH --time=12:00:00
-#SBATCH --output=/scratch/yaoy4/log/test_evaluate.log
-
+#SBATCH --time=120:00:00
+#SBATCH --output=/scratch/yaoy4/log/test-norandom-evaluate.log
 setpkgs -a tensorflow_0.12
-source activate FCN
-cd /scratch/yaoy4/BodySegmentation 
-python test_evaluate.py
-
-
-
-
+python  /scratch/yaoy4/BodySegmentation/run.py evaluate
