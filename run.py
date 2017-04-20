@@ -1,17 +1,10 @@
-
-print "----------------start setting environment"
 import tensorflow as tf
-print "tf"
 import numpy as np
-print "np"
 import FCN1
-print "FCN1"
 from time import time
 import os
-print "os"
 from test_bd import dataFetch
 from evaluate import testall,next_batch,prepareX,prepareY
-print "help"
 
 
 
