@@ -128,7 +128,7 @@ with tf.Session() as sess:
                 print "randomize the order"
                 selectorder=randomshuffle(selectorder)
         if evaluate:
-            print start evaluation
+            print "start evaluation"
             resdir='../res/%s_%d_%d/'%(state,epoch,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
 
