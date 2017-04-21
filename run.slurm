@@ -9,16 +9,10 @@
 #SBATCH --output=/scratch/yaoy4/log/test-norandom.log
 setpkgs -a tensorflow_0.12
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
 python  /scratch/yaoy4/BodySegmentation/run.py train
-python  /scratch/yaoy4/BodySegmentation/run.py evaluate
+
