@@ -6,7 +6,7 @@
 #SBATCH --ntasks=4
 #SBATCH --mem=40G
 #SBATCH --time=120:00:00
-#SBATCH --output=/scratch/yaoy4/log/test-norandom.log
+#SBATCH --output=/scratch/yaoy4/log/test-norandom-list.log
 setpkgs -a tensorflow_0.12
 python  /scratch/yaoy4/BodySegmentation/run.py train
 python  /scratch/yaoy4/BodySegmentation/run.py train
