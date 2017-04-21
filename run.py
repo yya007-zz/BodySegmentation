@@ -240,6 +240,7 @@ if sys.argv[1] =="evaluate":
 else:
     trainEpoch()
 '''
+trainEpochQuicktest()
 print "finished"
 
 
