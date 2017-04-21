@@ -129,7 +129,7 @@ def trainEpoch(evaluate=False,restore=True,save=True):
                 print "successfully save model"
 
 
-if sys.arges[1] =="evaluate":
+if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True)
 else:
     trainEpoch()
