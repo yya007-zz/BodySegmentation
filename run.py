@@ -221,8 +221,8 @@ def trainEpochQuicktest():
             
         
     with tf.Session() as sess:
-        print ('start loading model_%s_%d'%(state,epochind-1)) 
-        modelname=('model_%s_%d'%(state,epochind-1))           
+        print ('start loading model_%s_%d'%(state,epochind)) 
+        modelname=('model_%s_%d'%(state,epochind))          
         modeldir=('../network/%s/%s'%(modelname,modelname))
         saver.restore(sess,modeldir)
         for iterind in range(iterationsOne):
