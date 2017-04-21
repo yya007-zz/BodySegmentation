@@ -104,8 +104,8 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
         if train:
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
+            pos=0
             for iterind in range(iterationsOne):
-                pos=0
                 #if not quicktest:
                 if not quicktest:
                     pos,sample=next_batch(pos,size,selectorder)    
@@ -193,13 +193,17 @@ def trainEpochQuicktest():
 
         modelname=('model_%s_%d'%(state,epochind))
         print "need new model",modelname
+        pos=0
         for iterind in range(iterationsOne):
-            pos=0
+            '''
             pos,sample=next_batch(pos,size,selectorder)    
             imgs=mydataFetch.getdata(sample,'train','img')
             segs=mydataFetch.getdata(sample,'train','seg')
             imgs=prepareX(imgs)
             segs=prepareY(segs,number_of_classes)
+            '''
+            imgs=np.load('../bigfile/testimgs.npy')
+            segs=np.load('../bigfile/testsegs.npy')
             train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
             if True:
                 cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
