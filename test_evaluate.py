@@ -10,8 +10,7 @@ from test_bd import *
 from evaluate import *  
     
 epoch=1
-randomstate='norandom'
-quicktest='noquicktest'
+state="norandomrun"
 #load network_________________________
 number_of_classes=19
 size=16
@@ -33,8 +32,9 @@ saver = tf.train.Saver()
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    print ('start loading model_%d_%s_%s'%(epoch,randomstate,quicktest))            
-    modelname=('model_%d_%s'%(epoch,randomstate))
+      
+    modelname=('model_%s_%d'%(state,0))
+    print ('start loading %s'%(modelname))                     
     modeldir=('../network/%s/%s'%(modelname,modelname))
     #saver = tf.train.import_meta_graph(modeldir+'.meta')
     saver.restore(sess,modeldir)
@@ -44,4 +44,4 @@ with tf.Session() as sess:
 
 
     resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
-    testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=False,number_of_classes=number_of_classes,saveres=False)
+    testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=False)

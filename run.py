@@ -98,6 +98,8 @@ def trainEpoch(evaluate=False,restore=True,save=True):
             modelname=('model_%s_%d'%(state,epochind-1))           
             modeldir=('../network/%s/%s'%(modelname,modelname))
             saver.restore(sess,modeldir)
+        
+        
         if evaluate:
             print "start evaluation"
             resdir='../res/%s_%d/'%(state,epochind-1)
