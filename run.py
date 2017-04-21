@@ -242,6 +242,8 @@ def trainEpochQuicktest():
 
 if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True,train=False)
+elif sys.argv[1] =="quicktest":
+    trainEpochQuicktest()
 else:
     trainEpoch()
 
