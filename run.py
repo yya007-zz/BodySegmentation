@@ -128,7 +128,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
                     
         if evaluate:
             print "start evaluation"
-            resdir='../res/%s_%d/'%(state,epochind-1)
+            resdir='../res/%s_%d/'%(state,epochind)
             testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
             
             
