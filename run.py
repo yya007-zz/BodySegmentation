@@ -134,6 +134,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
             
             
 def trainEpochQuicktest():
+    print "start quick test"
     objectNum=75
     viewNum=3
     selectorder=np.arange(objectNum*viewNum*512)
