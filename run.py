@@ -100,8 +100,9 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
             saver.restore(sess,modeldir)
         
         
-        
+        epochind=epochind-1
         if train:
+            epochind=epochind+1
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
             pos=0
