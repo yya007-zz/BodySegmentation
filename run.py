@@ -76,9 +76,9 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
     saver = tf.train.Saver()
 
         
-    if quicktest:
-        imgs=np.load('../bigfile/testimgs.npy')
-        segs=np.load('../bigfile/testsegs.npy')
+    
+    imgs=np.load('../bigfile/testimgs.npy')
+    segs=np.load('../bigfile/testsegs.npy')
     print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
     print "----------------start training"
     
@@ -106,7 +106,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
             print "need new model",modelname
             pos=0
             for iterind in range(iterationsOne):
-                #if not quicktest:
+                #if True:
                 if not quicktest:
                     pos,sample=next_batch(pos,size,selectorder)    
                     imgs=mydataFetch.getdata(sample,'train','img')
@@ -186,7 +186,7 @@ def trainEpochQuicktest():
     epochind=0
     imgs=np.load('../bigfile/testimgs.npy')
     segs=np.load('../bigfile/testsegs.npy')
-            
+    print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)        
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
@@ -236,13 +236,14 @@ def trainEpochQuicktest():
             ac=np.mean(cp)
             ac2=np.mean(cp[1:])
             print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
-'''
+
+
+
 if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True,train=False)
 else:
     trainEpoch()
-'''
-trainEpochQuicktest()
+
 print "finished"
 
 
