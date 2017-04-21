@@ -39,9 +39,8 @@ with tf.Session() as sess:
     #saver = tf.train.import_meta_graph(modeldir+'.meta')
     saver.restore(sess,modeldir)
     #testing---------------------------
-    objectNum=25
-    viewNum=3
 
 
-    resdir='../res/%s_%s_%s/'%(randomstate,epoch,quicktest)
+    resdir='../res/%s_%d/'%(state,epochind-1)
+    testinsample(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=False)
     testall(sess,result,x,y_,keep_prob,resdir=resdir,printstep=True,number_of_classes=number_of_classes,saveres=False)

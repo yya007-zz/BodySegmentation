@@ -20,7 +20,7 @@ def savemodel(modelname,saver,sess):
 
 
 
-def trainEpoch(evaluate=False,restore=True,save=True):
+def trainEpoch(evaluate=True,train=True,restore=True,save=True):
     objectNum=75
     viewNum=3
     selectorder=np.arange(objectNum*viewNum*512)
@@ -100,17 +100,14 @@ def trainEpoch(evaluate=False,restore=True,save=True):
             saver.restore(sess,modeldir)
         
         
-        if evaluate:
-            print "start evaluation"
-            resdir='../res/%s_%d/'%(state,epochind-1)
-            testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
-        else:
+        
+        if train:
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
             for iterind in range(iterationsOne):
                 pos=0
                 #if not quicktest:
-                if True:
+                if not quicktest:
                     pos,sample=next_batch(pos,size,selectorder)    
                     imgs=mydataFetch.getdata(sample,'train','img')
                     segs=mydataFetch.getdata(sample,'train','seg')
@@ -124,15 +121,22 @@ def trainEpoch(evaluate=False,restore=True,save=True):
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                     t0 = time()
-
-            if save:
-                savemodel(modelname,saver,sess)
-                epochind=epochind+1
-                print "successfully save model"
+                
+                if save:
+                    savemodel(modelname,saver,sess)
+                    print "successfully save model"
+                
+        if evaluate:
+            print "start evaluation"
+            resdir='../res/%s_%d/'%(state,epochind-1)
+            testall(sess,result,number_of_classes,x,y_,keep_prob,quicktest=quicktest,resdir=resdir,saveres=True)
+            
+            
+            
 
 
 if sys.argv[1] =="evaluate":
-    trainEpoch(evaluate=True)
+    trainEpoch(evaluate=True,train=False)
 else:
     trainEpoch()
 print "finished"
