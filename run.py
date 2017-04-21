@@ -101,7 +101,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True):
         
         
         epochind=epochind-1
-        if train:
+        if train or epochind<0:
             epochind=epochind+1
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
