@@ -184,6 +184,9 @@ def trainEpochQuicktest():
     saver = tf.train.Saver()
 
     epochind=0
+    imgs=np.load('../bigfile/testimgs.npy')
+    segs=np.load('../bigfile/testsegs.npy')
+            
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
@@ -202,8 +205,7 @@ def trainEpochQuicktest():
             imgs=prepareX(imgs)
             segs=prepareY(segs,number_of_classes)
             '''
-            imgs=np.load('../bigfile/testimgs.npy')
-            segs=np.load('../bigfile/testsegs.npy')
+            
             train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
             if True:
                 cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
