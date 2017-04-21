@@ -212,8 +212,8 @@ def trainEpochQuicktest():
                 ac2=np.mean(cp[1:])
                 print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
                 t0 = time()
-         savemodel(modelname,saver,sess)
-         print "successfully save model"
+    savemodel(modelname,saver,sess)
+    print "successfully save model"
             
             
             
