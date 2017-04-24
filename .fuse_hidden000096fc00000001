@@ -227,8 +227,8 @@ def resave(resdir):
     objectNum=25    
     for objectInd in range(objectNum):
         print objectInd
-        add=resdir+'%d_vote.npy'%(objectInd)
-        resaveone(add)
+        #add=resdir+'%d_vote.npy'%(objectInd)
+        #resaveone(add)
         
         add=resdir+'%d_pre.npy'%(objectInd)
         resaveone(add)
