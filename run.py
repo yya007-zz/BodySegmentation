@@ -20,17 +20,12 @@ def savemodel(modelname,saver,sess):
 
 
 
-def trainEpoch(evaluate=True,train=True,restore=True,save=True):
+def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     objectNum=75
     viewNum=3
     selectorder=np.arange(objectNum*viewNum*512)
-
-    #usr define
+    
     state="run"
-    #state="quicktest"
-    rand=False
-
-
     size=16
     quicktest=False
     storelength=30
@@ -245,6 +240,8 @@ if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True,train=False)
 elif sys.argv[1] =="quicktest":
     trainEpochQuicktest()
+elif sys.argv[1] =="randomtrain":
+    trainEpoch(rand=True)
 else:
     trainEpoch()
 
