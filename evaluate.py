@@ -1,8 +1,5 @@
-import tensorflow as tf
-import FCN1
 from PIL import Image
 import numpy as np
-import tensorflow as tf
 import time
 import sys
 from scipy.misc import imsave
@@ -226,8 +223,25 @@ def test3D(objectInd,label3D,predict3D):
     accuracy3=np.mean((predict3DReal==label3Dno0))
     print "object-%d label vote accuracy: %.4f, view 0 accuracy: %.4f,view 1 accuracy: %.4f,view 2 accuracy: %.4f"%(objectInd,accuracy,accuracy1,accuracy2,accuracy3)
 
-
-
+def resave(resdir): 
+    objectNum=25    
+    for objectInd in range(objectNum):
+        print objectInd
+        #add=resdir+'%d_vote.npy'%(objectInd)
+        #resaveone(add)
+        
+        add=resdir+'%d_pre.npy'%(objectInd)
+        resaveone(add)
+        
+        add=resdir+'%d_seg.npy'%(objectInd)
+        resaveone(add)
+        
+def resaveone(add):        
+        a=np.load(add)
+        a=a.astype(np.int8)
+        np.save(add,a)
+        
+        
 
 #evaluate and visualize performance based on saved prediction result
 def evaluate_res(resdir='./',objectNum=25):
