@@ -182,6 +182,8 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
                     #print np.bincount(segflat.astype(int))
                     del slicepreflat,labelflat,acc
         
+        assert len(np.unqiue(label3D))<128
+        
         
         objectInd=objectInd.astype(np.int8)
         label3D=labelflat.astype(np.int8)
