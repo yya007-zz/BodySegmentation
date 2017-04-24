@@ -1,12 +1,13 @@
 function evaluation_pipeline()
 
+a='start run'
 addpath(genpath('/fs4/masi/huoy1/FS3_backup/software/full-multi-atlas/masi-fusion/src'));
 
 output_dir = '/fs4/masi/yaoy4/Analysis/04_20_2017/';
 if ~exist(output_dir)
     mkdir(output_dir)
 end
-testimg_seg_dir = '/fs4/masi/yaoy4/res/norandom_1_noquicktest/';
+testimg_seg_dir = '/fs4/masi/yaoy4/res/norandomrun_1/';
 resample_seg_dir = '/fs4/masi/yaoy4/rawdata/resample_rawlabel/test';
 resample_img_dir = '/fs4/masi/yaoy4/rawdata/resample_rawimg/test';
 
@@ -23,7 +24,6 @@ Dice_all_mat = [output_dir filesep 'dice_all.mat'];
 
 if ~exist(Dice_all_mat)
     for ii = 1:length(img_files)
-        
         subName = sprintf('%d_vote',ii-1);
         img_file = img_files{ii};
         trueseg_file = seg_files{ii};
@@ -53,7 +53,8 @@ if ~exist(Dice_all_mat)
         if ~exist(testing_seg)
             data = load(testing_mat);
             mat = int16(data.dat);
-            result = mat
+            result = mat;
+            nii_true = load_untouch_nii_gz(trueseg_file);
             nii_testing = nii_true;
             nii_testing.img = result;
             save_untouch_nii_gz(nii_testing,testing_seg);

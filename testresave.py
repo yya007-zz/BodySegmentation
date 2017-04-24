@@ -1,4 +1,6 @@
 from evaluate import resave 
+import sys
 
 
-resave("../res/norandomrun_3/")
+add=sys.argv[1]
+resave(add)
