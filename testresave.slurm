@@ -1,5 +1,6 @@
 #! /bin/bash
-#SBATCH --account=p_masi_gpu
+#SBATCH --mail-user=yaoy4@vanderbilt.edu
+#SBATCH --mail-type=ALL
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=20G
