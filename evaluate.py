@@ -86,7 +86,7 @@ def testinsample(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quickt
                     #segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
                     #segs=prepareY(segs,number_of_classes)
-                    segs=np.zeros([size,512,512,19]).astype(int)
+                    segs=np.zeros([size,512,512,19]).astype(int16)
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).astype(np.int16)
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
@@ -155,9 +155,7 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
                     segs=np.load('../bigfile/testsegs.npy')
                 else: 
                     imgs=mydataFetch.getdata(sample,'test','img')
-                    #segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
-                    #segs=prepareY(segs,number_of_classes)
                     segs=np.zeros([size,512,512,19]).astype(int)
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).astype(np.int16)
                 if viewInd==0:
@@ -182,13 +180,19 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
                     print 'prediction:',np.bincount(slicepreflat)
                     print 'ground truth:',np.bincount(labelflat)
                     #print np.bincount(segflat.astype(int))
-                    del slicepreflat,labelflat,acc          
+                    del slicepreflat,labelflat,acc
+        
+        
+        objectInd=objectInd.astype(np.int8)
+        label3D=labelflat.astype(np.int8)
+        labelflat=labelflat.astype(np.int8)         
+        
         test3D(objectInd,label3D,predict3D)
         if saveres:
             np.save(resdir+'%d_seg.npy'%(objectInd),label3D)
             np.save(resdir+'%d_pre.npy'%(objectInd),predict3D)
             
-            predict3DReal=np.zeros([512*512*512])
+            predict3DReal=np.zeros([512*512*512]).astype(np.int8)
             predict3D=predict3D.reshape([512*512*512,3])
             predict3DReal=predict3D[:,2]
             needchange=(predict3D[:,0]==predict3D[:,1])
@@ -199,7 +203,7 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
         
 def test3D(objectInd,label3D,predict3D):
     label3D=label3D.flatten()
-    predict3DReal=np.zeros([512*512*512])
+    predict3DReal=np.zeros([512*512*512]).astype(np.int8)  
     predict3D=predict3D.reshape([512*512*512,3])
     predict3DReal=predict3D[:,2]
     needchange=(predict3D[:,0]==predict3D[:,1])
