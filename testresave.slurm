@@ -1,9 +1,9 @@
 #! /bin/bash
 #SBATCH --account=p_masi_gpu
 #SBATCH --nodes=1
-#SBATCH --ntasks=4
+#SBATCH --ntasks=1
 #SBATCH --mem=20G
-#SBATCH --time=120:00:00
+#SBATCH --time=5:00:00
 #SBATCH --output=/scratch/yaoy4/log/resave.log
 
 

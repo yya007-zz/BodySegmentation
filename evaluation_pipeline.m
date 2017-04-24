@@ -49,22 +49,20 @@ if ~exist(Dice_all_mat)
             system(sprintf('python %s',testing_py));
         end
         
-        
+        nii_true = load_untouch_nii_gz(trueseg_file);
+        img_true = nii_true.img;
         if ~exist(testing_seg)
             data = load(testing_mat);
             mat = int16(data.dat);
-            result = mat;
-            nii_true = load_untouch_nii_gz(trueseg_file);
+            img_testing = mat;
             nii_testing = nii_true;
-            nii_testing.img = result;
+            nii_testing.img = img_testing;
             save_untouch_nii_gz(nii_testing,testing_seg);
-        else
-            nii_true = load_untouch_nii_gz(trueseg_file);
+        else         
             nii_testing = load_untouch_nii_gz(testing_seg);
-            img_true = nii_true.img;
             img_testing = nii_testing.img;
-            [meanDsc(ii,1) allDsc{ii,1} labels{ii,1} ] = dice(img_true,img_testing);
         end
+        [meanDsc(ii,1) allDsc{ii,1} labels{ii,1} ] = dice(img_true,img_testing);
         fprintf('%d/%d\n',ii,length(img_files));
     end
     
