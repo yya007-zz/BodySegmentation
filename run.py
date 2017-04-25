@@ -68,6 +68,10 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
 
 
     keep_prob = tf.placeholder(tf.float32)
+    
+    
+    
+    
     y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
     cross_entropy = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
@@ -106,6 +110,11 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         epochind=epochind-1
         if train or epochind<0:
             epochind=epochind+1
+        
+            if epochind>6:
+                speed=1e-6
+                train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
+                
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
             pos=0
