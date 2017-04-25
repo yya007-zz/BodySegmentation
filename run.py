@@ -84,7 +84,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         epochind=0
         modelname=('model_%s_%d'%(state,epochind))
         modelfolddir=('../network/'+modelname)  
-        while 
+        while os.path.exists(modelfolddir):
             epochind+=1
             modelname=('model_%s_%d'%(state,epochind))
             modelfolddir=('../network/'+modelname)

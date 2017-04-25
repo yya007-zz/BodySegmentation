@@ -83,8 +83,9 @@ for si = 1:length(allDsc)
     end
 end
 
-Dice_organ
-figure=boxplot(Dice_organ,{SNames(1:12)})
+
+Dice_organ(:,0)
+%figure=boxplot(Dice_organ,{SNames(1:12)})
 %ax.XTickLabel = SNames(1:12);
 %figure=
 %

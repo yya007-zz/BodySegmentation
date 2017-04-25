@@ -1,5 +1,7 @@
 from pylab import plot, show, savefig, xlim, figure, ylim, legend, boxplot, setp, axes
+from scipy.spatial.distance import dice
 import numpy as np
+import os
 # function for setting the colors of the box plots pairs
 def setBoxColors(bp):
     setp(bp['boxes'][0], color='blue')
@@ -13,20 +15,25 @@ def setBoxColors(bp):
 
 
 labelnum=14
-fold='norandomrun_1'
-resdir="../res/"+fold+"/"
+fold='../res/norandomrun_0'
+#fold='norandom_1_noquicktest'
+resdir=fold+"/"
 objectNum=25
 
 
-if os.path.exists(fold+'.npy'):
-    precision=np.load(fold+'.npy')
+if os.path.exists(fold+'_dice.npy'):
+    precision=np.load(fold+'_acc.npy')
+    recall=np.load(fold+'_rec.npy')
+    dice=np.load(fold+'_dice.npy')
 else:
     precision=[]
     recall=[]
+    dice=[]
 
     for i in range(labelnum):
         precision.append([])
-
+        recall.append([])
+        dice.append([])
     for objectInd in range(objectNum):
         seg=np.load(resdir+'%d_seg.npy'%(objectInd))
         vote=np.load(resdir+'%d_vote.npy'%(objectInd))
@@ -38,18 +45,26 @@ else:
             labelind=i+1
             # other
             if labelind==labelnum:
-                pre=np.sum((vote>=labelind)*allcorrect)*1.0/np.sum((seg>=labelind))
-                precision[i].append(pre)
+                total=1.0*np.sum((seg>=labelind))
+                correct=1.0*np.sum((vote>=labelind)*allcorrect)
+                totalpredict=1.0*np.sum((vote>=labelind))
+                 
             else:
-                totalnum=np.sum((seg==labelind)) 
-                if totalnum!=0:
-                    pre=np.sum((vote==labelind)*allcorrect)*1.0/np.sum((seg==labelind))
-                    precision[i].append(pre)
-                    print pre
-    np.save(fold+'.npy',np.array(precision))
-
-#
-#print precision[0]
+                total=1.0*np.sum((seg==labelind))
+                correct=1.0*np.sum((vote==labelind)*allcorrect)
+                totalpredict=1.0*np.sum((vote==labelind))
+                
+                
+            if totalpredict!=0:
+                precision[i].append(correct/totalpredict)
+            if total!=0:
+                recall[i].append(correct/total)
+            if totalpredict!=0 or total!=0:
+                dice[i].append(2*correct/(total+totalpredict))
+    np.save(fold+'_acc.npy',np.array(precision))
+    np.save(fold+'_rec.npy',np.array(recall))
+    np.save(fold+'_dice.npy',np.array(dice))
+print dice[0]
 fig = figure()
 ax = axes()
 #hold(True)
@@ -65,29 +80,31 @@ curtick=int(0.5*gap)
 for i in range(labelnum):
     tick.append(curtick)
     curtick=curtick+gap
-print tick
-# first boxplot pair
 
 
-for i in range(labelnum):
-    bp = boxplot([precision[i]], positions =[tick[i]], widths = 0.2*gap)
-    setBoxColors(bp)
+def bplot(precision,tick,gap,labelnum,fold,saveadd):
+    for i in range(labelnum):
+        bp = boxplot([precision[i]], positions =[tick[i]], widths = 0.2*gap)
+        setBoxColors(bp)
 
 
 
-xlim(0,gap*labelnum)
-ylim(0,1)
-ax.set_xticklabels(label)
-ax.set_xticks(tick)
+    xlim(0,gap*labelnum)
+    ylim(0,1)
+    ax.set_xticklabels(label)
+    ax.set_xticks(tick)
+    ylabel=np.arange(0,1,0.1)
+    print ylabel
+    ax.set_yticks(ylabel)
 
+    #legend
+    #hB, = plot([1,1],'b-')
+    #hR, = plot([1,1],'r-')
+    #legend((hB, hR),('Apples', 'Oranges'))
+    #hB.set_visible(False)
+    #hR.set_visible(False)
 
-#legend
-#hB, = plot([1,1],'b-')
-#hR, = plot([1,1],'r-')
-#legend((hB, hR),('Apples', 'Oranges'))
-#hB.set_visible(False)
-#hR.set_visible(False)
-
-savefig(fold+'.png')
-show()
-    
+    savefig(saveadd)
+    show()
+#bplot(precision,tick,gap,labelnum,fold,fold+'_acc.png')
+bplot(dice,tick,gap,labelnum,fold,fold+'_dice.png')    
