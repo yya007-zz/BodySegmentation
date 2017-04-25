@@ -39,7 +39,15 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
 
         
     if rand:
-        selectorder=randomshuffle(selectorder)
+        objectorder=np.arange(objectNum)
+        objectorder=randomshuffle(objectorder)
+        for i in range(len(objectNum)):
+            temporder=randomshuffle(np.arange(viewNum*512))
+            selectorder[i*viewNum*512:(i+1)*viewNum*512]=temporder+objectorder[i]*viewNum*512
+        assert len(np.unique(selectorder))==objectNum*viewNum*512
+        
+        
+        
         state="random"+state
     else:
         state="norandom"+state
