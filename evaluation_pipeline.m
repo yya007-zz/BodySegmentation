@@ -3,11 +3,11 @@ function evaluation_pipeline()
 a='start run'
 addpath(genpath('/fs4/masi/huoy1/FS3_backup/software/full-multi-atlas/masi-fusion/src'));
 
-output_dir = '/fs4/masi/yaoy4/Analysis/04_20_2017/';
+output_dir = '/fs4/masi/yaoy4/Analysis/norandomrun_0/';
 if ~exist(output_dir)
     mkdir(output_dir)
 end
-testimg_seg_dir = '/fs4/masi/yaoy4/res/norandomrun_1/';
+testimg_seg_dir = '/fs4/masi/yaoy4/res/norandomrun_0/';
 resample_seg_dir = '/fs4/masi/yaoy4/rawdata/resample_rawlabel/test';
 resample_img_dir = '/fs4/masi/yaoy4/rawdata/resample_rawimg/test';
 

@@ -5,7 +5,7 @@ from time import time
 import os
 import sys
 from test_bd import dataFetch
-from evaluate import testall,next_batch,prepareX,prepareY
+from evaluate import testall,next_batch,prepareX,prepareY,randomshuffle
 
 
 
@@ -84,7 +84,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         epochind=0
         modelname=('model_%s_%d'%(state,epochind))
         modelfolddir=('../network/'+modelname)  
-        while os.path.exists(modelfolddir):
+        while 
             epochind+=1
             modelname=('model_%s_%d'%(state,epochind))
             modelfolddir=('../network/'+modelname)
