@@ -15,7 +15,7 @@ def setBoxColors(bp):
 
 
 labelnum=14
-fold='../res/norandomrun_0'
+fold='../res/norandomrun_5'
 #fold='norandom_1_noquicktest'
 resdir=fold+"/"
 objectNum=25
@@ -86,7 +86,7 @@ def bplot(precision,tick,gap,labelnum,fold,saveadd):
     for i in range(labelnum):
         bp = boxplot([precision[i]], positions =[tick[i]], widths = 0.2*gap)
         setBoxColors(bp)
-
+        print np.average(precision[i])
 
 
     xlim(0,gap*labelnum)
