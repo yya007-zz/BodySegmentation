@@ -114,6 +114,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             if epochind>6:
                 speed=1e-6
                 train_step = tf.train.AdamOptimizer(speed).minimize(cross_entropy)
+                print "successfully lower the speed"
                 
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
