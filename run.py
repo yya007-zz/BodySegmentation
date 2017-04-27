@@ -28,7 +28,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     state="run"
     size=16
     quicktest=False
-    storelength=30
+    storelength=4
 
     if state=='quicktest':
         quicktest=True
