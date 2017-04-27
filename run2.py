@@ -100,12 +100,8 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     
     with tf.Session() as sess:
         t0 = time()   
-        sess.run(tf.global_variables_initializer())
-         
-        
-        
-        if train:
-            
+        sess.run(tf.global_variables_initializer())        
+        if train: 
             print "----------------start training"
             if  epochind>=0:
                 print ('start loading model_%s_%d'%(state,epochind)) 
