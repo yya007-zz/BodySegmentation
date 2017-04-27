@@ -92,19 +92,21 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
 
         
     
-    imgs=np.load('../bigfile/testimgs.npy')
-    segs=np.load('../bigfile/testsegs.npy')
-    print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
-    print "----------------start training"
+    
+   
+
     
     
     with tf.Session() as sess:
         t0 = time()   
         sess.run(tf.global_variables_initializer())
-         
-        
-        
         if train:
+            print "----------------start training"
+            print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
+            
+            imgs=np.load('../bigfile/testimgs.npy')
+            segs=np.load('../bigfile/testsegs.npy')
+            
             if  epochind>=0:
                 print ('start loading model_%s_%d'%(state,epochind)) 
                 modelname=('model_%s_%d'%(state,epochind))           
@@ -137,6 +139,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                 savemodel(modelname,saver,sess)
                 print "successfully save model"
         else:
+            print "----------------start without training"
             #skip evaluted network
             epochind=0
             resdir='../res/%s_%d/'%(state,epochind)
@@ -154,7 +157,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                 saver.restore(sess,modeldir)
             else:
                 evaluate=False
-                print "there is no unevaluated network"                 
+                print "there is no unevaluated network"       
         
         #evaluate result
         if evaluate:
