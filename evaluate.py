@@ -1,4 +1,5 @@
 from PIL import Image
+import tensorflow as tf
 import numpy as np
 import time
 import sys
@@ -85,7 +86,8 @@ def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=Fa
                     #segs=prepareY(segs,number_of_classes)
                     segs=np.zeros([size,512,512,19]).astype(int16)
 
-                
+                x = tf.placeholder(tf.float32, shape=[None,512,512,3])
+                y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
                 paradict[x]=imgs
                 paradict[y_]=segs                
                 slicepre=result.eval(paradict).astype(np.int16)
@@ -162,6 +164,8 @@ def testall(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,o
                     segs=np.zeros([size,512,512,19]).astype(int)
                 
                 print paradict
+                x = tf.placeholder(tf.float32, shape=[None,512,512,3])
+                y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
                 paradict[x]=imgs
                 paradict[y_]=segs                
                 slicepre=result.eval(paradict).astype(np.int16)
