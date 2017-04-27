@@ -123,6 +123,8 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             trainspeed=1e-5
             if epochind>6:
                 trainspeed=1e-7
+
+            print "training speed is",trainspeed
             
             for iterind in range(iterationsOne):
                 #if True:
@@ -139,12 +141,11 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                     ac=np.mean(cp)
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
-                    t0 = time()
-                
+                    t0 = time()   
             if save:
                 savemodel(modelname,saver,sess)
                 print "successfully save model"
-        else:
+       else:
             print "----------------start without training"
             #skip evaluted network
             epochind=0
@@ -153,6 +154,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             modelfolddir=('../network/'+modelname) 
             while os.path.exists(resdir):
                 epochind+=1
+                resdir='../res/%s_%d/'%(state,epochind)
                 modelname=('model_%s_%d'%(state,epochind))
                 modelfolddir=('../network/'+modelname)
             #load lastest unevaluated network if exists
@@ -163,7 +165,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                 saver.restore(sess,modeldir)
             else:
                 evaluate=False
-                print "there is no unevaluated network"                 
+                print "there is no unevaluated network"       
         
         #evaluate result
         if evaluate:
