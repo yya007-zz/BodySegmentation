@@ -130,7 +130,7 @@ def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=Fa
             np.save(resdir+'%d_vote.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
         '''
 ### test all test case
-def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=False,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
+def testall(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -160,7 +160,11 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
                     imgs=mydataFetch.getdata(sample,'test','img')
                     imgs=prepareX(imgs)
                     segs=np.zeros([size,512,512,19]).astype(int)
-                slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).astype(np.int16)
+                
+                paradict[x]=imgs
+                paradict[y_]=segs                
+                slicepre=result.eval(paradict).astype(np.int16)
+                
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
                 if viewInd==1:
