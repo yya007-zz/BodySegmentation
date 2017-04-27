@@ -94,11 +94,11 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     
     imgs=np.load('../bigfile/testimgs.npy')
     segs=np.load('../bigfile/testsegs.npy')
-    print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
     
     
     
     with tf.Session() as sess:
+        print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
         t0 = time()   
         sess.run(tf.global_variables_initializer())        
         if train: 

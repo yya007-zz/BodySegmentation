@@ -159,11 +159,7 @@ def testall(sess,result,number_of_classes,x, y_,keep_prob,speed,resdir='./',quic
                     imgs=prepareX(imgs)
                     segs=np.zeros([size,512,512,19]).astype(int)
                 
-                print paradict
-                x = tf.placeholder(tf.float32, shape=[None,512,512,3])
-                y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
-                paradict[x]=imgs
-                paradict[y_]=segs                
+                
                 slicepre=result.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:0}).astype(np.int16)
                 
                 if viewInd==0:
