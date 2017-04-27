@@ -34,6 +34,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         quicktest=True
         selectorder=np.arange(0,objectNum*viewNum*512,viewNum*512)
         selectorder=selectorder+2*512+256
+        selectorder=selectorder[0:32]
         storelength=4
 
 
@@ -123,13 +124,11 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             print "training speed is",trainspeed
             
             for iterind in range(iterationsOne):
-                #if True:
-                if not quicktest:
-                    pos,sample=next_batch(pos,size,selectorder)    
-                    imgs=mydataFetch.getdata(sample,'train','img')
-                    segs=mydataFetch.getdata(sample,'train','seg')
-                    imgs=prepareX(imgs)
-                    segs=prepareY(segs,number_of_classes)
+                pos,sample=next_batch(pos,size,selectorder)    
+                imgs=mydataFetch.getdata(sample,'train','img')
+                segs=mydataFetch.getdata(sample,'train','seg')
+                imgs=prepareX(imgs)
+                segs=prepareY(segs,number_of_classes)
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5,speed:trainspeed}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
                     (cp,ce)=(correct_prediction,cross_entropy).eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:trainspeed})
@@ -175,6 +174,8 @@ elif sys.argv[1] =="evaluaterandom":
     trainEpoch(evaluate=True,train=False,rand=True)
 elif sys.argv[1] =="randomtrain":
     trainEpoch(rand=True)
+elif sys.argv[1] =="quicktest":
+    trainEpoch(quicktest=True)
 else:
     trainEpoch()
 
