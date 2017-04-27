@@ -53,7 +53,7 @@ def randomshuffle(matrix):
     return matrix[idx]
     
 ### test all train case
-def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,objectNum=75,viewNum=3,size=16,printstep=False,saveres=False):
+def testinsample(sess,result,number_of_classes,x, y_,keep_prob,speed,resdir='./',quicktest=False,objectNum=75,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -85,12 +85,8 @@ def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=Fa
                     imgs=prepareX(imgs)
                     #segs=prepareY(segs,number_of_classes)
                     segs=np.zeros([size,512,512,19]).astype(int16)
-
-                x = tf.placeholder(tf.float32, shape=[None,512,512,3])
-                y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
-                paradict[x]=imgs
-                paradict[y_]=segs                
-                slicepre=result.eval(paradict).astype(np.int16)
+               
+                slicepre=result.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:0}).astype(np.int16)
                 
                 
                 if viewInd==0:
@@ -132,7 +128,7 @@ def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=Fa
             np.save(resdir+'%d_vote.npy'%(objectInd),predict3DReal.reshape([512,512,512]))
         '''
 ### test all test case
-def testall(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
+def testall(sess,result,number_of_classes,x, y_,keep_prob,speed,resdir='./',quicktest=False,objectNum=25,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -168,7 +164,7 @@ def testall(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,o
                 y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
                 paradict[x]=imgs
                 paradict[y_]=segs                
-                slicepre=result.eval(paradict).astype(np.int16)
+                slicepre=result.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:0}).astype(np.int16)
                 
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre

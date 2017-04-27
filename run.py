@@ -167,8 +167,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         if evaluate:
             print "start evaluation %s_%d"%(state,epochind)
             resdir='../res/%s_%d/'%(state,epochind)
-            paradict={x: None, y_: None,keep_prob: 1.0,speed:0}
-            testall(sess,result,number_of_classes,paradict,quicktest=quicktest,resdir=resdir,saveres=True)
+            testall(sess,result,number_of_classes,x, y_,keep_prob,speed,quicktest=quicktest,resdir=resdir,saveres=True)
             
 if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True,train=False)
