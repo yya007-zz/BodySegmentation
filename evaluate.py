@@ -52,7 +52,7 @@ def randomshuffle(matrix):
     return matrix[idx]
     
 ### test all train case
-def testinsample(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=False,objectNum=75,viewNum=3,size=16,printstep=False,saveres=False):
+def testinsample(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,objectNum=75,viewNum=3,size=16,printstep=False,saveres=False):
     
     print ("start testing")
     
@@ -78,13 +78,19 @@ def testinsample(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quickt
                 if quicktest:
                     imgs=np.load('../bigfile/testimgs.npy')
                     segs=np.load('../bigfile/testsegs.npy')
-                else: 
+                else:
                     imgs=mydataFetch.getdata(sample,'train','img')
                     #segs=mydataFetch.getdata(sample,'test','seg')
                     imgs=prepareX(imgs)
                     #segs=prepareY(segs,number_of_classes)
                     segs=np.zeros([size,512,512,19]).astype(int16)
-                slicepre=result.eval(feed_dict={x: imgs, y_: segs, keep_prob: 1.0}).astype(np.int16)
+
+                
+                paradict[x]=imgs
+                paradict[y_]=segs                
+                slicepre=result.eval(paradict).astype(np.int16)
+                
+                
                 if viewInd==0:
                     predict3D[startpos:startpos+size,:,:,0]=slicepre
                 if viewInd==1:

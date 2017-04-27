@@ -58,7 +58,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     if gap<1:
         gap=1
     number_of_classes=19
-        
+    speed=1e-5    
     
     
     #get newest trained network
@@ -76,9 +76,9 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     print "----------------start building network"                                
     x = tf.placeholder(tf.float32, shape=[None,512,512,3])
     y_ = tf.placeholder(tf.float32, shape=[None,512,512,number_of_classes])
+
+
     keep_prob = tf.placeholder(tf.float32)
-    speed=tf.placeholder(tf.float32)
-    
     
     y_conv=FCN1.FCN(x,keep_prob,number_of_classes=number_of_classes)
     cross_entropy = tf.reduce_mean(
@@ -95,14 +95,16 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
     imgs=np.load('../bigfile/testimgs.npy')
     segs=np.load('../bigfile/testsegs.npy')
     print "traindata: %d state: %s,iterations%d, gap: %d "%(len(selectorder),state,iterationsOne,gap)
-    
+    print "----------------start training"
     
     
     with tf.Session() as sess:
         t0 = time()   
-        sess.run(tf.global_variables_initializer())        
-        if train: 
-            print "----------------start training"
+        sess.run(tf.global_variables_initializer())
+         
+        
+        
+        if train:
             if  epochind>=0:
                 print ('start loading model_%s_%d'%(state,epochind)) 
                 modelname=('model_%s_%d'%(state,epochind))           
@@ -114,14 +116,6 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             modelname=('model_%s_%d'%(state,epochind))
             print "need new model",modelname
             pos=0
-            
-            
-            trainspeed=1e-5
-            if epochind>6:
-                trainspeed=1e-7
-
-            print "training speed is",trainspeed
-            
             for iterind in range(iterationsOne):
                 #if True:
                 if not quicktest:
@@ -130,19 +124,19 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                     segs=mydataFetch.getdata(sample,'train','seg')
                     imgs=prepareX(imgs)
                     segs=prepareY(segs,number_of_classes)
-                train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5,speed:trainspeed}) 
+                train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
-                    (cp,ce)=(correct_prediction,cross_entropy).eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:trainspeed})
-                    #ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+                    cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+                    ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
                     ac=np.mean(cp)
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
-                    t0 = time()   
+                    t0 = time()
+                
             if save:
                 savemodel(modelname,saver,sess)
                 print "successfully save model"
         else:
-            print "----------------start without training"
             #skip evaluted network
             epochind=0
             resdir='../res/%s_%d/'%(state,epochind)
@@ -161,9 +155,9 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                 saver.restore(sess,modeldir)
             else:
                 evaluate=False
-                print "there is no unevaluated network"       
+                print "there is no unevaluated network"                 
         
-        #evaluate result
+        #evaluate
         if evaluate:
             print "start evaluation %s_%d"%(state,epochind)
             resdir='../res/%s_%d/'%(state,epochind)
@@ -171,7 +165,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             
 if sys.argv[1] =="evaluate":
     trainEpoch(evaluate=True,train=False)
-if sys.argv[1] =="evaluaterandom":
+elif sys.argv[1] =="evaluaterandom":
     trainEpoch(evaluate=True,train=False,rand=True)
 elif sys.argv[1] =="randomtrain":
     trainEpoch(rand=True)
