@@ -145,7 +145,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             if save:
                 savemodel(modelname,saver,sess)
                 print "successfully save model"
-       else:
+        else:
             print "----------------start without training"
             #skip evaluted network
             epochind=0
