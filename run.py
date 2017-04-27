@@ -147,6 +147,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             modelfolddir=('../network/'+modelname) 
             while os.path.exists(resdir):
                 epochind+=1
+                resdir='../res/%s_%d/'%(state,epochind)
                 modelname=('model_%s_%d'%(state,epochind))
                 modelfolddir=('../network/'+modelname)
             #load lastest unevaluated network if exists
