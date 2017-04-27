@@ -161,6 +161,7 @@ def testall(sess,result,number_of_classes,paradict,resdir='./',quicktest=False,o
                     imgs=prepareX(imgs)
                     segs=np.zeros([size,512,512,19]).astype(int)
                 
+                print paradict
                 paradict[x]=imgs
                 paradict[y_]=segs                
                 slicepre=result.eval(paradict).astype(np.int16)
