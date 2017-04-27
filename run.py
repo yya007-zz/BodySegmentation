@@ -36,6 +36,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         selectorder=selectorder+2*512+256
         selectorder=selectorder[0:32]
         storelength=4
+        state="quicktest"
 
 
         
