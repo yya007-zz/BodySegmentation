@@ -8,4 +8,13 @@
 #SBATCH --time=120:00:00
 #SBATCH --output=/scratch/yaoy4/log/test-norandom-evaluate.log
 setpkgs -a tensorflow_0.12
+python  /scratch/yaoy4/BodySegmentation/run.py evaluaterandom
 python  /scratch/yaoy4/BodySegmentation/run.py evaluate
+python  /scratch/yaoy4/BodySegmentation/run.py evaluaterandom
+python  /scratch/yaoy4/BodySegmentation/run.py evaluate
+python  /scratch/yaoy4/BodySegmentation/run.py evaluaterandom
+python  /scratch/yaoy4/BodySegmentation/run.py evaluate
+python  /scratch/yaoy4/BodySegmentation/run.py evaluaterandom
+python  /scratch/yaoy4/BodySegmentation/run.py evaluate
+python  /scratch/yaoy4/BodySegmentation/run.py evaluaterandom
+

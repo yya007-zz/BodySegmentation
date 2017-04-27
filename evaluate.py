@@ -181,8 +181,6 @@ def testall(sess,result,number_of_classes,x,y_,keep_prob,resdir='./',quicktest=F
         
         #assert len(np.unique(label3D))<128
         
-        
-        objectInd=objectInd.astype(np.int8)
         label3D=labelflat.astype(np.int8)
         labelflat=labelflat.astype(np.int8)         
         
