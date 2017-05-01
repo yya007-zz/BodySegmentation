@@ -4,9 +4,10 @@ import scipy.io as sio
 from time import time
 
 class dataFetch(object):
-    def __init__(self,savelen):
+    def __init__(self,savelen,number_of_classes):
         self.nextsave=0
         self.savelen=savelen
+        self.number_of_classes=number_of_classes
         self.clear()
         
         
@@ -58,6 +59,8 @@ class dataFetch(object):
             image=img[:,:,sliceInd]
         if subset=='img':
             image=image.astype(float)*(1.0/65535.0*255.0)
+        else:
+            image=image[:,:,0:self.number_of_classes]
         return image    
        
 

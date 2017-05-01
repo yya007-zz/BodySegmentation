@@ -4,7 +4,7 @@ import FCN1
 from time import time
 import os
 import sys
-from test_bd import dataFetch
+from database import dataFetch
 from evaluate import testall,next_batch,prepareX,prepareY,randomshuffle
 
 
@@ -20,7 +20,7 @@ def savemodel(modelname,saver,sess):
 
 
 
-def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
+def trainEpoch(number_of_classes,evaluate=True,train=True,restore=True,save=True,rand=False):
     objectNum=75
     viewNum=3
     selectorder=np.arange(objectNum*viewNum*512)
@@ -37,7 +37,7 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         selectorder=selectorder[0:32]
         storelength=4
         state="quicktest"
-
+    
 
         
     if rand:
@@ -53,13 +53,17 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
         state="random"+state
     else:
         state="norandom"+state
-
+    
+    
+    if number_of_classes!=19:
+        state=state+str(number_of_classes)+"labels"
+        
     iterationsOne=len(selectorder)/size
     gap=iterationsOne//10
-    mydataFetch=dataFetch(storelength)
+    mydataFetch=dataFetch(storelength,number_of_classes)
     if gap<1:
         gap=1
-    number_of_classes=19
+    
         
     
     
@@ -132,8 +136,8 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
                 segs=prepareY(segs,number_of_classes)
                 train_step.run(feed_dict={x: imgs, y_: segs, keep_prob: 0.5,speed:trainspeed}) 
                 if iterind%gap == 0 or iterind==iterationsOne-1:
-                    (cp,ce)=(correct_prediction,cross_entropy).eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:trainspeed})
-                    #ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
+                    cp=correct_prediction.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0,speed:trainspeed})
+                    ce=cross_entropy.eval(feed_dict={x: imgs, y_: segs,keep_prob: 1.0})
                     ac=np.mean(cp)
                     ac2=np.mean(cp[1:])
                     print("epoch: %d,step: %d, training accuracy %.4f, only label: %.4f, loss %g, time %d"%(epochind,iterind, ac,ac2,ce,time()-t0))
@@ -168,17 +172,22 @@ def trainEpoch(evaluate=True,train=True,restore=True,save=True,rand=False):
             print "start evaluation %s_%d"%(state,epochind)
             resdir='../res/%s_%d/'%(state,epochind)
             testall(sess,result,number_of_classes,x, y_,keep_prob,speed,quicktest=quicktest,resdir=resdir,saveres=True)
+
+number_of_classes=19
+if len(sys.argv)>2;
+    number_of_classes=int(sys.argv[2])
+    print "number_of_classes: %d"(number_of_classes)
             
 if sys.argv[1] =="evaluate":
-    trainEpoch(evaluate=True,train=False)
+    trainEpoch(number_of_classes,evaluate=True,train=False)
 elif sys.argv[1] =="evaluaterandom":
-    trainEpoch(evaluate=True,train=False,rand=True)
+    trainEpoch(number_of_classes,evaluate=True,train=False,rand=True)
 elif sys.argv[1] =="randomtrain":
-    trainEpoch(rand=True)
+    trainEpoch(number_of_classes,rand=True)
 elif sys.argv[1] =="quicktest":
-    trainEpoch(quicktest=True)
+    trainEpoch(number_of_classes,quicktest=True)
 else:
-    trainEpoch()
+    trainEpoch(number_of_classes)
 
 print "finished"
 
