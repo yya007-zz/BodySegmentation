@@ -178,7 +178,7 @@ if len(sys.argv)==1:
     trainEpoch(number_of_classes)
 if len(sys.argv)>2:
     number_of_classes=int(sys.argv[2])
-    print "number_of_classes: %d"(number_of_classes)
+    print "number_of_classes: %d"%(number_of_classes)
             
 if sys.argv[1] =="evaluate":
     trainEpoch(number_of_classes,evaluate=True,train=False)
