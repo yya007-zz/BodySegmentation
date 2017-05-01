@@ -98,8 +98,8 @@ def trainEpoch(number_of_classes,evaluate=True,train=True,restore=True,save=True
 
         
     
-    imgs=np.load('../bigfile/testimgs.npy')
-    segs=np.load('../bigfile/testsegs.npy')
+    #imgs=np.load('../bigfile/testimgs.npy')
+    #segs=np.load('../bigfile/testsegs.npy')
     
     
     
