@@ -61,7 +61,7 @@ class dataFetch(object):
             image=image.astype(float)*(1.0/65535.0*255.0)
         else:
             image=image.flatten()
-            image[image>=number_of_classes]*=0
+            image[image>=self.number_of_classes]*=0
             image=image.reshape([512,512])
         return image    
        
