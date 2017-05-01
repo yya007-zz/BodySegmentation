@@ -174,7 +174,9 @@ def trainEpoch(number_of_classes,evaluate=True,train=True,restore=True,save=True
             testall(sess,result,number_of_classes,x, y_,keep_prob,speed,quicktest=quicktest,resdir=resdir,saveres=True)
 
 number_of_classes=19
-if len(sys.argv)>2;
+if len(sys.argv)==1:
+    trainEpoch(number_of_classes)
+if len(sys.argv)>2:
     number_of_classes=int(sys.argv[2])
     print "number_of_classes: %d"(number_of_classes)
             
