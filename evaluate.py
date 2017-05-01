@@ -61,7 +61,7 @@ def testinsample(sess,result,number_of_classes,x, y_,keep_prob,speed,resdir='./'
         if not os.path.exists(resdir):
             os.makedirs(resdir)
     
-    mydataFetch=dataFetch(2) 
+    mydataFetch=dataFetch(2,number_of_classes) 
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512]).astype(np.int16)
         for sliceInd in range(512):
@@ -121,7 +121,7 @@ def testall(sess,result,number_of_classes,x, y_,keep_prob,speed,resdir='./',quic
         if not os.path.exists(resdir):
             os.makedirs(resdir)
     
-    mydataFetch=dataFetch(2) 
+    mydataFetch=dataFetch(2,number_of_classes) 
     for objectInd in range(objectNum):
         label3D=np.zeros([512,512,512]).astype(np.int16)
         for sliceInd in range(512):
