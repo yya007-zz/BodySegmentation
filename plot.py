@@ -19,11 +19,16 @@ def setBoxColors(bp):
     setp(bp['medians'][0], color='blue')
 
 
+
+
+#user define variable
 labelnum=14
 fold='../res/norandomrun_5'
-#fold='norandom_1_noquicktest'
 resdir=fold+"/"
 objectNum=25
+
+if len(sys.argv)>1:
+    fold=sys.argv[1] 
 
 
 if os.path.exists(fold+'_dice.npy'):

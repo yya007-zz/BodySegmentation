@@ -23,13 +23,17 @@ The network folder is for storing trained network with different settings and ep
 The res folder is for storing results by evaluating the performance of network</br>
 The Data3D folder is for storing train and test data. In test and train folder, all input images are divided into two category: seg and img. Each subject should in .mat form and named as sub_[four digit index with 1 indexing].mat with dimension 512,512,512</br>
 For exmaple, the label of first train object should in /Data3D/test/Seg/sub_0001.mat and in this mat file ['seg'] has dimension of 512,512,512.</br>
-
-
-
 #### Run the code
-
+python run.py train [random/norandom] [number_of_classes]</br>
+will keep train from last trained networks with same parameters
 #### Evaluate results
-
+##### Evaluate the performance of network
+python run.py evaluate [random/norandom] [number_of_classes]</br>
+will evaluate the last unevaluate network with same parameters
+##### Plot the box plot
+python plot.py [corresponding result address]</br>
+For example, if you want to plot the box plot of randomrun_0 under res folder</br>
+python plot.py ../res/randomrun_0</br>
 
 ## For Vanderbilt User
 ### For ACCRE User
