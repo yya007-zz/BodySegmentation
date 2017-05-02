@@ -35,14 +35,19 @@ will evaluate the last unevaluate network with same parameters
 ##### Plot the box plot
 `python plot.py [corresponding result address]`</br>
 For example, if you want to plot the box plot of randomrun_0 under res folder</br>
-`python plot.py ../res/randomrun_0`</br>
-
+```
+python plot.py ../res/randomrun_0
+```
 ## For Vanderbilt User
 ### For ACCRE User
 #### Step 1 ssh to accre
-`ssh VUnetid@login.accre.vanderbilt.edu`</br>
+```
+ssh VUnetid@login.accre.vanderbilt.edu
+```
 #### Step 2 load tensorflow 0.12
-`setpkgs -a tensorflow_0.12`</br>
+```
+setpkgs -a tensorflow_0.12
+```
 #### Step 3 setup your anaconda envrioment
 First setup:</br>
 ```
@@ -55,12 +60,18 @@ pip install matplotlib
 pip install pillow
 ```
 If already setup environment:</br>
-`source activate FCN`</br>
+```
+source activate FCN
+```
 #### Step 4(Optional) download from github
-`setpkgs -a git`</br>
-`git https://github.com/yya007/BodySegmentation.git`
+```
+setpkgs -a git
+git https://github.com/yya007/BodySegmentation.git
+```
 #### Step 5(Optinonal) copy from other machine
-`scp -r [your machine address]:[folder in local machine]   [target folder on ACCRE]`</br>
+```
+scp -r [your machine address]:[folder in local machine]   [target folder on ACCRE]
+```
 
 #### Step 6(Optinonal) visualize testing 
 request GPU node:</br>
