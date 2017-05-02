@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: Yuang Yao
-@email: yuang.yao@vanderbilt.edu
-"""
 import tensorflow as tf
 import numpy as np
 import FCN1

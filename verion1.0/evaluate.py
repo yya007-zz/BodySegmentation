@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: Yuang Yao
-@email: yuang.yao@vanderbilt.edu
-"""
-
 from PIL import Image
 import tensorflow as tf
 import numpy as np

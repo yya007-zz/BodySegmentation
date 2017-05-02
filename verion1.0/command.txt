@@ -36,6 +36,8 @@ Step6 copy file from /fs4 to accre
 
 scp -r /fs4/masi/yaoy4/xxx yaoy4@login.accre.vanderbilt.edu:/scratch/yaoy4/
 
+if need git hub
+setpkgs -a git
 
 =======================
 start

@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: Yuang Yao
-@email: yuang.yao@vanderbilt.edu
-"""
 import numpy as np
 from scipy import misc
 import scipy.io as sio

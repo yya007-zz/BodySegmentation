@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: Yuang Yao
-@email: yuang.yao@vanderbilt.edu
-"""
 from pylab import plot, show, savefig, xlim, figure, ylim, legend, boxplot, setp, axes
 from scipy.spatial.distance import dice
 import numpy as np
