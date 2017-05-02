@@ -63,24 +63,24 @@ If already setup environment:</br>
 ```
 source activate FCN
 ```
-#### Step 4(Optional) download from github
+#### Step 4 (Optional) download from github
 ```
 setpkgs -a git
 git https://github.com/yya007/BodySegmentation.git
 ```
-#### Step 5(Optinonal) copy from other machine
+#### Step 5 (Optinonal) copy from other machine
 ```
 scp -r [your machine address]:[folder in local machine]   [target folder on ACCRE]
 ```
 
-#### Step 6(Optinonal) visualize testing 
+#### Step 6 (Optinonal) visualize testing 
 request GPU node:</br>
 ```
 salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
 cd /scatch/...
 python run.py
 ```
-#### Step 6(Optinonal) submit slurm jobs 
+#### Step 6 (Optinonal) submit slurm jobs 
 sample slurm files are in slurm folder
 ## For Future Developer 
 Email yuang.yao@vanderbilt.edu
