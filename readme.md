@@ -59,12 +59,13 @@ git https://github.com/yya007/BodySegmentation.git
 #### Step 5(Optinonal) copy from other machine
 scp -r [your machine address]:[folder in local machine]   [target folder on ACCRE]</br>
 
-#### Step 5(Optinonal) visualize testing 
+#### Step 6(Optinonal) visualize testing 
 request GPU node:</br>
 salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
 cd /scatch/...
 python run.py
-
+#### Step 6(Optinonal) submit slurm jobs 
+sample slurm jobs is in slurm folder
 ## For Future Developer 
 Email yuang.yao@vanderbilt.edu
 
