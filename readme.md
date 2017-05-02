@@ -19,35 +19,34 @@ This project uses the weights used in VGG16. The weights and pretrained paramete
 
 
 #### Step 1 ssh to accre
-
-ssh VUnetid@login.accre.vanderbilt.edu
+ssh VUnetid@login.accre.vanderbilt.edu</br>
 
 #### Step 2 load tensorflow 0.12
-setpkgs -a tensorflow_0.12
+setpkgs -a tensorflow_0.12</br>
 
 #### Step 3 setup your anaconda envrioment
-First setup:
-setpkgs -a anaconda2
-conda create --name FCN python=2.7
-source activate FCN
-pip install keras
-pip install protobuf
-pip install matplotlib
-pip install pillow
+First setup:</br>
+setpkgs -a anaconda2</br>
+conda create --name FCN python=2.7</br>
+source activate FCN</br>
+pip install keras</br>
+pip install protobuf</br>
+pip install matplotlib</br>
+pip install pillow</br>
 
-If already setup environment:
-source activate FCN
+If already setup environment:</br>
+source activate FCN</br>
 
 
-#### step 4(Optional) download from github
-setpkgs -a git
+#### Step 4(Optional) download from github
+setpkgs -a git</br>
 
 
 #### Step 5(Optinonal) copy from other machine
-
+scp -r [your machine address]:[folder in local machine]   [target folder on ACCRE]</br>
 
 #### Step 5(Optinonal) visualize testing 
-request GPU node
+request GPU node:</br>
 salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
 cd /scatch/...
 python run.py
