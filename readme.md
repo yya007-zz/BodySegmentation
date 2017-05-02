@@ -45,14 +45,15 @@ For example, if you want to plot the box plot of randomrun_0 under res folder</b
 `setpkgs -a tensorflow_0.12`</br>
 #### Step 3 setup your anaconda envrioment
 First setup:</br>
-`setpkgs -a anaconda2`</br>
-`conda create --name FCN python=2.7`</br>
-`source activate FCN`</br>
-`pip install keras`</br>
-`pip install protobuf`</br>
-`pip install matplotlib`</br>
-`pip install pillow`</br>
-
+```
+setpkgs -a anaconda2
+conda create --name FCN python=2.7
+source activate FCN
+pip install keras
+pip install protobuf
+pip install matplotlib
+pip install pillow
+```
 If already setup environment:</br>
 `source activate FCN`</br>
 #### Step 4(Optional) download from github
@@ -63,9 +64,11 @@ If already setup environment:</br>
 
 #### Step 6(Optinonal) visualize testing 
 request GPU node:</br>
-`salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G`</br>
-`cd /scatch/...`</br>
-`python run.py`</br>
+```
+salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
+cd /scatch/...
+python run.py
+```
 #### Step 6(Optinonal) submit slurm jobs 
 sample slurm files are in slurm folder
 ## For Future Developer 
