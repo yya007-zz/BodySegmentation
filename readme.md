@@ -6,10 +6,29 @@ This project is to use fully convolutional networks to do object segmentation fr
 
 This project is written by Python 2.7 and tensorflow 0.12.</br>
 
-## Enviroment Setup
-This project uses the weights used in VGG16. The weights and pretrained parameters are stored in a numpy file.The .npy file for [VGG16] to be downloaded before using this needwork. You can find the file here: ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy
+## Instruction
+
+### Enviroment Setup
+#### Suport files
+This project uses the weights used in VGG16. The weights and pretrained parameters are stored in a numpy file.The .npy file for [VGG16] to be downloaded before using this needwork. You can find the file here: ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy 
+#### Required Packages
+Install Python 2 / Install annaconda 2</br>
+Install tensorflow 0.12</br>
+#### Data preprocessing
+git https://github.com/yya007/BodySegmentation.git</br>
+cd BodySegmentation</br>
+python setup.py</br>
+Then, move the VGG16.npy to the bigfile folder</br>
+The network folder is for storing trained network with different settings and epoch number.</br>
+The res folder is for storing results by evaluating the performance of network</br>
+The Data3D folder is for storing train and test data. In test and train folder, all input images are divided into two category: seg and img. Each subject should in .mat form and named as sub_[four digit index with 1 indexing].mat with dimension 512,512,512</br>
+For exmaple, the label of first train object should in /Data3D/test/Seg/sub_0001.mat and in this mat file ['seg'] has dimension of 512,512,512.</br>
 
 
+
+#### Run the code
+
+#### Evaluate results
 
 
 ## For Vanderbilt User
@@ -41,7 +60,8 @@ request GPU node:</br>
 salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
 cd /scatch/...
 python run.py
-### For Future Developer 
-Email yuang.yao@vanderbilt.edu to get
+
+## For Future Developer 
+Email yuang.yao@vanderbilt.edu
 
 
