@@ -31,7 +31,7 @@ will keep train from last trained networks with same parameters
 python run.py evaluate [random/norandom] [number_of_classes]</br>
 will evaluate the last unevaluate network with same parameters
 ##### Plot the box plot
-python plot.py [corresponding result address]</br>
+'python plot.py [corresponding result address]'</br>
 For example, if you want to plot the box plot of randomrun_0 under res folder</br>
 python plot.py ../res/randomrun_0</br>
 
