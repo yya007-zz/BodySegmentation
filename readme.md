@@ -15,9 +15,11 @@ This project uses the weights used in VGG16. The weights and pretrained paramete
 Install Python 2 / Install annaconda 2</br>
 Install tensorflow 0.12</br>
 #### Data preprocessing
-`git https://github.com/yya007/BodySegmentation.git`</br>
-`cd BodySegmentation`</br>
-`python setup.py`</br>
+```
+git https://github.com/yya007/BodySegmentation.git
+cd BodySegmentation
+python setup.py
+```
 Then, move the VGG16.npy to the bigfile folder</br>
 The network folder is for storing trained network with different settings and epoch number.</br>
 The res folder is for storing results by evaluating the performance of network</br>
