@@ -37,11 +37,14 @@ python run.py evaluate [random/norandom] [number_of_classes]
 ```
 will evaluate the last unevaluate network with same parameters
 ##### Plot the box plot
-`python plot.py [corresponding result address]`</br>
-For example, if you want to plot the box plot of randomrun_0 under res folder</br>
+```
+python plot.py [corresponding result address]
+```
+For example, if you want to plot the box plot of `randomrun_0` (the model after first epoch with random shuffle) under `res` folder</br>
 ```
 python plot.py ../res/randomrun_0
 ```
+Then you will get the box plot of dice similarity of each organs between ground truth and predication made by model.
 ## For Vanderbilt User
 ### For ACCRE User
 #### Step 1 ssh to accre
