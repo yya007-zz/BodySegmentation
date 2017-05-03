@@ -8,11 +8,12 @@
 #SBATCH --time=120:00:00
 #SBATCH --output=/scratch/yaoy4/log/test-random-list.log
 setpkgs -a tensorflow_0.12
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+python  /scratch/yaoy4/BodySegmentation/run.py train random 
+
 

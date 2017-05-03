@@ -9,9 +9,11 @@
 #SBATCH --output=/scratch/yaoy4/log/test-random-list13.log
 setpkgs -a tensorflow_0.12
 
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
-python  /scratch/yaoy4/BodySegmentation/run.py randomtrain 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+python  /scratch/yaoy4/BodySegmentation/run.py train random 13
+

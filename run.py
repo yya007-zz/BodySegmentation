@@ -178,24 +178,23 @@ def trainEpoch(number_of_classes,evaluate=True,train=True,restore=True,save=True
             resdir='../res/%s_%d/'%(state,epochind)
             testall(sess,result,number_of_classes,x, y_,keep_prob,speed,quicktest=quicktest,resdir=resdir,saveres=True)
 
+
+if len(sys.argv)==1:
+    trainEpoch(number_of_classes)
+    
+
+evaluate=False
+train=True
+rand=False
 number_of_classes=19
 if len(sys.argv)==1:
     trainEpoch(number_of_classes)
-if len(sys.argv)>2:
-    number_of_classes=int(sys.argv[2])
-    print "number_of_classes: %d"%(number_of_classes)
-            
-if sys.argv[1] =="evaluate":
-    trainEpoch(number_of_classes,evaluate=True,train=False)
-elif sys.argv[1] =="evaluaterandom":
-    trainEpoch(number_of_classes,evaluate=True,train=False,rand=True)
-elif sys.argv[1] =="randomtrain":
-    trainEpoch(number_of_classes,rand=True)
-elif sys.argv[1] =="quicktest":
-    trainEpoch(number_of_classes,quicktest=True)
 else:
-    trainEpoch(number_of_classes)
-
+    if len(sys.argv)>=2 and sys.argv[1] =="evaluate":
+        evaluate=True,train=False     
+    if len(sys.argv)>=3 and sys.argv[2] =="random":
+        rand=True
+    trainEpoch(number_of_classes,evaluate=evaluate,train=train,rand=rands)
 print "finished"
 
 

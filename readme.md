@@ -80,8 +80,8 @@ salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu
 cd /scatch/...
 python run.py
 ```
-#### Step 6 (Optinonal) submit slurm jobs 
-sample slurm files are in slurm folder
+#### Step 7 (Optinonal) submit slurm jobs 
+sample slurm files are in ACCRE folder
 ## For Future Developer 
 Email yuang.yao@vanderbilt.edu
 

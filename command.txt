@@ -1,0 +1,80 @@
+Deconvolution Layers are initialized as bilinear upsampling. Conv and FCN layer weights using VGG weights. Numpy load is used to read VGG weights. No Caffe or Caffe-Tensorflow is required to run this. The .npy file for [VGG16] to be downloaded before using this needwork. You can find the file here: ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy
+
+Step1 ssh to accre
+
+Step2 request GPU node
+salloc --account=p_masi_gpu  --partition=maxwell --ntasks=4 --nodes=1 --gres=gpu:2 --time=5:00:00 --mem=40G
+
+
+
+ Step3 load tensorflow 0.12
+setpkgs -a tensorflow_0.12
+
+Step4 setup your anaconda envrioment
+setpkgs -a anaconda2
+conda create --name FCN python=2.7
+source activate FCN
+
+pip install keras
+
+pip install protobuf
+
+pip install matplotlib
+pip install pillow
+
+cd /scatch/...
+python test_tf.py
+
+===========
+
+Step5 make directory in ~/scratch/yaoy4
+
+Step6 copy file from /fs4 to accre
+
+
+
+
+scp -r /fs4/masi/yaoy4/xxx yaoy4@login.accre.vanderbilt.edu:/scratch/yaoy4/
+
+
+=======================
+start
+setpkgs -a git
+setpkgs -a tensorflow_0.12
+source activate FCN
+==============
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/bigfile   /scratch/yaoy4/
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/network/model_2_random   /scratch/yaoy4/network
+
+
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/data   /scratch/yaoy4/
+
+
+
+scp -r yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/Data3D/18labels   /scratch/yaoy4/Data3D
+
+scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/
+scp -r /scratch/yaoy4/network yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/network
+
+scp -r /scratch/yaoy4/res yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/  
+
+
+scp -r /scratch/yaoy4 yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/scratch 
+
+
+
+
+
+scp -r /scratch/yaoy4/res/norandomrun_1 yaoy4@masigate.vanderbilt.edu:/fs4/masi/yaoy4/res 
+
+
+
+
+(FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run.slurm
+Submitted batch job 13982046
+(FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run1.slurm
+Submitted batch job 13982059
+(FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run2.slurm
+Submitted batch job 13982063
+(FCN) [yaoy4@vmps08 BodySegmentation]$ sbatch run3.slurm
+Submitted batch job 13982065
