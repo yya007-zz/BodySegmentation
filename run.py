@@ -178,11 +178,6 @@ def trainEpoch(number_of_classes,evaluate=True,train=True,restore=True,save=True
             resdir='../res/%s_%d/'%(state,epochind)
             testall(sess,result,number_of_classes,x, y_,keep_prob,speed,quicktest=quicktest,resdir=resdir,saveres=True)
 
-
-if len(sys.argv)==1:
-    trainEpoch(number_of_classes)
-    
-
 evaluate=False
 train=True
 rand=False
