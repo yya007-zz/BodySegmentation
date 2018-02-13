@@ -99,7 +99,8 @@ python run.py
 ```
 #### Step 7 (Optinonal) submit slurm jobs 
 sample slurm files are in ACCRE folder
-## For Future Developer 
+
+## Contact
 Email yuang.yao@vanderbilt.edu
 
 
