@@ -51,8 +51,7 @@ Then you will get the box plot of dice similarity of each organs between ground 
 
 ## Related Publication
 * Yuang Yao, Yuankai Huo, Zhoubing Xu, Bennett Landman. "Fully Convolutional Networks Enables the Simultaneous Abdominal Organs Segmentation with Muscle, Fat and Bones from Clinical Acquired CT Images" (Pending)
-* Meg F. Bobo, Shunxing Bao, Yuankai Huo, Yuang Yao, Jack Virostko, Melissa A. Hilmes, Andrew J. Plassard, Ilwoo Lyu, Albert Assad, Richard G. Abramson, Bennett A. Landman. "Fully Convolutional Neural Networks Improve Abdominal Organ Segmentation." In SPIE Medical Imaging. International Society for Optics and Photonics, 2018.
-* Shunxing Bao, Yuankai Huo, Prasanna Parvathaneni, Andrew J. Plassard, Camilo Bermudez, Yuang Yao, Ilwoo Lyu, Aniruddha Gokhale and Bennett A. Landman. "A Data Colocation Grid Framework for Big Data Medical Image Processing - Backend Design." In SPIE Medical Imaging, International Society for Optics and Photonics, 2018.  
+* Meg F. Bobo, Shunxing Bao, Yuankai Huo, Yuang Yao, Jack Virostko, Melissa A. Hilmes, Andrew J. Plassard, Ilwoo Lyu, Albert Assad, Richard G. Abramson, Bennett A. Landman. "Fully Convolutional Neural Networks Improve Abdominal Organ Segmentation." In SPIE Medical Imaging. International Society for Optics and Photonics, 2018. 
 * Yuankai Huo, Zhoubing Xu, Shunxing Bao, Camilo Bermudez, Andrew J. Plassard, Jiaqi Liu, Yuang Yao, Albert Assad, Richard G. Abramson, and Bennett A. Landman. " Splenomegaly segmentation using global convolutional kernels and conditional generative adversarial networks." In SPIE Medical Imaging, International Society for Optics and Photonics, 2018.
 
 ## PS: For Vanderbilt User
